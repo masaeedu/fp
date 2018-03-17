@@ -1,12 +1,13 @@
 {
   "name": "fp",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "git@github.com:masaeedu/fp",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "babel src -d dist",
+    "prepare": "yarn build",
     "test": "ava"
   },
   "ava": {
@@ -17,6 +18,7 @@
     "@babel/core": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-stage-0": "^7.0.0-beta.42",
-    "ava": "^0.25.0"
+    "ava": "^0.25.0",
+    "yarn": "^1.5.1"
   }
 }
