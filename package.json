@@ -1,0 +1,8 @@
+{
+  "name": "fp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:masaeedu/fp",
+  "author": "Asad Saeeduddin <masaeedu@gmail.com>",
+  "license": "MIT"
+}
