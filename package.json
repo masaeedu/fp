@@ -4,5 +4,19 @@
   "main": "index.js",
   "repository": "git@github.com:masaeedu/fp",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src -d dist",
+    "test": "ava"
+  },
+  "ava": {
+    "files": ["dist/__tests__/**/*.js"]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.42",
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/preset-stage-0": "^7.0.0-beta.42",
+    "ava": "^0.25.0"
+  }
 }
