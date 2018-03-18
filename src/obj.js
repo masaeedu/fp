@@ -6,7 +6,7 @@ export const pairs = o => keys(o) |> Arr.map(k => [k, o[k]]);
 export const embed = k => v => ({ [k]: v });
 
 // Identity
-export const is = o => typeof o === "object";
+export const is = o => !!o && typeof o === "object";
 
 // Functor
 export const map = f => o =>
