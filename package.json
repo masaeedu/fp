@@ -5,6 +5,9 @@
   "repository": "git@github.com:masaeedu/fp",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "babel src -d dist",
     "prepare": "yarn build",
