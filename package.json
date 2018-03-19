@@ -8,6 +8,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": ["dist"],
   "scripts": {
     "build": "babel src -d dist",
     "prepare": "yarn build",
