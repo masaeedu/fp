@@ -1,5 +1,5 @@
 {
-  "name": "fp",
+  "name": "@masaeedu/fp",
   "version": "1.0.0",
   "main": "dist/index.js",
   "repository": "git@github.com:masaeedu/fp",
