@@ -1,6 +1,6 @@
 {
   "name": "@masaeedu/fp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "repository": "git@github.com:masaeedu/fp",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
@@ -14,7 +14,9 @@
     "test": "ava"
   },
   "ava": {
-    "files": ["dist/__tests__/**/*.js"]
+    "files": [
+      "dist/__tests__/**/*.js"
+    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
