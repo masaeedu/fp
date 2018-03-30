@@ -12,8 +12,8 @@ export const is = x => Array.isArray(x);
 export const map = f => as => as.map(f);
 
 // Applicative
-export const pure = x => [x];
-export const liftA2 = f => a1 => a2 =>
+export const of = x => [x];
+export const lift2 = f => a1 => a2 =>
   a1 |> fold(c1 => append(a2 |> map(f(c1))))(empty);
 
 // Monoid

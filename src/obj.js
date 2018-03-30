@@ -17,7 +17,7 @@ export const empty = {};
 export const append = o1 => o2 => ({ ...o1, ...o2 });
 
 // Traversable
-export const sequence = ({ Applicative: { map, pure, liftA2 } }) => o =>
+export const sequence = ({ Applicative: { map, of, lift2 } }) => o =>
   pairs(o)
   |> Arr.map(([k, v]) => v |> map(embed(k)))
-  |> (pure(empty) |> Arr.fold(liftA2(append)));
+  |> (of(empty) |> Arr.fold(lift2(append)));

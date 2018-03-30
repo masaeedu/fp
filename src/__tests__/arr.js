@@ -10,8 +10,8 @@ test("functor", t => {
 });
 
 test("applicative", t => {
-  t.snapshot(Arr.pure(42));
-  t.snapshot(Arr.liftA2(x => y => x * y)([1, 2, 3])([1, 2, 3]));
+  t.snapshot(Arr.of(42));
+  t.snapshot(Arr.lift2(x => y => x * y)([1, 2, 3])([1, 2, 3]));
 });
 
 test("monoid", t => {

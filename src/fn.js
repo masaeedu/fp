@@ -1,7 +1,8 @@
 // Misc
 export const pipe = fs => fs.reduce((g, f) => a => f(g(a)));
 export const id = _ => _;
-export const konst = x => _ => x;
+const konst = x => _ => x;
+export { konst as const };
 
 // Identity
 export const is = x => typeof x === "function";
