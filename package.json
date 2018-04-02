@@ -8,22 +8,20 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "babel src -d dist --source-maps",
     "prepare": "yarn build",
     "test": "ava"
   },
   "ava": {
-    "files": [
-      "dist/__tests__/**/*.js"
-    ]
+    "files": ["dist/__tests__/**/*.js"],
+    "require": ["@babel/polyfill"]
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
     "@babel/core": "^7.0.0-beta.42",
+    "@babel/polyfill": "^7.0.0-beta.43",
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-stage-0": "^7.0.0-beta.42",
     "ava": "^0.25.0",
