@@ -6,7 +6,7 @@ export const toArr = it => [...it];
 
 // Identity
 export const is = ({ [Symbol.iterator]: itgen = undefined }) =>
-  itgen &&
+  itgen !== undefined &&
   Fn.is(
     itgen
   ) /* TODO: maybe check whether itgen produces an iterator with a next property, but getting into diminishing returns at that point */;

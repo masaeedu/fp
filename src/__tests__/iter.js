@@ -5,6 +5,7 @@ import { Iter } from "../";
 test("identity", t => {
   t.true(Iter.is([]));
   t.true(Iter.is(new Set()));
+  t.false(Iter.is({}));
 });
 
 test("functor", t => {
