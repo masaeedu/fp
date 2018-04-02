@@ -1,6 +1,6 @@
 {
   "name": "@masaeedu/fp",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "dist/index.js",
   "repository": "git@github.com:masaeedu/fp",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
@@ -8,15 +8,21 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "babel src -d dist --source-maps",
     "prepare": "yarn build",
     "test": "ava"
   },
   "ava": {
-    "files": ["dist/__tests__/**/*.js"],
-    "require": ["@babel/polyfill"]
+    "files": [
+      "dist/__tests__/**/*.js"
+    ],
+    "require": [
+      "@babel/polyfill"
+    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
