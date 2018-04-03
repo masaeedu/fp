@@ -1,6 +1,6 @@
 {
   "name": "@masaeedu/fp",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "main": "dist/index.js",
   "repository": "git@github.com:masaeedu/fp",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
