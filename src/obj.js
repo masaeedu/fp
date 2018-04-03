@@ -4,6 +4,10 @@ import { Fn, Arr, Log } from ".";
 export const keys = o => Object.keys(o);
 export const values = o => keys(o) |> Arr.map(k => o[k]);
 export const pairs = o => keys(o) |> Arr.map(k => [k, o[k]]);
+export const fromPairs = pairs =>
+  pairs
+  |> Iter.map(([k, v]) => embed(k)(v))
+  |> Iter.fold(Obj.append)(Obj.empty);
 export const embed = k => v => ({ [k]: v });
 
 // Identity
