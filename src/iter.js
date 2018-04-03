@@ -3,6 +3,31 @@ import { Fn } from ".";
 // Misc
 export const fromGen = gen => ({ [Symbol.iterator]: gen });
 export const toArr = it => [...it];
+export const toIterator = it => it[Symbol.iterator]();
+export const fromIterator = itr =>
+  fromGen(function*() {
+    while (true) {
+      const { done, value } = itr.next();
+      if (done) break;
+      yield value;
+    }
+  });
+
+export const skip = n => it => {
+  const itr = toIterator(it);
+  while (n-- > 0) {
+    const { done } = itr.next();
+    if (done) return empty;
+  }
+  return fromIterator(itr);
+};
+export const take = n => it =>
+  fromGen(function*() {
+    for (const x of it) {
+      if (n-- <= 0) return;
+      yield x;
+    }
+  });
 
 // Identity
 export const is = ({ [Symbol.iterator]: itgen = undefined }) =>

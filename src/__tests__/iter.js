@@ -29,3 +29,15 @@ test("monoid", t => {
 test("foldable", t => {
   t.snapshot([1, 2, 3, 4] |> Iter.fold(x => y => x + y)(0));
 });
+
+test("skip", t => {
+  for (const n of [-1, 0, 3, 10, Infinity]) {
+    t.snapshot([1, 2, 3, 4] |> Iter.skip(n) |> Iter.toArr);
+  }
+});
+
+test("take", t => {
+  for (const n of [-1, 0, 3, 10, Infinity]) {
+    t.snapshot([1, 2, 3, 4] |> Iter.take(n) |> Iter.toArr);
+  }
+});
