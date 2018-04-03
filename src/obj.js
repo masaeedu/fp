@@ -2,6 +2,7 @@ import { Fn, Arr, Log } from ".";
 
 // Misc
 export const keys = o => Object.keys(o);
+export const values = o => keys(o) |> Arr.map(k => o[k]);
 export const pairs = o => keys(o) |> Arr.map(k => [k, o[k]]);
 export const embed = k => v => ({ [k]: v });
 
