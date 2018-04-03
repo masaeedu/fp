@@ -30,11 +30,9 @@ export const take = n => it =>
   });
 
 // Identity
+// TODO: maybe check whether itgen produces an iterator with a next property, but getting into diminishing returns at that point
 export const is = ({ [Symbol.iterator]: itgen = undefined }) =>
-  itgen !== undefined &&
-  Fn.is(
-    itgen
-  ) /* TODO: maybe check whether itgen produces an iterator with a next property, but getting into diminishing returns at that point */;
+  itgen !== undefined && Fn.is(itgen);
 
 // Functor
 export const map = f => it =>
