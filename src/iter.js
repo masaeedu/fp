@@ -68,12 +68,8 @@ export const chain = f => it =>
 export const empty = fromGen(function*() {});
 export const append = ita => itb =>
   fromGen(function*() {
-    for (const x of ita) {
-      yield x;
-    }
-    for (const x of itb) {
-      yield x;
-    }
+    yield* ita;
+    yield* itb;
   });
 
 // Foldable
