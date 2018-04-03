@@ -6,5 +6,6 @@ import * as Prm from "./prm";
 import * as Log from "./log";
 import * as State from "./state";
 import * as Unit from "./unit";
+import * as Str from "./str";
 
-export { Arr, Iter, Fn, Prm, Obj, State, Log, Unit };
+export { Arr, Iter, Fn, Prm, Obj, State, Log, Unit, Str };
