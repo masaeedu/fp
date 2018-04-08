@@ -1,5 +1,5 @@
 // Plumbing
-import { implement } from "./plumbing";
+import { implement } from "../plumbing";
 
 // Types
 import * as Arr from "./arr";
@@ -14,7 +14,7 @@ import * as Str from "./str";
 import * as Int from "./int";
 
 // Classes
-import * as Foldable from "./classes/foldable";
+import * as Foldable from "../classes/foldable";
 
 // Augment
 const Iter = Iter_ |> implement(Foldable);
