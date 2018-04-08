@@ -15,7 +15,7 @@ export const is = o => !!o && typeof o === "object";
 
 // Functor
 export const map = f => o =>
-  pairs(o) |> Arr.fold(([k, v]) => embed(k)(f(v)) |> append)(empty);
+  pairs(o) |> Arr.fold(b => ([k, v]) => embed(k)(f(v)) |> append(b))(empty);
 
 // Monoid
 export const empty = {};

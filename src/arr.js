@@ -14,14 +14,14 @@ export const map = f => as => as.map(f);
 // Applicative
 export const of = x => [x];
 export const lift2 = f => a1 => a2 =>
-  a1 |> fold(c1 => append(a2 |> map(f(c1))))(empty);
+  a1 |> fold(b => a => a2 |> map(f(a)) |> append(b))(empty);
 
 // Monoid
 export const empty = [];
 export const append = a1 => a2 => [...a1, ...a2];
 
 // Monad
-export const chain = f => fold(c => append(f(c)))(empty);
+export const chain = f => fold(b => a => f(a) |> append(b))(empty);
 
 // Foldable
-export const fold = f => z => as => as.reduce((p, c) => f(c)(p), z);
+export const fold = f => z => as => as.reduce((p, c) => f(p)(c), z);
