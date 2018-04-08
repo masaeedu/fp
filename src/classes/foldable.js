@@ -14,7 +14,7 @@ const dual = ({ empty, append }) => ({ empty, append: Fn.flip(append) });
 // Equivalent minimal definitions
 export const mdefs = (() => {
   // Default foldMap:
-  // - Given `fold`: `foldMap f` = `fold(b => append(b) <: f)(empty)`
+  // - Given `fold`: `foldMap(f)` = `fold(b => append(b) <: f)(empty)`
   const foldMap = ({ fold }) => ({ empty, append }) => f =>
     fold(b => a => f(a) |> append(b))(empty);
 
@@ -38,6 +38,7 @@ export const mdefs = (() => {
   ];
 })();
 
+// Class methods
 export const methods = ({ fold, foldMap }) => {
   const length = foldMap(Int)(Fn.const(1));
 
