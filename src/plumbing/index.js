@@ -1,7 +1,7 @@
-// NB: Not allowed to reference augmented typeclasses directly from ./index.js
+// NB: Not allowed to reference augmented typeclasses directly from ../index.js
 //     because this would be circular 😞
-import * as Obj from "../obj";
-import * as Iter from "../iter";
+import * as Obj from "../types/obj";
+import * as Iter from "../types/iter";
 
 const augmentDef = def => ({ impl, deps }) => {
   const hasImpl = Obj.keys(impl).some(k => !!def[k]);

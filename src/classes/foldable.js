@@ -1,4 +1,4 @@
-import { Int, Fn } from "..";
+import { Int, Fn } from "../types";
 
 // Monoid instance for functions of the type a -> a
 const Endo = (() => {
