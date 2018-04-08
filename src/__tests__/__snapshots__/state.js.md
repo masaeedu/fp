@@ -1,4 +1,4 @@
-# Snapshot report for `dist\fp\__tests__\state.js`
+# Snapshot report for `dist/__tests__/state.js`
 
 The actual snapshot is saved in `state.js.snap`.
 
