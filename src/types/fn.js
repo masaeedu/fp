@@ -1,5 +1,5 @@
 // Misc
-export const compose = f => g => a => a |> f(g(a));
+export const compose = f => g => a => f(g(a));
 export const pipe = fs => fs.reduce((g, f) => a => f(g(a)));
 export const id = _ => _;
 const _const = x => _ => x;

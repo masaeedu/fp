@@ -40,7 +40,7 @@ export const mdefs = (() => {
 
 // Class methods
 export const methods = ({ fold, foldMap }) => {
-  const length = foldMap(Int)(Fn.const(1));
+  const length = foldMap(Int.Add)(Fn.const(1));
 
   return { length };
 };
