@@ -73,7 +73,7 @@ export const append = ita => itb =>
   });
 
 // Foldable
-export const fold = f => z => it => {
+export const foldl = f => z => it => {
   let result = z;
   for (const x of it) {
     result = f(result)(x);

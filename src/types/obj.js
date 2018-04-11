@@ -28,4 +28,4 @@ export const sequence = ({ Applicative: { map, of, lift2 } }) => o =>
   |> (of(empty) |> Arr.fold(lift2(append)));
 
 // Foldable
-export const fold = f => z => o => keys(o) |> Arr.fold(f)(z);
+export const foldl = f => z => o => keys(o) |> Arr.fold(f)(z);

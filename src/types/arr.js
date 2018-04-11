@@ -24,4 +24,4 @@ export const append = a1 => a2 => [...a1, ...a2];
 export const chain = f => fold(b => a => f(a) |> append(b))(empty);
 
 // Foldable
-export const fold = f => z => as => as.reduce((p, c) => f(p)(c), z);
+export const foldl = f => z => as => as.reduce((p, c) => f(p)(c), z);
