@@ -29,8 +29,8 @@ export const mdefs = (() => {
   //   |      ...     ([(+ 1) ,  (+ 2) ,  ...])     | apply flipped reducer to each element
   //   |      ...     ( (+ 1) :> (+ 2) :> ... )     | compose in reverse (i.e. as pipeline)
   //   |              (          ...          ) (0) | apply composed function to base value
-  const fold = ({ foldMap }) => f => z => x =>
-    foldMap(dual(Endo))(Fn.flip(f))(x)(z);
+  const fold = ({ foldMap }) => f =>
+    f |> Fn.flip |> foldMap(dual(Endo)) |> Fn.flip;
 
   return [
     { impl: { fold }, deps: ["foldMap"] },
