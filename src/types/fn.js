@@ -8,3 +8,6 @@ export const flip = f => x => y => f(y)(x);
 
 // Identity
 export const is = x => typeof x === "function";
+
+// Functor
+export const map = compose;
