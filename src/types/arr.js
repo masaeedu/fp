@@ -1,4 +1,4 @@
-import { Fn, Log } from "./index";
+import { Fn } from "./index";
 
 // Misc
 export const last = as => as[as.length - 1];

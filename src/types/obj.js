@@ -1,4 +1,4 @@
-import { Fn, Arr, Log } from ".";
+import { Fn, Arr } from ".";
 
 // Misc
 export const keys = o => Object.keys(o);
