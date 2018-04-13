@@ -1,4 +1,4 @@
-import { Fn } from ".";
+import * as Fn from "./fn";
 
 // Misc
 export const fromGen = gen => ({ [Symbol.iterator]: gen });

@@ -1,4 +1,4 @@
-import { Fn } from "./index";
+import * as Fn from "./fn";
 
 // Misc
 export const last = as => as[as.length - 1];
