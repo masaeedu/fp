@@ -10,6 +10,7 @@ export const fromPairs = pairs =>
 export const embed = k => v => ({ [k]: v });
 export const hasKey = k => o => o.hasOwnProperty(k);
 export const get = k => o => o[k];
+export const over = k => f => v => ({ ...v, [k]: f(v[k]) });
 
 // Identity
 export const is = o => !!o && typeof o === "object";
