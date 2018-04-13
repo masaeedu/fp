@@ -34,4 +34,3 @@ export const map = rmap;
 // Monad
 export const of = right;
 export const join = either(left)(either(left)(right));
-export const chain = f => x => map(f)(x) |> join;

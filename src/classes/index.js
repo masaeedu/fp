@@ -1,4 +1,6 @@
-import * as Apply from "./apply";
 import * as Foldable from "./foldable";
+import * as Functor from "./functor";
+import * as Apply from "./apply";
+import * as Chain from "./chain";
 
-export { Apply, Foldable };
+export { Foldable, Functor, Apply, Chain };
