@@ -24,5 +24,5 @@ test("monad", t => {
 });
 
 test("foldable", t => {
-  t.snapshot([1, 2, 3, 4] |> Arr.fold(x => y => x + y)(0));
+  t.snapshot([1, 2, 3, 4] |> Arr.foldl(x => y => x + y)(0));
 });

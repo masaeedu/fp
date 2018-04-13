@@ -29,7 +29,7 @@ const augmented =
   |> Obj.pairs
   |> Arr.map(([type, classes]) => [
     type,
-    classes |> Arr.fold(Fn.flip(implement))(Types[type])
+    classes |> Arr.foldl(Fn.flip(implement))(Types[type])
   ])
   |> Obj.fromPairs;
 

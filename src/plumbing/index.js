@@ -15,7 +15,7 @@ const augmentDef = def => ({ impl, deps }) => {
 // Typeclass wrapper
 export const implement = ({ mdefs, methods }) => candidate => {
   // Add every available default definition that isn't explicitly specified
-  const fullDef = mdefs |> Iter.fold(augmentDef)(candidate);
+  const fullDef = mdefs |> Iter.foldl(augmentDef)(candidate);
 
   // Add the methods
   const withMethods = { ...fullDef, ...(fullDef |> methods) };

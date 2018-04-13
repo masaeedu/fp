@@ -27,7 +27,7 @@ test("monoid", t => {
 });
 
 test("foldable", t => {
-  t.snapshot([1, 2, 3, 4] |> Iter.fold(x => y => x + y)(0));
+  t.snapshot([1, 2, 3, 4] |> Iter.foldl(x => y => x + y)(0));
 });
 
 test("skip", t => {
