@@ -10,3 +10,5 @@ import * as Str from "./str";
 import * as Int from "./int";
 
 export { Arr, Iter, Fn, Prm, Obj, State, Unit, Str, Int };
+
+export const type = Types => x => Types.find(T => T.is(x));
