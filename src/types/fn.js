@@ -1,8 +1,10 @@
 import * as Arr from "./arr";
 
-// Misc
-export const compose = f => g => a => f(g(a));
+// Category
 export const id = _ => _;
+export const compose = f => g => a => f(g(a));
+
+// Misc
 const _const = x => _ => x;
 export { _const as const };
 export const flip = f => x => y => f(y)(x);
