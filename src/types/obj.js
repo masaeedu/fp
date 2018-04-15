@@ -24,10 +24,10 @@ export const empty = {};
 export const append = o1 => o2 => ({ ...o1, ...o2 });
 
 // Traversable
-export const sequence = ({ Applicative: { map, of, lift2 } }) => o =>
+export const sequence = A => o =>
   pairs(o)
-  |> Arr.map(([k, v]) => v |> map(embed(k)))
-  |> (of(empty) |> Arr.foldl(lift2(append)));
+  |> Arr.map(([k, v]) => v |> A.map(embed(k)))
+  |> (A.of(empty) |> Arr.foldl(A.lift2(append)));
 
 // Foldable
 export const foldl = f => z => o => keys(o) |> Arr.foldl(f)(z);

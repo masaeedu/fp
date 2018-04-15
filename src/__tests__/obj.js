@@ -15,7 +15,5 @@ test("monoid", t => {
 });
 
 test("traversable", t => {
-  t.snapshot(
-    { foo: [1, 2, 3], bar: [5, 6, 7] } |> Obj.sequence({ Applicative: Arr })
-  );
+  t.snapshot({ foo: [1, 2, 3], bar: [5, 6, 7] } |> Obj.sequence(Arr));
 });
