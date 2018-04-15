@@ -1,4 +1,4 @@
-# Snapshot report for `dist\__tests__\either.js`
+# Snapshot report for `dist/__tests__/either.js`
 
 The actual snapshot is saved in `either.js.snap`.
 
