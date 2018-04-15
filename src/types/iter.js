@@ -80,3 +80,7 @@ export const foldl = f => z => it => {
   }
   return result;
 };
+
+// Traverse
+export const sequence = A =>
+  foldl(A.lift2(b => a => append(b)(of(a))))(A.of(empty));
