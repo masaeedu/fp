@@ -1,5 +1,3 @@
-import * as Fn from "./fn";
-
 // Misc
 export const last = as => as[as.length - 1];
 export const lastN = n => as => as.slice(as.length - n);
