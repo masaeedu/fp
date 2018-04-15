@@ -1,4 +1,4 @@
-import { Fn } from ".";
+import { Fn, Obj } from ".";
 
 // Misc
 export const Identity = {
@@ -16,3 +16,7 @@ export const MonoidConst = M => ({
   of: Fn.const(M.empty),
   lift2: Fn.const(M.append)
 });
+
+// Category
+export const id = Identity;
+export const compose = Obj.zipWith(Fn.compose);
