@@ -1,4 +1,4 @@
-import { Int, Fn, Functor } from "../types";
+import { Int, Fn, Fnctr } from "../types";
 
 // Monoid instance for functions of the type a -> a
 const Endo = (() => {
@@ -33,7 +33,7 @@ export const mdefs = (() => {
     f |> Fn.flip |> foldMap(dual(Endo)) |> Fn.flip;
 
   const foldMapFromTraverse = ({ traverse }) => M =>
-    traverse(Functor.MonoidConst(M));
+    traverse(Fnctr.MonoidConst(M));
 
   return [
     { impl: { foldl }, deps: ["foldMap"] },

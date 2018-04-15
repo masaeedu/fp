@@ -5,9 +5,9 @@ import * as State from "./state";
 import * as Unit from "./unit";
 import * as Str from "./str";
 import * as Int from "./int";
-import * as Functor from "./functor";
+import * as Fnctr from "./fnctr";
 
-export { Fn, Prm, State, Unit, Str, Int, Functor };
+export { Fn, Prm, State, Unit, Str, Int, Fnctr };
 
 export * from "./arr/augmented";
 export * from "./either/augmented";
