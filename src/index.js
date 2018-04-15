@@ -18,10 +18,10 @@ const nestA = ({ of: o1, lift2: l1 }) => ({ of: o2, lift2: l2 }) => ({
 const ObjOfArr = { ...nestF(Obj)(Arr), ...nestA(Obj)(Arr) };
 
 const implementations = {
-  Arr: ["Foldable", "Functor", "Apply", "Chain"],
-  Either: ["Functor", "Chain"],
+  Arr: ["Foldable", "Functor", "Apply", "Chain", "Traversable"],
+  Either: ["Functor", "Apply", "Chain"],
   Iter: ["Foldable", "Functor", "Apply", "Chain"],
-  Obj: ["Foldable", "Functor"]
+  Obj: ["Foldable", "Functor", "Traversable"]
 };
 
 const augmented =

@@ -25,3 +25,7 @@ export const chain = f => foldl(b => a => f(a) |> append(b))(empty);
 
 // Foldable
 export const foldl = f => z => as => as.reduce((p, c) => f(p)(c), z);
+
+// Traversable
+export const sequence = A =>
+  foldl(A.lift2(b => a => append(b)(of(a))))(A.of(empty));

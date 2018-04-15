@@ -31,6 +31,9 @@ export const rmap = over(S.right);
 // Functor
 export const map = rmap;
 
-// Monad
+// Applicative
 export const of = right;
+export const ap = ef => ev => map(f => map(f)(ev))(ef) |> join;
+
+// Chain
 export const join = either(left)(either(left)(right));

@@ -1,5 +1,5 @@
 import test from "ava";
-import { Arr } from "../";
+import { Arr, Either } from "../";
 
 test("identity", t => {
   t.true(Arr.is([]));
@@ -25,4 +25,15 @@ test("monad", t => {
 
 test("foldable", t => {
   t.snapshot([1, 2, 3, 4] |> Arr.foldl(x => y => x + y)(0));
+});
+
+test("traversable", t => {
+  const inputs = [
+    [Either.right("foo"), Either.right("bar")],
+    [Either.right("foo"), Either.left("bar")]
+  ];
+
+  for (const i of inputs) {
+    t.snapshot(i |> Arr.sequence(Either));
+  }
 });
