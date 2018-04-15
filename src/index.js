@@ -1,2 +1,2 @@
-export * from "./types/augmented";
+export * from "./types";
 export * from "./classes";
