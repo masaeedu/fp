@@ -11,6 +11,11 @@ export const embed = k => v => ({ [k]: v });
 export const hasKey = k => o => o.hasOwnProperty(k);
 export const get = k => o => o[k];
 export const over = k => f => v => ({ ...v, [k]: f(v[k]) });
+export const zipWith = f => o1 => o2 =>
+  keys(o1)
+  |> Arr.foldl(o => k => (hasKey(k)(o2) ? append(o)(f(o1[k])(o2[k])) : o))(
+    empty
+  );
 
 // Identity
 export const is = o => !!o && typeof o === "object";
@@ -18,6 +23,9 @@ export const is = o => !!o && typeof o === "object";
 // Functor
 export const map = f => o =>
   pairs(o) |> Arr.foldl(b => ([k, v]) => embed(k)(f(v)) |> append(b))(empty);
+
+// Apply
+export const lift2 = zipWith;
 
 // Monoid
 export const empty = {};
