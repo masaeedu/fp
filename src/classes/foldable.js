@@ -1,4 +1,4 @@
-import { Int, Fn, Fnctr } from "../types";
+import { IntSum, Fn, Fnctr } from "../types";
 
 // Monoid instance for functions of the type a -> a
 const Endo = (() => {
@@ -44,7 +44,7 @@ export const mdefs = (() => {
 
 // Class methods
 export const methods = ({ foldl, foldMap }) => {
-  const length = foldMap(Int.Add)(Fn.const(1));
+  const length = foldMap(IntSum)(Fn.const(1));
 
   return { length };
 };
