@@ -13,9 +13,14 @@ export const get = k => o => o[k];
 export const over = k => f => v => ({ ...v, [k]: f(v[k]) });
 export const zipWith = f => o1 => o2 =>
   keys(o1)
-  |> Arr.foldl(o => k => (hasKey(k)(o2) ? append(o)(f(o1[k])(o2[k])) : o))(
-    empty
-  );
+  |> Arr.foldl(o => k => {
+    const isKeyShared = hasKey(k)(o2);
+    if (!isKeyShared) return o;
+
+    const v1 = o1[k];
+    const v2 = o2[k];
+    return f(v1)(v2) |> embed(k) |> append(o);
+  })(empty);
 
 // Identity
 export const is = o => !!o && typeof o === "object";
