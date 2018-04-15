@@ -2,8 +2,9 @@ import { Fn } from "../types";
 
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  const traverse = ({ sequence, map }) => f => x => x |> map(f) |> sequence;
-  const sequence = ({ traverse }) => traverse(Fn.id);
+  const traverse = ({ sequence, map }) => A => f => x =>
+    x |> map(f) |> sequence(A);
+  const sequence = ({ traverse }) => A => traverse(A)(Fn.id);
 
   return [
     { impl: { traverse }, deps: ["sequence", "map"] },
