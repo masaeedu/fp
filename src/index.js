@@ -8,7 +8,6 @@ const { Obj, Arr, Fn, Functor } = Types;
 const ObjOfArr = Functor.compose(Obj)(Arr);
 
 const implementations = {
-  Either: ["Functor", "Apply", "Chain"],
   Iter: ["Functor", "Apply", "Chain", "Traversable", "Foldable"],
   Obj: ["Foldable", "Functor", "Traversable"]
 };

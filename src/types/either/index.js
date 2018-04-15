@@ -1,4 +1,4 @@
-import * as Obj from "./obj";
+import * as Obj from "../obj";
 
 // ADT
 // TODO: create ADT abstraction to wrap all this stuff

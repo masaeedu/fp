@@ -7,9 +7,8 @@ import * as State from "./state";
 import * as Unit from "./unit";
 import * as Str from "./str";
 import * as Int from "./int";
-import * as Either from "./either";
 import * as Functor from "./functor";
 
-export { Iter, Fn, Prm, Obj, State, Unit, Str, Int, Either, Functor };
+export { Iter, Fn, Prm, Obj, State, Unit, Str, Int, Functor };
 
 export const type = Types => x => Types.find(T => T.is(x));
