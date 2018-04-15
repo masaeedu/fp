@@ -2,10 +2,12 @@
 //     because this would be circular 😞
 import * as Obj from "../types/obj";
 import * as Iter from "../types/iter";
+import * as Fn from "../types/fn";
 
 const augmentDef = def => ({ impl, deps }) => {
-  const hasImpl = Obj.keys(impl).some(k => !!def[k]);
-  const hasDeps = deps.every(k => !!def[k]);
+  const defHasKey = def |> Fn.flip(Obj.hasKey);
+  const hasImpl = Obj.keys(impl).some(defHasKey);
+  const hasDeps = deps.every(defHasKey);
 
   return hasImpl || !hasDeps
     ? def
