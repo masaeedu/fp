@@ -1,4 +1,5 @@
-import { Fn, Obj } from ".";
+import * as Fn from "./fn";
+import * as Obj from "./obj";
 
 // Misc
 export const Identity = {
