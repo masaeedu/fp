@@ -1,4 +1,9 @@
+import { typeid } from "../plumbing/typeid";
+
 // Promises aren't actually proper functors/monads, these instances are a lie
+
+// Identity
+export const is = x => typeid(x) === "Promise";
 
 // Functor
 export const map = f => p => p.then(f);
