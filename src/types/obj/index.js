@@ -1,5 +1,6 @@
 import * as Fn from "../fn";
 import * as Arr from "../arr";
+import { typeid } from "../../plumbing/typeid";
 
 // Misc
 export const keys = o => Object.keys(o);
@@ -23,7 +24,7 @@ export const zipWith = f => o1 => o2 =>
   })(empty);
 
 // Identity
-export const is = o => !!o && typeof o === "object";
+export const is = x => typeid(x) === "Object";
 
 // Functor
 export const map = f => o =>
