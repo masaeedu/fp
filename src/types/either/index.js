@@ -1,4 +1,5 @@
 import * as Obj from "../obj";
+import * as Fn from "../fn";
 
 // ADT
 // TODO: create ADT abstraction to wrap all this stuff
@@ -20,6 +21,9 @@ export const either = l => r => x =>
 
 export const left = embed(S.left);
 export const right = embed(S.right);
+
+export const isLeft = either(Fn.const(true))(Fn.const(false));
+export const isRight = either(Fn.const(false))(Fn.const(true));
 
 // Identity
 export const is = Obj.hasKey(S.direction);
