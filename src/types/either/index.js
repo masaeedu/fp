@@ -37,3 +37,7 @@ export const ap = ef => ev => map(f => map(f)(ev))(ef) |> join;
 
 // Chain
 export const join = either(left)(either(left)(right));
+
+// Traversable
+export const traverse = A => f =>
+  either(x => left(x) |> A.of)(x => f(x) |> A.map(right));

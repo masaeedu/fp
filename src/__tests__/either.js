@@ -1,5 +1,5 @@
 import test from "ava";
-import { Either } from "../";
+import { Either, Arr } from "../";
 
 const { left, right, is, map, of, chain } = Either;
 
@@ -18,4 +18,8 @@ test("monad", t => {
   t.snapshot(left("x") |> chain(_ => right("y")));
   t.snapshot(right("x") |> chain(_ => left("y")));
   t.snapshot(right("x") |> chain(_ => right("y")));
+});
+
+test("traversable", t => {
+  t.snapshot(right([1, 2, 3]) |> Either.sequence(Arr));
 });
