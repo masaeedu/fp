@@ -1,3 +1,6 @@
+export * from "./log";
+export * from "./typeid";
+
 // NB: Not allowed to reference augmented typeclasses directly from ../index.js
 //     because this would be circular 😞
 import * as Obj from "../types/obj";
