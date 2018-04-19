@@ -18,7 +18,8 @@
   },
   "ava": {
     "files": [
-      "dist/__tests__/**/*.js"
+      "dist/__tests__/**/*.js",
+      "dist/**/*.test.js"
     ],
     "require": [
       "@babel/polyfill"
