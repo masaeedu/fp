@@ -1,49 +1,26 @@
-import { IntSum, Fn, Fnctr } from "../types";
+import { MConst } from "../types/functor/augmented";
+import { IntSum, Fn } from "../types";
 
-// Monoid instance for functions of the type a -> a
-const Endo = (() => {
-  const empty = Fn.id;
-  const append = Fn.compose;
+export const foldMapFromFoldl = ({ foldl }) => M => f =>
+  foldl(b => a => f(a) |> M.append(b))(M.empty);
 
-  return { empty, append };
-})();
+export const foldlFromFoldMap = ({ foldMap }) => f =>
+  f |> Fn.flip |> foldMap(dual(Endo)) |> Fn.flip;
 
-// Dual of a monoid instance (reverses append)
-const dual = ({ empty, append }) => ({ empty, append: Fn.flip(append) });
+export const foldMapFromTraverse = ({ traverse }) => M => traverse(MConst(M));
 
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  // Default foldMap:
-  // - `foldMap(f) ≡ foldl(b => append(b) <: f)(empty)`
-  const foldMap = ({ foldl }) => ({ empty, append }) => f =>
-    foldl(b => a => f(a) |> append(b))(empty);
-
-  // Default foldl:
-  // - `flip(b -> a -> b)` = `a -> b -> b` is applied to every `a` in the
-  //   foldable to produce `b -> b`s
-  // - These have a normal monoid instance Endo corresponding to function
-  //   composition, but also an "opposite" instance dual(Endo), where
-  //   append(f)(g) is f :> g, rather than f <: g
-  // - We want the following transformation:
-  //   | foldl (+) (0) ([   1  ,     2  ,  ...])     |
-  //   |       ...     ([(+ 1) ,  (+ 2) ,  ...])     | apply flipped reducer to each element
-  //   |       ...     ( (+ 1) :> (+ 2) :> ... )     | compose in reverse (i.e. as pipeline)
-  //   |               (          ...          ) (0) | apply composed function to base value
-  const foldl = ({ foldMap }) => f =>
-    f |> Fn.flip |> foldMap(dual(Endo)) |> Fn.flip;
-
-  const foldMapFromTraverse = ({ traverse }) => M =>
-    traverse(Fnctr.MonoidConst(M));
-
   return [
-    { impl: { foldl }, deps: ["foldMap"] },
-    { impl: { foldMap }, deps: ["foldl"] },
+    { impl: { foldl: foldlFromFoldMap }, deps: ["foldMap"] },
+    { impl: { foldMap: foldMapFromFoldl }, deps: ["foldl"] },
     { impl: { foldMap: foldMapFromTraverse }, deps: ["traverse"] }
   ];
 })();
 
 // Class methods
 export const methods = ({ foldl, foldMap }) => {
+  const fold = M => foldMap(M)(Fn.id);
   const length = foldMap(IntSum)(Fn.const(1));
 
   return { length };

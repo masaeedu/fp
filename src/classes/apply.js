@@ -1,13 +1,15 @@
 import { Fn } from "../types";
 
+export const apFromLift2 = ({ lift2 }) => lift2(Fn.id);
+
+export const lift2FromMapAndAp = ({ map, ap }) => f => x1 => x2 =>
+  ap(map(f)(x1))(x2);
+
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  const ap = ({ lift2 }) => lift2(Fn.id);
-  const lift2 = ({ map, ap }) => f => x1 => x2 => ap(map(f)(x1))(x2);
-
   return [
-    { impl: { ap }, deps: ["lift2"] },
-    { impl: { lift2 }, deps: ["map", "ap"] }
+    { impl: { ap: apFromLift2 }, deps: ["lift2"] },
+    { impl: { lift2: lift2FromMapAndAp }, deps: ["map", "ap"] }
   ];
 })();
 

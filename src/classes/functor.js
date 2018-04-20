@@ -1,12 +1,13 @@
-import { Identity } from "../types/fnctr";
+import { Identity } from "../types/functor/augmented";
+
+export const mapFromOfAndChain = ({ of, chain }) => f => chain(v => f(v) |> of);
+
+export const mapFromTraverse = ({ traverse }) => traverse(Identity);
 
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  const map = ({ of, chain }) => f => chain(v => f(v) |> of);
-  const mapFromTraverse = ({ traverse }) => traverse(Identity);
-
   return [
-    { impl: { map }, deps: ["of", "chain"] },
+    { impl: { map: mapFromOfAndChain }, deps: ["of", "chain"] },
     { impl: { map: mapFromTraverse }, deps: ["traverse"] }
   ];
 })();

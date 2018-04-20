@@ -1,4 +1,4 @@
-import * as Arr from "./arr";
+import * as Arr from "../arr";
 
 // Category
 export const id = _ => _;
@@ -9,6 +9,7 @@ const _const = x => _ => x;
 export { _const as const };
 export const flip = f => x => y => f(y)(x);
 export const pipe = Arr.foldl(flip(compose))(id); // TODO: Consider manually inlining for performance
+export const uncurry = f => a => b => f([a, b]);
 
 // Identity
 export const is = x => typeof x === "function";

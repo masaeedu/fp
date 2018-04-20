@@ -1,13 +1,15 @@
 import { Fn } from "../types";
 
+export const chainFromMapAndJoin = ({ map, join }) => f => x =>
+  map(f)(x) |> join;
+
+export const joinFromChain = ({ chain }) => chain(Fn.id);
+
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  const chain = ({ map, join }) => f => x => map(f)(x) |> join;
-  const join = ({ chain }) => chain(Fn.id);
-
   return [
-    { impl: { chain }, deps: ["map", "join"] },
-    { impl: { join }, deps: ["chain"] }
+    { impl: { chain: chainFromMapAndJoin }, deps: ["map", "join"] },
+    { impl: { join: joinFromChain }, deps: ["chain"] }
   ];
 })();
 

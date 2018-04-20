@@ -1,14 +1,18 @@
 import { Fn } from "../types";
 
+export const traverseFromSequenceAndMap = ({ sequence, map }) => A => f => x =>
+  x |> map(f) |> sequence(A);
+
+export const sequenceFromTraverse = ({ traverse }) => A => traverse(A)(Fn.id);
+
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  const traverse = ({ sequence, map }) => A => f => x =>
-    x |> map(f) |> sequence(A);
-  const sequence = ({ traverse }) => A => traverse(A)(Fn.id);
-
   return [
-    { impl: { traverse }, deps: ["sequence", "map"] },
-    { impl: { sequence }, deps: ["traverse"] }
+    {
+      impl: { traverse: traverseFromSequenceAndMap },
+      deps: ["sequence", "map"]
+    },
+    { impl: { sequence: sequenceFromTraverse }, deps: ["traverse"] }
   ];
 })();
 

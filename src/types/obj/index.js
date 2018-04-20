@@ -5,13 +5,19 @@ import { typeid } from "../../plumbing/typeid";
 // Misc
 export const keys = o => Object.keys(o);
 export const values = o => keys(o) |> Arr.map(k => o[k]);
+
 export const pairs = o => keys(o) |> Arr.map(k => [k, o[k]]);
 export const fromPairs = pairs =>
-  pairs |> Arr.map(([k, v]) => embed(k)(v)) |> Arr.foldl(append)(empty);
+  pairs |> Arr.map(Fn.uncurry(embed)) |> Arr.foldl(append)(empty);
+
 export const embed = k => v => ({ [k]: v });
+
 export const hasKey = k => o => o.hasOwnProperty(k);
+
 export const get = k => o => o[k];
-export const over = k => f => v => ({ ...v, [k]: f(v[k]) });
+
+export const over = k => f => v => f(v[k]) |> embed(k) |> append(v);
+
 export const zipWith = f => o1 => o2 =>
   keys(o1)
   |> Arr.foldl(o => k => {
