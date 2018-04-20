@@ -31,5 +31,5 @@ export const adt = def => {
   const match = cases => ({ [caseKey]: c, [valsKey]: v }) =>
     uncurry(cases[c])(v);
 
-  return { ...constrs, match };
+  return { ...constrs, match, def };
 };
