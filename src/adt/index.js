@@ -16,22 +16,7 @@ const curryN = n => f => {
   const loop = a => acc => (a === 0 ? f(acc) : x => loop(a - 1)([...acc, x]));
   return loop(n)([]);
 };
-// type Types ts = (Type i) for i in itemof ts
-//   given: ts extends [TypeId]
 
-// adt ::
-//   x
-//   -> {
-//     "id" :: TypeId,
-//     [k in keyof x] :: ...(Types x[k]) -> ...[Types x[k]],
-//     "match" ::
-//       {
-//         [k in keyof x] :: ...(Types x[k]) -> a
-//       }
-//       -> ...[Types x[k]]
-//       -> a
-//   }
-//   given: x extends Map String [TypeId]
 export const adt = def => {
   const keys = Obj.keys(def);
 
