@@ -1,5 +1,5 @@
 import test from "ava";
-import { Arr, Either } from "../";
+import { Arr, Either } from "..";
 
 test("identity", t => {
   t.true(Arr.is([]));
