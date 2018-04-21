@@ -1,5 +1,5 @@
 import test from "ava";
-import { Either, Arr } from "../";
+import { Either, Arr } from "..";
 
 const { left, right, is, map, of, chain } = Either;
 
