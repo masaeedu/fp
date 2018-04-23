@@ -1,4 +1,4 @@
-import { Fn } from "../types";
+import { Fn } from "../instances";
 
 // Equivalent minimal definitions
 export const mdefs = (() => {

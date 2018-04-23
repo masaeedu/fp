@@ -1,4 +1,4 @@
-import { IntSum, Fn, Fnctr } from "../types";
+import { IntSum, Fn, Fnctr } from "../instances";
 
 // Monoid instance for functions of the type a -> a
 const Endo = (() => {

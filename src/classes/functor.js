@@ -1,4 +1,4 @@
-import { Identity } from "../types/fnctr";
+import { Identity } from "../instances/fnctr";
 
 // Equivalent minimal definitions
 export const mdefs = (() => {

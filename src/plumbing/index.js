@@ -3,9 +3,9 @@ export * from "./typeid";
 
 // NB: Not allowed to reference augmented typeclasses directly from ../index.js
 //     because this would be circular 😞
-import * as Obj from "../types/obj";
-import * as Iter from "../types/iter";
-import * as Fn from "../types/fn";
+import * as Obj from "../instances/obj";
+import * as Iter from "../instances/iter";
+import * as Fn from "../instances/fn";
 
 const augmentDef = def => ({ impl, deps }) => {
   const defHasKey = def |> Fn.flip(Obj.hasKey);

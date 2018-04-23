@@ -1,6 +1,6 @@
-import * as Obj from "../types/obj";
-import * as Arr from "../types/arr";
-import * as Fn from "../types/fn";
+import * as Obj from "../instances/obj";
+import * as Arr from "../instances/arr";
+import * as Fn from "../instances/fn";
 
 // Typed holes
 export const a = Symbol("a");
