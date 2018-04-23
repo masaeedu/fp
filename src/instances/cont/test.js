@@ -1,6 +1,6 @@
 import test from "ava";
 import * as Cont from ".";
-import { Fn } from "..";
+import { Fn, Arr } from "..";
 
 test("functor", t => {
   const cont = Cont.of(41) |> Cont.map(x => x + 1);
@@ -13,4 +13,14 @@ test("monad", t => {
 
   t.snapshot(Cont.of(5) |> cap(10) |> Cont.run);
   t.snapshot(Cont.of(15) |> cap(10) |> Cont.run);
+});
+
+test("representing other monads", t => {
+  const i = M => x => cont => M.chain(cont)(x);
+
+  const result =
+    i(Arr)([1, 2])
+    |> Cont.chain(a => i(Arr)([10, 20]) |> Cont.chain(b => Cont.of(a + b)));
+
+  t.snapshot(result(Arr.of));
 });
