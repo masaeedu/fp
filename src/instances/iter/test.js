@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { Iter } from "../";
+import { Iter, Either } from "../";
 
 test("identity", t => {
   t.true(Iter.is([]));
@@ -39,5 +39,16 @@ test("skip", t => {
 test("take", t => {
   for (const n of [-1, 0, 3, 10, Infinity]) {
     t.snapshot([1, 2, 3, 4] |> Iter.take(n) |> Iter.toArr);
+  }
+});
+
+test("traversable", t => {
+  const inputs = [
+    [Either.right("foo"), Either.right("bar")],
+    [Either.right("foo"), Either.left("bar")]
+  ];
+
+  for (const i of inputs) {
+    t.snapshot(i |> Iter.sequence(Either));
   }
 });
