@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { Prm } from ".";
+import { Prm } from "..";
 
 test("identity", t => {
   t.true(Prm.is(Promise.resolve("foo")));

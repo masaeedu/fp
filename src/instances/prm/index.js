@@ -1,4 +1,4 @@
-import { typeid } from "../plumbing/typeid";
+import { typeid } from "../../plumbing/typeid";
 
 // Promises aren't actually proper functors/monads, these instances are a lie
 
