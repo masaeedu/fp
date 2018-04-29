@@ -17,10 +17,11 @@ test("monad", t => {
 
 test("representing other monads", t => {
   const i = M => x => cont => M.chain(cont)(x);
+  const run = M => c => c(M.of);
 
   const result =
     i(Arr)([1, 2])
     |> Cont.chain(a => i(Arr)([10, 20]) |> Cont.chain(b => Cont.of(a + b)));
 
-  t.snapshot(result(Arr.of));
+  t.snapshot(result |> run(Arr));
 });
