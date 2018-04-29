@@ -1,4 +1,4 @@
-import * as Arr from "./arr";
+import * as Arr from "../arr";
 
 // Category
 export const id = _ => _;
