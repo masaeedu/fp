@@ -44,4 +44,4 @@ export const sequence = A => o =>
   |> (A.of(empty) |> Arr.foldl(A.lift2(append)));
 
 // Foldable
-export const foldl = f => z => o => keys(o) |> Arr.foldl(f)(z);
+export const foldl = f => z => o => values(o) |> Arr.foldl(f)(z);

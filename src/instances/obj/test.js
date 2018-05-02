@@ -1,5 +1,5 @@
 import test from "ava";
-import { Obj, Arr } from "../";
+import { Obj, Arr, IntSum, Fn } from "../";
 
 test("identity", t => {
   t.true(Obj.is({}));
@@ -12,6 +12,10 @@ test("functor", t => {
 test("monoid", t => {
   t.snapshot(Obj.empty);
   t.snapshot(Obj.append({ foo: "bar" })({ baz: "quux" }));
+});
+
+test("foldable", t => {
+  t.snapshot({ foo: 22, bar: 20 } |> Obj.foldMap(IntSum)(Fn.id));
 });
 
 test("traversable", t => {
