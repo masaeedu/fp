@@ -27,3 +27,5 @@ export const implement = ({ mdefs, methods }) => candidate => {
 
   return withMethods;
 };
+
+export const type = Types => x => Types.find(T => T.is(x));
