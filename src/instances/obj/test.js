@@ -15,7 +15,7 @@ test("monoid", t => {
 });
 
 test("foldable", t => {
-  t.snapshot({ foo: 22, bar: 20 } |> Obj.foldMap(IntSum)(Fn.id));
+  t.snapshot({ foo: 22, bar: 20 } |> Obj.fold(IntSum));
 });
 
 test("traversable", t => {

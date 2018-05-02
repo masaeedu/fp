@@ -45,6 +45,7 @@ export const mdefs = (() => {
 // Class methods
 export const methods = ({ foldl, foldMap }) => {
   const length = foldMap(IntSum)(Fn.const(1));
+  const fold = M => foldMap(M)(Fn.id);
 
-  return { length };
+  return { length, fold };
 };
