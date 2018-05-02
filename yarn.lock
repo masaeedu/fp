@@ -3181,6 +3181,10 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+natch@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/natch/-/natch-1.1.1.tgz#ef20fd67fe2e3c4ff3c4e6634dacb43c0637ec33"
+
 node-pre-gyp@^0.6.39:
   version "0.6.39"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.39.tgz#c00e96860b23c0e1420ac7befc5044e1d78d8649"
