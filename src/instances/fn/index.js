@@ -1,7 +1,7 @@
 import * as Arr from "../arr";
 
 // Category
-export const id = _ => _;
+export const id = x => x;
 export const compose = f => g => a => f(g(a));
 
 // Misc
