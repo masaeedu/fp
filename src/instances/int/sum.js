@@ -1,3 +1,5 @@
+import { add } from ".";
+
 // Monoid
 export const empty = 0;
-export const append = x => y => x + y;
+export const append = add;
