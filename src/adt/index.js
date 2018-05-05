@@ -11,12 +11,6 @@ export const c = Symbol("c");
 const caseKey = Symbol("ADT case key");
 const valsKey = Symbol("ADT values key");
 
-const uncurry = Arr.foldl(f => x => f(x));
-const curryN = n => f => {
-  const loop = a => acc => (a === 0 ? f(acc) : x => loop(a - 1)([...acc, x]));
-  return loop(n)([]);
-};
-
 export const adt = def => {
   const keys = Obj.keys(def);
 
@@ -24,12 +18,12 @@ export const adt = def => {
     keys
     |> Arr.map(k => {
       const n = def[k].length;
-      return [k, curryN(n)(vals => ({ [caseKey]: k, [valsKey]: vals }))];
+      return [k, Fn.curryN(n)(vals => ({ [caseKey]: k, [valsKey]: vals }))];
     })
     |> Obj.fromPairs;
 
   const match = cases => ({ [caseKey]: c, [valsKey]: v }) =>
-    uncurry(cases[c])(v);
+    Fn.uncurry(cases[c])(v);
 
   return { ...constrs, match, def };
 };
