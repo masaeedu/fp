@@ -14,9 +14,17 @@ export const curryN = n => f => {
   const loop = a => acc => (a === 0 ? f(acc) : x => loop(a - 1)([...acc, x]));
   return loop(n)([]);
 };
+export const feed = x => f => f(x);
 
 // Identity
 export const is = x => typeof x === "function";
 
 // Functor
 export const map = compose;
+
+// Applicative
+export const of = _const;
+export const lift2 = f => fn1 => fn2 => x => f(fn1(x))(fn2(x));
+
+// Chain
+export const chain = f => fn => x => f(fn(x))(x);
