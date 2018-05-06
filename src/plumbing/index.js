@@ -1,3 +1,4 @@
+export * from "./fail";
 export * from "./log";
 export * from "./typeid";
 

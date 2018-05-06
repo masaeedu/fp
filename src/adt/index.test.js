@@ -8,20 +8,20 @@ test("adt works", t => {
 });
 
 test("either adt", t => {
-  const { L, R, match } = adt({ L: [_], R: [_] });
+  const { L, R, match } = adt({ L: _, R: _ });
 
   t.snapshot(L(5) |> match({ L, R: x => x + 1 }));
   t.snapshot(R(5) |> match({ L, R: x => x + 1 }));
 });
 
 test("nested types", t => {
-  const Bool = adt({ T: [], F: [] });
-  const Vld = adt({ V: [_, _] }); // Bool, String
+  const Bool = adt({ T, F });
+  const Vld = adt({ V: [_, _] }); // Bool, a
 
   const { T, F } = Bool;
   const { V } = Vld;
 
-  const inputs = [Vld.V(Bool.F)("there was a problem"), Vld.V(Bool.T)(9)];
+  const inputs = [V(F)("there was a problem"), V(T)(9)];
 
   for (const input of inputs) {
     input
@@ -31,7 +31,7 @@ test("nested types", t => {
 });
 
 test("zero argument type", t => {
-  const { Nothing, Just, match } = adt({ Nothing: [], Just: [_] });
+  const { Nothing, Just, match } = adt({ Nothing, Just: _ });
 
   t.snapshot(Just(10));
   t.snapshot(Nothing);
