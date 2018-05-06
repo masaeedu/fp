@@ -1,7 +1,14 @@
 export default ({ Left, Right, match }) => {
-  const map = f => match({ Left, Right: x => Right(f(x)) });
+  // Monad
   const of = Right;
   const chain = f => match({ Left, Right: f });
 
-  return { map, of, chain };
+  // Traversable
+  const traverse = A => f =>
+    match({ Left: x => A.of(Left(x)), Right: x => A.map(Right)(f(x)) });
+
+  // Bifunctor
+  const bimap = l => r => match({ Left: l, Right: r });
+
+  return { of, chain, traverse, bimap };
 };

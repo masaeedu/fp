@@ -29,8 +29,8 @@ test("foldable", t => {
 
 test("traversable", t => {
   const inputs = [
-    [Either.right("foo"), Either.right("bar")],
-    [Either.right("foo"), Either.left("bar")]
+    [Either.Right("foo"), Either.Right("bar")],
+    [Either.Right("foo"), Either.Left("bar")]
   ];
 
   for (const i of inputs) {

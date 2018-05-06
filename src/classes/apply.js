@@ -4,8 +4,11 @@ import { Fn } from "../instances";
 export const mdefs = (() => {
   const ap = ({ lift2 }) => lift2(Fn.id);
   const lift2 = ({ map, ap }) => f => x1 => x2 => ap(map(f)(x1))(x2);
+  const apFromOfAndChain = ({ of, chain }) => af => av =>
+    af |> chain(f => av |> chain(v => f(v) |> of));
 
   return [
+    { impl: { ap: apFromOfAndChain }, deps: ["of", "chain"] },
     { impl: { ap }, deps: ["lift2"] },
     { impl: { lift2 }, deps: ["map", "ap"] }
   ];

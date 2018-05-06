@@ -1,5 +1,12 @@
 import { implement } from "../../plumbing";
-import { Functor, Apply, Chain, Foldable, Traversable } from "../../classes";
+import {
+  Functor,
+  Apply,
+  Chain,
+  Foldable,
+  Traversable,
+  Bifunctor
+} from "../../classes";
 
 import * as _Either from ".";
 
@@ -9,4 +16,5 @@ export const Either =
   |> implement(Apply)
   |> implement(Chain)
   |> implement(Traversable)
-  |> implement(Foldable);
+  |> implement(Foldable)
+  |> implement(Bifunctor);
