@@ -2,11 +2,13 @@ import { Identity } from "../instances/fnctr";
 
 // Equivalent minimal definitions
 export const mdefs = (() => {
-  const map = ({ of, chain }) => f => chain(v => f(v) |> of);
+  const mapFromOfAndChain = ({ of, chain }) => f => chain(v => f(v) |> of);
+  const mapFromOfAndAp = ({ of, ap }) => f => ap(of(f));
   const mapFromTraverse = ({ traverse }) => traverse(Identity);
 
   return [
-    { impl: { map }, deps: ["of", "chain"] },
+    { impl: { map: mapFromOfAndChain }, deps: ["of", "chain"] },
+    { impl: { map: mapFromOfAndAp }, deps: ["of", "ap"] },
     { impl: { map: mapFromTraverse }, deps: ["traverse"] }
   ];
 })();
