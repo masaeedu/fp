@@ -8,7 +8,8 @@ export default ({ Left, Right, match }) => {
     match({ Left: x => A.of(Left(x)), Right: x => A.map(Right)(f(x)) });
 
   // Bifunctor
-  const bimap = l => r => match({ Left: l, Right: r });
+  const bimap = l => r =>
+    match({ Left: x => l(x) |> Left, Right: x => r(x) |> Right });
 
   return { of, chain, traverse, bimap };
 };
