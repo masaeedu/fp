@@ -1,20 +1,3 @@
-import { implement } from "../../plumbing";
-import {
-  Functor,
-  Apply,
-  Chain,
-  Foldable,
-  Traversable,
-  Bifunctor
-} from "../../classes";
+import _Either from ".";
 
-import * as _Either from ".";
-
-export const Either =
-  _Either
-  |> implement(Functor)
-  |> implement(Apply)
-  |> implement(Chain)
-  |> implement(Traversable)
-  |> implement(Foldable)
-  |> implement(Bifunctor);
+export const Either = _Either;
