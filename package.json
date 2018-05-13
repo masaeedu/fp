@@ -8,22 +8,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "rm -rf ./dist && babel src -d dist --source-maps",
     "prepare": "yarn build",
     "test": "nyc ava"
   },
   "ava": {
-    "files": [
-      "dist/__tests__/**/*.js",
-      "dist/**/*test.js"
-    ],
-    "require": [
-      "@babel/polyfill"
-    ]
+    "files": ["dist/__tests__/**/*.js", "dist/**/*test.js"],
+    "require": ["@babel/polyfill"]
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
