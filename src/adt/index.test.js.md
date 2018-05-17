@@ -1,4 +1,4 @@
-# Snapshot report for `dist/adt/index.test.js`
+# Snapshot report for `dist\adt\index.test.js`
 
 The actual snapshot is saved in `index.test.js.snap`.
 

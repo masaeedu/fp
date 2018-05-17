@@ -1,4 +1,4 @@
-# Snapshot report for `dist/plumbing/typeid.test.js`
+# Snapshot report for `dist\plumbing\typeid.test.js`
 
 The actual snapshot is saved in `typeid.test.js.snap`.
 

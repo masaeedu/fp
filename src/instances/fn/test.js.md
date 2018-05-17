@@ -1,4 +1,4 @@
-# Snapshot report for `dist/instances/fn/test.js`
+# Snapshot report for `dist\instances\fn\test.js`
 
 The actual snapshot is saved in `test.js.snap`.
 
