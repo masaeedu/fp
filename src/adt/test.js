@@ -1,5 +1,5 @@
 import { test } from "ava";
-import { adt, _ } from ".";
+import { adt, _ } from "..";
 
 test("adt works", t => {
   const { F, match } = adt({ F: [_, _] });
