@@ -12,7 +12,14 @@ export const fromIterator = itr =>
       yield value;
     }
   });
-
+export const head = it => it[Symbol.iterator]().next().value;
+export const idx = i => it => it |> skip(i) |> head;
+export const repeat = x =>
+  Iter.fromGen(function*() {
+    while (true) {
+      yield x;
+    }
+  });
 export const skip = n => it => {
   const itr = toIterator(it);
   while (n-- > 0) {
