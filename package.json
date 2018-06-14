@@ -12,7 +12,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && babel src -d dist --source-maps",
+    "build": "node scripts/clean.js && babel src -d dist --source-maps",
     "prepare": "yarn build",
     "test": "nyc ava"
   },
@@ -33,6 +33,7 @@
     "@babel/preset-stage-0": "^7.0.0-beta.42",
     "ava": "^0.25.0",
     "nyc": "^11.7.1",
+    "rimraf": "^2.6.2",
     "yarn": "^1.5.1"
   },
   "dependencies": {
