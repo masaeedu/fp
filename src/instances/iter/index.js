@@ -20,6 +20,12 @@ export const fromIterator = itr =>
 
 // Algebra
 export const head = it => it[Symbol.iterator]().next().value;
+export const cons = x => it =>
+  fromGen(function*() {
+    yield x;
+    yield* it;
+  });
+
 export const idx = i => it => it |> drop(i) |> head;
 
 // Slicing
