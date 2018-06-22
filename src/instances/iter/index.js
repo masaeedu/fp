@@ -14,7 +14,7 @@ export const fromIterator = itr =>
   });
 export const head = it => it[Symbol.iterator]().next().value;
 export const idx = i => it => it |> skip(i) |> head;
-export const skip = n => it => {
+export const drop = n => it => {
   const itr = toIterator(it);
   while (n-- > 0) {
     const { done } = itr.next();

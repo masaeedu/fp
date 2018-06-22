@@ -30,9 +30,9 @@ test("foldable", t => {
   t.snapshot([1, 2, 3, 4] |> Iter.foldl(x => y => x + y)(0));
 });
 
-test("skip", t => {
+test("drop", t => {
   for (const n of [-1, 0, 3, 10, Infinity]) {
-    t.snapshot([1, 2, 3, 4] |> Iter.skip(n) |> Iter.toArr);
+    t.snapshot([1, 2, 3, 4] |> Iter.drop(n) |> Iter.toArr);
   }
 });
 
