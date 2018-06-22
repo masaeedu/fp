@@ -1,4 +1,5 @@
 import * as Fn from "../fn";
+import { lazy } from "../../plumbing/lazy";
 
 // Identity
 // TODO: maybe check whether itgen produces an iterator with a next property, but getting into diminishing returns at that point
@@ -25,6 +26,9 @@ export const cons = x => it =>
     yield x;
     yield* it;
   });
+
+export const transpose =
+  (() => sequence({ of: repeat, lift2: zipWith })) |> lazy;
 
 export const idx = i => it => it |> drop(i) |> head;
 
@@ -97,4 +101,3 @@ export const foldl = f => z => it => {
 // Traverse
 export const sequence = A =>
   foldl(A.lift2(b => a => of(a) |> append(b)))(A.of(empty));
-export const transpose = sequence({ of: repeat, lift2: zipWith });
