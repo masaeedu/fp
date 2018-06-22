@@ -5,7 +5,7 @@ export * from "./typeid";
 // NB: Not allowed to reference augmented typeclasses directly from ../index.js
 //     because this would be circular 😞
 import * as Obj from "../instances/obj";
-import * as Iter from "../instances/iter";
+import * as Arr from "../instances/arr";
 import * as Fn from "../instances/fn";
 
 const augmentDef = def => ({ impl, deps }) => {
@@ -21,7 +21,7 @@ const augmentDef = def => ({ impl, deps }) => {
 // Typeclass wrapper
 export const implement = ({ mdefs, methods }) => candidate => {
   // Add every available default definition that isn't explicitly specified
-  const fullDef = mdefs |> Iter.foldl(augmentDef)(candidate);
+  const fullDef = mdefs |> Arr.foldl(augmentDef)(candidate);
 
   // Add the methods
   const withMethods = { ...fullDef, ...(fullDef |> methods) };
