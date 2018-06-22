@@ -30,6 +30,7 @@ export const cons = x => it =>
 export const transpose =
   (() => sequence({ of: repeat, lift2: zipWith })) |> lazy;
 
+// Indices
 export const idx = i => it => it |> drop(i) |> head;
 
 // Slicing
