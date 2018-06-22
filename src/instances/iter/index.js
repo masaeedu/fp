@@ -1,6 +1,11 @@
 import * as Fn from "../fn";
 
-// Misc
+// Identity
+// TODO: maybe check whether itgen produces an iterator with a next property, but getting into diminishing returns at that point
+export const is = ({ [Symbol.iterator]: itgen = undefined }) =>
+  itgen !== undefined && Fn.is(itgen);
+
+// Conversions
 export const fromGen = gen => ({ [Symbol.iterator]: gen });
 export const toArr = it => [...it];
 export const toIterator = it => it[Symbol.iterator]();
@@ -12,8 +17,12 @@ export const fromIterator = itr =>
       yield value;
     }
   });
+
+// Algebra
 export const head = it => it[Symbol.iterator]().next().value;
-export const idx = i => it => it |> skip(i) |> head;
+export const idx = i => it => it |> drop(i) |> head;
+
+// Slicing
 export const drop = n => it => {
   const itr = toIterator(it);
   while (n-- > 0) {
@@ -49,11 +58,6 @@ export const zipWith = f => a => b =>
       yield f(v1)(v2);
     }
   });
-
-// Identity
-// TODO: maybe check whether itgen produces an iterator with a next property, but getting into diminishing returns at that point
-export const is = ({ [Symbol.iterator]: itgen = undefined }) =>
-  itgen !== undefined && Fn.is(itgen);
 
 // Functor
 export const map = f => it =>
