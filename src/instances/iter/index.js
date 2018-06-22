@@ -59,29 +59,11 @@ export const zipWith = f => a => b =>
     }
   });
 
-// Functor
-export const map = f => it =>
-  fromGen(function*() {
-    for (const x of it) {
-      yield f(x);
-    }
-  });
-
-// Applicative
+// Monad
 export const of = x =>
   fromGen(function*() {
     yield x;
   });
-export const lift2 = f => ita => itb =>
-  fromGen(function*() {
-    for (const a of ita) {
-      for (const b of itb) {
-        yield f(a)(b);
-      }
-    }
-  });
-
-// Monad
 export const chain = f => it =>
   fromGen(function*() {
     for (const x of it) {
@@ -109,5 +91,4 @@ export const foldl = f => z => it => {
 // Traverse
 export const sequence = A =>
   foldl(A.lift2(b => a => of(a) |> append(b)))(A.of(empty));
-
 export const transpose = sequence({ of: repeat, lift2: zipWith });

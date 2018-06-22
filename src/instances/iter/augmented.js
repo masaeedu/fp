@@ -5,8 +5,9 @@ import * as _Iter from ".";
 
 export const Iter =
   _Iter
+  |> implement(Chain)
+  |> implement(Apply)
   |> implement(Functor)
   |> implement(Apply)
-  |> implement(Chain)
-  |> implement(Foldable)
-  |> implement(Traversable);
+  |> implement(Traversable)
+  |> implement(Foldable);
