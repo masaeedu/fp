@@ -52,3 +52,16 @@ test("traversable", t => {
     t.snapshot(i |> Iter.sequence(Either));
   }
 });
+
+test("transpose", t => {
+  const inputs = [
+    // Matrix transposition
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+    // Top secret encrypted message
+    ["yjltg ", "ouoha", "ussem", " tt e"]
+  ];
+
+  for (const i of inputs) {
+    t.snapshot(i |> Iter.transpose);
+  }
+});

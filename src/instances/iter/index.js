@@ -14,12 +14,6 @@ export const fromIterator = itr =>
   });
 export const head = it => it[Symbol.iterator]().next().value;
 export const idx = i => it => it |> skip(i) |> head;
-export const repeat = x =>
-  Iter.fromGen(function*() {
-    while (true) {
-      yield x;
-    }
-  });
 export const skip = n => it => {
   const itr = toIterator(it);
   while (n-- > 0) {
@@ -33,6 +27,26 @@ export const take = n => it =>
     for (const x of it) {
       if (n-- <= 0) return;
       yield x;
+    }
+  });
+
+// "Zippy" applicative
+export const repeat = x =>
+  fromGen(function*() {
+    while (true) {
+      yield x;
+    }
+  });
+export const zipWith = f => a => b =>
+  fromGen(function*() {
+    const itr1 = a[Symbol.iterator]();
+    const itr2 = b[Symbol.iterator]();
+    while (true) {
+      const { done: d1, value: v1 } = itr1.next();
+      const { done: d2, value: v2 } = itr2.next();
+
+      if (d1 || d2) break;
+      yield f(v1)(v2);
     }
   });
 
@@ -91,3 +105,5 @@ export const foldl = f => z => it => {
 // Traverse
 export const sequence = A =>
   foldl(A.lift2(b => a => of(a) |> append(b)))(A.of(empty));
+
+export const transpose = sequence({ of: repeat, lift2: zipWith });
