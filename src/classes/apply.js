@@ -1,4 +1,4 @@
-import { Fn } from "../instances";
+import * as Fn from "../instances/fn";
 
 // Equivalent minimal definitions
 export const mdefs = (() => {
