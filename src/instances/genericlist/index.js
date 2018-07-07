@@ -1,5 +1,5 @@
-import { implement } from "../../../plumbing";
-import { Chain, Apply, Functor, Traversable, Foldable } from "../../../classes";
+import { implement } from "../../plumbing";
+import { Chain, Apply, Functor, Traversable, Foldable } from "../../classes";
 
 const GenericList = ({ Cons, Nil, match }) => {
   // Misc
