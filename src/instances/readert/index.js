@@ -1,9 +1,10 @@
-import { Fn } from "../../..";
-import { implement } from "../../../../plumbing";
-import { Functor, Apply, Chain } from "../../../../classes";
+import { Fn } from "..";
+import { implement } from "../../plumbing";
+import { Functor, Apply, Chain } from "../../classes";
 
 const ReaderT = M => {
   // Monad
+  // :: x -> (r -> m x)
   const of = x => Fn.const(M.of(x));
   // :: (a -> r -> m b) -> (r -> m a) -> (r -> m b)
   const chain = f => x => r => x(r) |> M.chain(a => f(a)(r));

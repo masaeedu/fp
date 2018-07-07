@@ -1,8 +1,8 @@
 import test from "ava";
-import { Meta, Arr } from "../../..";
+import { ReaderT, Arr } from "../../..";
 
 test("ReaderT", t => {
-  const M = Meta.Transformers.ReaderT(Arr);
+  const M = ReaderT(Arr);
 
   const input = x => [x, x];
   const result = input |> M.map(x => x * 2);
