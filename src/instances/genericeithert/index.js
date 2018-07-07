@@ -8,7 +8,9 @@ import {
   Bifunctor
 } from "../../classes";
 
-export default ({ Left, Right, match }) => {
+export const GenericEitherT = E => M => {
+  const { Left, Right, match } = E;
+
   // Monad
   const of = Right;
   const chain = f => match({ Left, Right: f });
@@ -26,7 +28,7 @@ export default ({ Left, Right, match }) => {
     |> implement(Chain)
     |> implement(Apply)
     |> implement(Functor)
-    |> implement(Apply)  // lift2 depends on functor, so we have to do this twice. TODO: do dependency solving and get rid of this shit
+    |> implement(Apply)  // lift2 depends on functor, so we have to do this twice. TODO: do dependency solving and get rid of this
     |> implement(Traversable)
     |> implement(Foldable)
     |> implement(Bifunctor)
