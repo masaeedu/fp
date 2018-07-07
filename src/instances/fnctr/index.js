@@ -10,7 +10,8 @@ import { Functor, Foldable, Traversable } from "../../classes";
 export const Identity = {
   of: Fn.id,
   map: Fn.id,
-  lift2: Fn.id
+  lift2: Fn.id,
+  chain: Fn.id
 };
 
 export const Const = {
