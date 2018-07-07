@@ -18,7 +18,6 @@
   },
   "ava": {
     "files": [
-      "dist/__tests__/**/*.js",
       "dist/**/*test.js"
     ],
     "require": [
