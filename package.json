@@ -14,7 +14,7 @@
   "scripts": {
     "build": "rm -rf ./dist && babel src -d dist --source-maps",
     "prepare": "yarn build",
-    "test": "nyc ava"
+    "test": "ava"
   },
   "ava": {
     "files": [
