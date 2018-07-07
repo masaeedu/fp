@@ -1,8 +1,9 @@
 import { adt, _ } from "../../adt";
-import GenericEither from "../generic/either";
+import { GenericEitherT } from "..";
+import { Identity } from "../fnctr";
 
 // ADT
 const ADT = adt({ Left: [_], Right: [_] });
-const generic = GenericEither(ADT);
+const generic = GenericEitherT(ADT)(Identity);
 
 export default { ...ADT, ...generic };
