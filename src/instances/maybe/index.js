@@ -6,10 +6,10 @@ import { Identity } from "../fnctr";
 const ADT = adt({ Nothing: [], Just: [_] });
 const { Just, Nothing, match } = ADT;
 const ADT_ = {
-  Left: Nothing,
+  Left: _ => Nothing,
   Right: Just,
-  match: ({ Left: Nothing, Right: Just }) => match({ Nothing, Just })
+  match: ({ Left, Right }) => match({ Nothing: Left(), Just: Right })
 };
 const generic = GenericEitherT(ADT_)(Identity);
 
-export default { ...ADT, ...generic };
+module.exports = { ...ADT, ...generic };
