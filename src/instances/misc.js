@@ -1,5 +1,5 @@
-export const MonoidalApplicative = M => A => {
-  const empty = A.pure(M.empty);
+export const Applicanoid = A => M => {
+  const empty = A.of(M.empty);
   const append = A.lift2(M.append);
 
   return { empty, append };

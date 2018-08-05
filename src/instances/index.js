@@ -23,3 +23,4 @@ import * as Str from "./str";
 export { Str };
 import * as Unit from "./unit";
 export { Unit };
+export * from "./misc";
