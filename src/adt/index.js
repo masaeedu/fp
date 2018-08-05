@@ -1,11 +1,10 @@
-import { match as natch } from "natch";
+import { match as natch, otherwise } from "natch";
 
 import { typeid, fail } from "../plumbing";
 
 import * as Obj from "../instances/obj";
 import * as Arr from "../instances/arr";
 import * as Fn from "../instances/fn";
-import { otherwise } from "natch";
 
 // Typed holes
 export const _ = Symbol("ADT arbitrary type");
