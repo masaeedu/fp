@@ -3,6 +3,12 @@ export const last = as => as[as.length - 1];
 export const lastN = n => as => as.slice(as.length - n);
 export const range = n => [...Array(n).keys()];
 
+// Algebra
+export const Nil = [];
+export const Cons = x => xs => [x, ...xs];
+export const match = ({ Nil, Cons }) => xs =>
+  xs.length === 0 ? Nil : Cons(xs[0])(xs.slice(1));
+
 // Identity
 export const is = x => Array.isArray(x);
 
