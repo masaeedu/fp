@@ -15,5 +15,6 @@ export const mdefs = (() => {
 
 // Class methods
 export const methods = ({ map }) => {
-  return {};
+  const mapConst = x => map(_ => x);
+  return { mapConst };
 };
