@@ -1,6 +1,5 @@
 export * from "./arr/augmented";
-import * as Cont from "./cont";
-export { Cont };
+export * from "./cont/augmented";
 export * from "./genericeithert";
 export * from "./either/augmented";
 export * from "./fn/augmented";

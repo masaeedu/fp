@@ -12,6 +12,14 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = ({ chain }) => {
-  return {};
+export const methods = M => {
+  const { chain } = M;
+  const _ = {};
+
+  // :: (a -> m b) -> m a -> m b
+  _[">>="] = chain;
+  // :: m a -> m b -> m b
+  _[">>"] = ma => mb => chain(_ => mb)(ma);
+
+  return _;
 };

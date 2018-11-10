@@ -16,10 +16,25 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = ({ map, of, ap, lift2 }) => {
-  const pa = Fn.flip(ap);
-  const pam = Fn.flip(map);
-  const apFirst = Fn.const;
+export const methods = F => {
+  const { ap, lift2 } = F;
+  const _ = {};
 
-  return { pa, pam, apFirst };
+  if (F.ap) {
+    // :: f (a -> b) -> f a -> f b
+    _["<*>"] = ap;
+
+    // :: f a -> f (a -> b) -> f b
+    _["pa"] = Fn.flip(ap);
+  }
+
+  if (F.lift2) {
+    // :: f a -> f b -> f a
+    _["<*"] = lift2(Fn.const);
+
+    // :: f a -> f b -> f b
+    _["*>"] = lift2(Fn.flip(Fn.const));
+  }
+
+  return _;
 };
