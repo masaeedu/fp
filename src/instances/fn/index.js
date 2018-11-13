@@ -8,7 +8,7 @@ export const compose = f => g => a => f(g(a));
 const _const = x => _ => x;
 export { _const as const };
 export const flip = f => x => y => f(y)(x);
-export const pipe = Arr.foldl(flip(compose))(id); // TODO: Consider manually inlining for performance
+export const pipe = fs => x => fs.reduce((p, f) => f(p), x);
 export const passthru = flip(pipe);
 export const uncurry = Arr.foldl(id);
 export const curryN = n => f => {
