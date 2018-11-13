@@ -18,6 +18,8 @@ export const methods = M => {
 
   // :: (a -> m b) -> m a -> m b
   _[">>="] = chain;
+  // :: m a -> (a -> m b) -> m b
+  _["=<<"] = Fn.flip(chain);
   // :: m a -> m b -> m b
   _[">>"] = ma => mb => chain(_ => mb)(ma);
 
