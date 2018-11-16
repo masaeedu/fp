@@ -17,9 +17,9 @@ export const methods = M => {
   const _ = {};
 
   // :: (a -> m b) -> m a -> m b
-  _[">>="] = chain;
+  _["=<<"] = chain;
   // :: m a -> (a -> m b) -> m b
-  _["=<<"] = Fn.flip(chain);
+  _[">>="] = Fn.flip(chain);
   // :: m a -> m b -> m b
   _[">>"] = ma => mb => chain(_ => mb)(ma);
 
