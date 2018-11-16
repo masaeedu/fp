@@ -4,5 +4,6 @@ import * as Apply from "./apply";
 import * as Chain from "./chain";
 import * as Traversable from "./traversable";
 import * as Bifunctor from "./bifunctor";
+import * as Num from "./num";
 
-export { Foldable, Functor, Apply, Chain, Traversable, Bifunctor };
+export { Foldable, Functor, Apply, Chain, Traversable, Bifunctor, Num };
