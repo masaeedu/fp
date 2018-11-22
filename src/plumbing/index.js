@@ -29,4 +29,14 @@ export const implement = ({ mdefs, methods }) => candidate => {
   return withMethods;
 };
 
+export const trace = id => {
+  const rec = i => f => input => {
+    console.log({ id, i, input });
+    const result = f(typeof input === "function" ? rec(i + 1)(input) : input);
+    console.log({ id, i, result });
+    return typeof result === "function" ? rec(i + 1)(result) : result;
+  };
+  return rec(0);
+};
+
 export const type = Types => x => Types.find(T => T.is(x));
