@@ -3,6 +3,7 @@ export const last = as => as[as.length - 1];
 export const lastN = n => as => as.slice(as.length - n);
 export const range = n => [...Array(n).keys()];
 export const filter = f => xs => xs.filter(f);
+export const replicate = n => v => range(n).map(_ => v);
 
 // Algebra
 export const Nil = [];
