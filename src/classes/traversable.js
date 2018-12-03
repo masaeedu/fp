@@ -14,5 +14,13 @@ export const mdefs = (() => {
 
 // Class methods
 export const methods = ({ sequence, traverse }) => {
-  return {};
+  const _ = {};
+
+  // :: Applicative f -> (a -> f b) -> t a -> f Unit
+  const traverse_ = A => f => t => traverse(A)(f)(t) |> A["<$"](undefined);
+
+  // :: Applicative f -> t (f a) -> f Unit
+  const sequence_ = A => t => sequence(A)(t) |> A["<$"](undefined);
+
+  return { traverse_, sequence_ };
 };
