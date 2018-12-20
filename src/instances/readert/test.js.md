@@ -1,4 +1,4 @@
-# Snapshot report for `dist/instances/meta/transformers/readert/test.js`
+# Snapshot report for `dist/instances/readert/test.js`
 
 The actual snapshot is saved in `test.js.snap`.
 

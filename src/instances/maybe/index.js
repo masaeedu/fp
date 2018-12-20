@@ -1,9 +1,9 @@
-import { adt, _ } from "../../adt";
+import { adt } from "@masaeedu/adt";
 import { GenericEitherT } from "..";
 import { Identity } from "../fnctr";
 
 // ADT
-const ADT = adt({ Nothing: [], Just: [_] });
+const ADT = adt({ Nothing: [], Just: ["a"] });
 const { Just, Nothing, match } = ADT;
 const ADT_ = {
   Left: _ => Nothing,

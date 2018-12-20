@@ -3,11 +3,6 @@ import { Either, Arr } from "..";
 
 const { Left, Right, is, map, of, chain } = Either;
 
-test("identity", t => {
-  t.true(is(Left("foo")));
-  t.false(is({}));
-});
-
 test("functor", t => {
   t.snapshot(Left(10) |> map(x => x + 1));
   t.snapshot(Right(10) |> map(x => x + 1));
