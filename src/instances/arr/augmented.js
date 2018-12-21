@@ -1,12 +1,21 @@
-import { implement } from "../../plumbing";
-import { Functor, Foldable, Apply, Chain, Traversable } from "../../classes";
+const { _ } = require("@masaeedu/infix");
 
-import * as _Arr from ".";
+const { implement } = require("../../plumbing");
+const {
+  Functor,
+  Foldable,
+  Apply,
+  Chain,
+  Traversable
+} = require("../../classes");
 
-export const Arr =
-  _Arr
-  |> implement(Functor)
-  |> implement(Apply)
-  |> implement(Chain)
-  |> implement(Foldable)
-  |> implement(Traversable);
+const Arr_ = require(".");
+
+const Arr = _({ implement })(Arr_)
+  .implement(Functor)
+  .implement(Apply)
+  .implement(Chain)
+  .implement(Foldable)
+  .implement(Traversable)._;
+
+module.exports = { Arr };

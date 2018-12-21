@@ -37,6 +37,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.52",
     "@masaeedu/adt": "^1.0.3",
+    "@masaeedu/infix": "^1.2.0",
     "natch": "^1.1.1"
   }
 }

@@ -804,6 +804,10 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@masaeedu/adt/-/adt-1.0.3.tgz#4551f0ea90f72bb0f98b56c8bf647e62cb10cde4"
 
+"@masaeedu/infix@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@masaeedu/infix/-/infix-1.2.0.tgz#3ca1265db27da4a8e02785035430b6dead16ec3a"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
