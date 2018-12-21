@@ -1,6 +1,6 @@
 import test from "ava";
-import * as Cont from ".";
 import { Fn, Arr } from "..";
+import { Cont } from "./augmented";
 
 test("functor", t => {
   const cont = Cont.of(41) |> Cont.map(x => x + 1);

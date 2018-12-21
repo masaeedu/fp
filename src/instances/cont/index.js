@@ -1,17 +1,21 @@
-import * as Fn from "../fn";
+const Fn = require("../fn");
 
-// Misc
-export const run = cont => cont(Fn.id);
+const Cont = (() => {
+  // Misc
+  const run = cont => cont(Fn.id);
+  const delay = d => v => cb => setTimeout(() => cb(v), d);
 
-// Functor
-//        :: (a -> b) -> ((a -> r) -> r) -> ((b -> r) -> r)
-export const map = f => contA => fb => contA(a => fb(f(a)));
+  // Monad
+  const of = x => cb => cb(x);
+  const chain = f => ma => cb => ma(a => f(a)(cb));
 
-// Monad
-//        :: x -> ((x -> r) -> r)
-export const of = x => cont => cont(x);
+  // prettier-ignore
+  return {
+    // Misc
+    run, delay,
+    // Monad
+    of, chain
+  };
+})();
 
-//        :: (a -> ((b -> r) -> r))
-//           -> ((a -> r) -> r)
-//           -> ((b -> r) -> r)
-export const chain = f => contA => fb => contA(a => f(a)(fb));
+module.exports = Cont;
