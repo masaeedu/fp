@@ -1,30 +1,42 @@
-import test from "ava";
-import { Arr, Either } from "..";
+const { _ } = require("@masaeedu/infix");
+const test = require("ava");
+
+const { Fn, Arr, Either } = require("..");
+
+const snap = t => x => t.snapshot(x);
 
 test("identity", t => {
   t.true(Arr.is([]));
 });
 
 test("functor", t => {
-  t.snapshot([1, 2, 3] |> Arr.map(x => x + 1));
+  _(Fn)([1, 2, 3])
+    ["|>"](Arr.map(x => x + 1))
+    ["|>"](snap(t))._;
 });
 
 test("applicative", t => {
-  t.snapshot(Arr.of(42));
-  t.snapshot(Arr.lift2(x => y => x * y)([1, 2, 3])([1, 2, 3]));
+  snap(t)(Arr.of(42));
+  _(Fn)([[1, 2, 3], [1, 2, 3]])
+    ["|>"](Fn.uncurry(Arr.lift2(x => y => x * y)))
+    ["|>"](snap(t))._;
 });
 
 test("monoid", t => {
-  t.snapshot(Arr.empty);
-  t.snapshot(Arr.append([1, 2])([3, 4]));
+  snap(t)(Arr.empty);
+  snap(t)(Arr.append([1, 2])([3, 4]));
 });
 
 test("monad", t => {
-  t.snapshot(["hup", "hup"] |> Arr.chain(x => [x, "two"]));
+  _(Fn)(["hup", "hup"])
+    ["|>"](Arr.chain(x => [x, "two"]))
+    ["|>"](snap(t))._;
 });
 
 test("foldable", t => {
-  t.snapshot([1, 2, 3, 4] |> Arr.foldl(x => y => x + y)(0));
+  _(Fn)([1, 2, 3, 4])
+    ["|>"](Arr.foldl(x => y => x + y)(0))
+    ["|>"](snap(t))._;
 });
 
 test("traversable", t => {
@@ -34,6 +46,6 @@ test("traversable", t => {
   ];
 
   for (const i of inputs) {
-    t.snapshot(i |> Arr.sequence(Either));
+    t.snapshot(Arr.sequence(Either)(i));
   }
 });
