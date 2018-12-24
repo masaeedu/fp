@@ -21,7 +21,8 @@ const Fn = (() => {
     return loop(n)([]);
   };
   const feed = x => f => f(x);
-  _["$"] = _["|>"] = id;
+  _["$"] = feed;
+  _["|>"] = id;
 
   // Functor
   const map = compose;
