@@ -1,9 +1,10 @@
-import { adt } from "@masaeedu/adt";
-import { GenericEitherT } from "..";
-import { Identity } from "../fnctr";
+const { adt } = require("@masaeedu/adt");
+
+const { GenericEitherT } = require("..");
+const { Identity } = require("../fnctr");
 
 // ADT
 const ADT = adt({ Left: ["a"], Right: ["b"] });
 const generic = GenericEitherT(ADT)(Identity);
 
-export default { ...ADT, ...generic };
+module.exports = { ...ADT, ...generic };

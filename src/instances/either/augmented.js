@@ -1,3 +1,3 @@
-import _Either from ".";
+const Either = require(".");
 
-export const Either = _Either;
+module.exports = { Either };
