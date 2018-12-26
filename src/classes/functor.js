@@ -1,8 +1,8 @@
-import * as Fn from "../instances/fn";
-import { Identity } from "../instances/fnctr";
+const Fn = require("../instances/fn");
+const { Identity } = require("../instances/fnctr");
 
 // Equivalent minimal definitions
-export const mdefs = (() => {
+const mdefs = (() => {
   const mapFromOfAndChain = ({ of, chain }) => f => chain(v => f(v) |> of);
   const mapFromOfAndAp = ({ of, ap }) => f => ap(of(f));
   const mapFromTraverse = ({ traverse }) => traverse(Identity);
@@ -15,7 +15,7 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = F => {
+const methods = F => {
   const _ = {};
 
   // :: (a -> b) -> f a -> f b
@@ -30,3 +30,5 @@ export const methods = F => {
 
   return _;
 };
+
+module.exports = { mdefs, methods };

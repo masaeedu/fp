@@ -1,6 +1,6 @@
-import * as IntSum from "../instances/int/sum";
-import * as Fn from "../instances/fn/";
-import * as Fnctr from "../instances/fnctr";
+const IntSum = require("../instances/int/sum");
+const Fn = require("../instances/fn/");
+const Fnctr = require("../instances/fnctr");
 
 // Monoid instance for functions of the type a -> a
 const Endo = (() => {
@@ -14,7 +14,7 @@ const Endo = (() => {
 const dual = ({ empty, append }) => ({ empty, append: Fn.flip(append) });
 
 // Equivalent minimal definitions
-export const mdefs = (() => {
+const mdefs = (() => {
   // Default foldMap:
   // - `foldMap(f) ≡ foldl(b => append(b) <: f)(empty)`
   const foldMap = ({ foldl }) => ({ empty, append }) => f =>
@@ -45,9 +45,11 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = ({ foldl, foldMap }) => {
+const methods = ({ foldl, foldMap }) => {
   const length = foldMap(IntSum)(Fn.const(1));
   const fold = M => foldMap(M)(Fn.id);
 
   return { length, fold };
 };
+
+module.exports = { mdefs, methods };

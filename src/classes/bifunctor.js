@@ -1,7 +1,7 @@
-import * as Fn from "../instances/fn";
+const Fn = require("../instances/fn");
 
 // Equivalent minimal definitions
-export const mdefs = (() => {
+const mdefs = (() => {
   const lmap = ({ bimap }) => f => bimap(f)(Fn.id);
   const rmap = ({ bimap }) => f => bimap(Fn.id)(f);
   const bimap = ({ lmap, rmap }) => l => r => x => x |> lmap(l) |> rmap(r);
@@ -13,6 +13,8 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = ({ lmap, rmap, bimap }) => {
+const methods = ({ lmap, rmap, bimap }) => {
   return {};
 };
+
+module.exports = { mdefs, methods };

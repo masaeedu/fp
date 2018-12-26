@@ -1,10 +1,12 @@
-import * as Fn from "../instances/fn";
+const Fn = require("../instances/fn");
 
 // Equivalent minimal definitions
-export const mdefs = (() => {
+const mdefs = (() => {
   const apFromLift2 = ({ lift2 }) => lift2(Fn.id);
+
   const lift2FromMapAndAp = ({ map, ap }) => f => x1 => x2 =>
     ap(map(f)(x1))(x2);
+
   const apFromOfAndChain = ({ of, chain }) => af => av =>
     af |> chain(f => av |> chain(v => f(v) |> of));
 
@@ -16,7 +18,7 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = F => {
+const methods = F => {
   const { ap, lift2 } = F;
   const _ = {};
 
@@ -38,3 +40,5 @@ export const methods = F => {
 
   return _;
 };
+
+module.exports = { mdefs, methods };

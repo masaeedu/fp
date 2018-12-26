@@ -1,7 +1,7 @@
-import * as Fn from "../instances/fn";
+const Fn = require("../instances/fn");
 
 // Equivalent minimal definitions
-export const mdefs = (() => {
+const mdefs = (() => {
   const traverse = ({ sequence, map }) => A => f => x =>
     x |> map(f) |> sequence(A);
   const sequence = ({ traverse }) => A => traverse(A)(Fn.id);
@@ -13,7 +13,7 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = ({ sequence, traverse }) => {
+const methods = ({ sequence, traverse }) => {
   const _ = {};
 
   // :: Applicative f -> (a -> f b) -> t a -> f Unit
@@ -24,3 +24,5 @@ export const methods = ({ sequence, traverse }) => {
 
   return { traverse_, sequence_ };
 };
+
+module.exports = { mdefs, methods };

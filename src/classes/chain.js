@@ -1,7 +1,7 @@
-import * as Fn from "../instances/fn";
+const Fn = require("../instances/fn");
 
 // Equivalent minimal definitions
-export const mdefs = (() => {
+const mdefs = (() => {
   const chain = ({ map, join }) => f => x => map(f)(x) |> join;
   const join = ({ chain }) => chain(Fn.id);
 
@@ -12,7 +12,7 @@ export const mdefs = (() => {
 })();
 
 // Class methods
-export const methods = M => {
+const methods = M => {
   const { chain } = M;
   const _ = {};
 
@@ -25,3 +25,5 @@ export const methods = M => {
 
   return _;
 };
+
+module.exports = { mdefs, methods };

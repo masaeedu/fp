@@ -1,10 +1,10 @@
-import * as Fn from "../instances/fn";
+const Fn = require("../instances/fn");
 
 // Equivalent minimal definitions
-export const mdefs = [];
+const mdefs = [];
 
 // Class methods
-export const methods = N => {
+const methods = N => {
   const _ = {};
 
   _["+"] = N.add;
@@ -14,3 +14,5 @@ export const methods = N => {
 
   return _;
 };
+
+module.exports = { mdefs, methods };
