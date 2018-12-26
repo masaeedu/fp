@@ -1,7 +1,14 @@
-import { implement } from "../../plumbing";
-import { Functor, Apply, Chain } from "../../classes";
+const { _ } = require("@masaeedu/infix");
 
-import * as _Fn from ".";
+const { implement } = require("../../plumbing");
+const { Functor, Apply, Chain } = require("../../classes");
 
-export const Fn =
-  _Fn |> implement(Functor) |> implement(Apply) |> implement(Chain);
+const Fn = require(".");
+const Arr = require("../arr");
+
+const classes = [Functor, Apply, Chain];
+const derive = _(Fn)(classes)
+  ["|>"](Arr.map(implement))
+  ["|>"](Fn.pipe)._;
+
+module.exports = { Fn: derive(Fn) };
