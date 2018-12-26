@@ -1,5 +1,5 @@
-import test from "ava";
-import { Fnctr, Fn, Arr, Obj, Prm, IntProduct } from "..";
+const test = require("ava");
+const { Fnctr, Fn, Arr, Obj, Prm, IntProduct } = require("..");
 
 const input = {
   foo: [{ bar: [10] }, [42]]

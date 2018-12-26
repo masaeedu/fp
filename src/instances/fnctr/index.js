@@ -1,30 +1,30 @@
-import { match, otherwise } from "natch";
+const { match, otherwise } = require("natch");
 
-import * as Fn from "../fn";
-import * as Obj from "../obj";
-import * as Arr from "../arr";
-import { type, implement } from "../../plumbing";
-import { Functor, Foldable, Traversable } from "../../classes";
+const Fn = require("../fn");
+const Obj = require("../obj");
+const Arr = require("../arr");
+
+const { type } = require("../../plumbing");
 
 // Misc
-export const Identity = {
+const Identity = {
   of: Fn.id,
   map: Fn.id,
   lift2: Fn.id,
   chain: Fn.id
 };
 
-export const Const = {
+const Const = {
   map: Fn.const(Fn.id)
 };
 
-export const MonoidConst = M => ({
+const MonoidConst = M => ({
   map: Const.map,
   of: Fn.const(M.empty),
   lift2: Fn.const(M.append)
 });
 
-export const Recurse = Ts => {
+const Recurse = Ts => {
   const isCases = [...Arr.map(T => [T, true])(Ts), [otherwise, false]];
   const is = match(type(Ts), ...isCases);
 
@@ -49,14 +49,18 @@ export const Recurse = Ts => {
     return match(type(Ts), ...cases);
   };
 
-  return (
-    { is, map, foldMap, traverse }
-    |> implement(Functor)
-    |> implement(Foldable)
-    |> implement(Traversable)
-  );
+  return { is, map, foldMap, traverse };
 };
 
 // Category
-export const id = Identity;
-export const compose = Obj.zipWith(Fn.compose);
+const id = Identity;
+const compose = Obj.zipWith(Fn.compose);
+
+module.exports = {
+  Identity,
+  Const,
+  MonoidConst,
+  Recurse,
+  id,
+  compose
+};
