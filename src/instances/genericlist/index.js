@@ -28,15 +28,7 @@ const GenericList = ({ Cons, Nil, match }) => {
       Cons: head => tail => A.lift2(Cons)(head)(sequence(A)(tail))
     });
 
-  return (
-    { length, empty, append, of, chain, sequence }
-    |> implement(Chain)
-    |> implement(Apply)
-    |> implement(Functor)
-    |> implement(Apply)
-    |> implement(Traversable)
-    |> implement(Foldable)
-  );
+  return { length, empty, append, of, chain, sequence };
 };
 
 module.exports = GenericList;
