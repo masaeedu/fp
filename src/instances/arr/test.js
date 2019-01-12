@@ -46,6 +46,6 @@ test("traversable", t => {
   ];
 
   for (const i of inputs) {
-    t.snapshot(Arr.sequence(Either)(i));
+    snap(t)(Arr.sequence(Either)(i));
   }
 });

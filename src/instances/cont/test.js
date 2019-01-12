@@ -40,5 +40,5 @@ test("representing other monads", t => {
     () => Cont.of(a + b)
   ]);
 
-  t.snapshot(run(Arr)(result));
+  snap(t)(run(Arr)(result));
 });
