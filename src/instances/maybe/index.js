@@ -1,6 +1,6 @@
-import { adt } from "@masaeedu/adt";
-import { GenericEitherT } from "..";
-import { Identity } from "../fnctr";
+const { adt } = require("@masaeedu/adt");
+const { GenericEitherT } = require("..");
+const { Identity } = require("../fnctr");
 
 // ADT
 const ADT = adt({ Nothing: [], Just: ["a"] });

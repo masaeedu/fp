@@ -1,33 +1,58 @@
-import test from "ava";
-import { Maybe, Arr } from "..";
+const { _ } = require("@masaeedu/infix");
+const test = require("ava");
+
+const { Maybe, Arr, Fn } = require("..");
 
 const { Nothing, Just, match, map, of, chain } = Maybe;
 
+const snap = t => x => t.snapshot(x);
+
 test("smoke", t => {
-  t.snapshot(Just("foo"));
-  t.snapshot(Nothing);
+  snap(t)(Just("foo"));
+  snap(t)(Nothing);
 });
 
 test("functor", t => {
-  t.snapshot(Nothing |> map(x => x + 1));
-  t.snapshot(Just(10) |> map(x => x + 1));
+  _(Fn)(Nothing)
+    ["|>"](map(x => x + 1))
+    ["|>"](snap(t))._;
+
+  _(Fn)(Just(10))
+    ["|>"](map(x => x + 1))
+    ["|>"](snap(t))._;
 });
 
 test("monad", t => {
-  t.snapshot(Nothing |> chain(_ => Nothing));
-  t.snapshot(Nothing |> chain(_ => Just("y")));
-  t.snapshot(Just("x") |> chain(_ => Nothing));
-  t.snapshot(Just("x") |> chain(_ => Just("y")));
+  // prettier-ignore
+  const inputs = [
+    [Nothing, Just("x")],
+    [Nothing, Just("y")]
+  ];
+  const outputs = Fn.uncurry(Arr.lift2(Maybe[">>"]))(inputs);
+
+  for (const o of outputs) {
+    snap(t)(o);
+  }
 });
 
 test("traversable", t => {
-  t.snapshot(Just([1, 2, 3]) |> Maybe.sequence(Arr));
-  t.snapshot(Nothing |> Maybe.sequence(Arr));
+  _(Fn)(Just([1, 2, 3]))
+    ["|>"](Maybe.sequence(Arr))
+    ["|>"](snap(t))._;
+
+  _(Fn)(Nothing)
+    ["|>"](Maybe.sequence(Arr))
+    ["|>"](snap(t))._;
 });
 
 test("bifunctor", t => {
-  t.snapshot(Just(41) |> Maybe.lmap(x => x + 1));
-  t.snapshot(Just(41) |> Maybe.rmap(x => x + 1));
-  t.snapshot(Nothing |> Maybe.lmap(x => x + 1));
-  t.snapshot(Nothing |> Maybe.lmap(x => x + 1));
+  const inputs = [
+    [Just(41), Nothing],
+    [Maybe.lmap(x => x + 1), Maybe.rmap(x => x + 1)]
+  ];
+  const outputs = Fn.uncurry(Arr.lift2(Fn["$"]))(inputs);
+
+  for (const o of outputs) {
+    snap(t)(o);
+  }
 });
