@@ -1,5 +1,11 @@
-import { implement } from "../../plumbing";
-import { Chain, Apply, Functor, Traversable, Foldable } from "../../classes";
+const { implement } = require("../../plumbing");
+const {
+  Chain,
+  Apply,
+  Functor,
+  Traversable,
+  Foldable
+} = require("../../classes");
 
 const GenericList = ({ Cons, Nil, match }) => {
   // Misc
@@ -33,4 +39,4 @@ const GenericList = ({ Cons, Nil, match }) => {
   );
 };
 
-export default GenericList;
+module.exports = GenericList;
