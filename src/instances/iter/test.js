@@ -1,6 +1,9 @@
-import test from "ava";
+const { _ } = require("@masaeedu/infix");
+const test = require("ava");
 
-import { Iter, Either } from "../";
+const { Fn, Iter, Either } = require("../");
+
+const snap = t => x => t.snapshot(x);
 
 test("identity", t => {
   t.true(Iter.is([]));
@@ -9,36 +12,61 @@ test("identity", t => {
 });
 
 test("functor", t => {
-  t.snapshot([1, 2, 3] |> Iter.map(x => x + 1) |> Iter.toArr);
+  _(Fn)([1, 2, 3])
+    ["|>"](Iter.map(x => x + 1))
+    ["|>"](Iter.toArr)
+    ["|>"](snap(t))._;
 });
 
 test("applicative", t => {
-  t.snapshot(Iter.of(42) |> Iter.toArr);
-  t.snapshot(Iter.lift2(x => y => x * y)([1, 2, 3])([1, 2, 3]) |> Iter.toArr);
+  _(Fn)(Iter.of(42))
+    ["|>"](Iter.toArr)
+    ["|>"](snap(t))._;
+
+  _(Fn)([1, 2, 3])
+    ["|>"](Fn.join(Iter.lift2(x => y => x * y)))
+    ["|>"](Iter.toArr)
+    ["|>"](snap(t))._;
 });
 
 test("monad", t => {
-  t.snapshot(["hup", "hup"] |> Iter.chain(x => [x, "two"]) |> Iter.toArr);
+  _(Fn)(["hup", "hup"])
+    ["|>"](Iter.chain(x => [x, "two"]))
+    ["|>"](Iter.toArr)
+    ["|>"](snap(t))._;
 });
 
 test("monoid", t => {
-  t.snapshot(Iter.empty |> Iter.toArr);
-  t.snapshot(Iter.append([1, 2])([3, 4]) |> Iter.toArr);
+  _(Fn)(Iter.empty)
+    ["|>"](Iter.toArr)
+    ["|>"](snap(t))._;
+
+  _(Fn)(Iter.append([1, 2])([3, 4]))
+    ["|>"](Iter.toArr)
+    ["|>"](snap(t))._;
 });
 
 test("foldable", t => {
-  t.snapshot([1, 2, 3, 4] |> Iter.foldl(x => y => x + y)(0));
+  _(Fn)([1, 2, 3, 4])
+    ["|>"](Iter.foldl(x => y => x + y)(0))
+    ["|>"](snap(t))._;
 });
 
 test("drop", t => {
   for (const n of [-1, 0, 3, 10, Infinity]) {
-    t.snapshot([1, 2, 3, 4] |> Iter.drop(n) |> Iter.toArr);
+    _(Fn)([1, 2, 3, 4])
+      ["|>"](Iter.drop(n))
+      ["|>"](Iter.toArr)
+      ["|>"](snap(t))._;
   }
 });
 
 test("take", t => {
   for (const n of [-1, 0, 3, 10, Infinity]) {
-    t.snapshot([1, 2, 3, 4] |> Iter.take(n) |> Iter.toArr);
+    _(Fn)([1, 2, 3, 4])
+      ["|>"](Iter.take(n))
+      ["|>"](Iter.toArr)
+      ["|>"](snap(t))._;
   }
 });
 
@@ -49,7 +77,7 @@ test("traversable", t => {
   ];
 
   for (const i of inputs) {
-    t.snapshot(i |> Iter.sequence(Either));
+    snap(t)(Iter.sequence(Either)(i));
   }
 });
 
@@ -62,6 +90,6 @@ test("transpose", t => {
   ];
 
   for (const i of inputs) {
-    t.snapshot(i |> Iter.transpose);
+    snap(t)(Iter.transpose(i));
   }
 });

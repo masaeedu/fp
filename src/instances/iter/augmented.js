@@ -1,13 +1,21 @@
-import { implement } from "../../plumbing";
-import { Functor, Apply, Chain, Foldable, Traversable } from "../../classes";
+const { _ } = require("@masaeedu/infix");
 
-import * as _Iter from ".";
+const { implement } = require("../../plumbing");
+const {
+  Functor,
+  Apply,
+  Chain,
+  Foldable,
+  Traversable
+} = require("../../classes");
 
-export const Iter =
-  _Iter
-  |> implement(Chain)
-  |> implement(Apply)
-  |> implement(Functor)
-  |> implement(Apply)
-  |> implement(Traversable)
-  |> implement(Foldable);
+const Fn = require("../fn");
+const Arr = require("../arr");
+const Iter = require(".");
+
+const classes = [Chain, Apply, Functor, Apply, Traversable, Foldable];
+const derive = _(Fn)(classes)
+  ["|>"](Arr.map(implement))
+  ["|>"](Fn.pipe)._;
+
+module.exports = { Iter: derive(Iter) };
