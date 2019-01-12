@@ -14,7 +14,7 @@ const GenericList = ({ Cons, Nil, match }) => {
   // Monoid
   const empty = Nil;
   const append = xs => ys =>
-    xs |> match({ Nil: ys, Cons: e => es => Cons(e)(append(es)(ys)) });
+    match({ Nil: ys, Cons: e => es => Cons(e)(append(es)(ys)) })(xs);
 
   // Monad
   const of = x => Cons(x)(Nil);
