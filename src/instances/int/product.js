@@ -1,5 +1,7 @@
-import { mul } from ".";
+const { mul } = require(".");
 
 // Monoid
-export const empty = 1;
-export const append = mul;
+const empty = 1;
+const append = mul;
+
+module.exports = { empty, append };

@@ -1,10 +1,18 @@
-import { implement } from "../../plumbing";
-import { Num } from "../../classes";
+const { _ } = require("@masaeedu/infix");
 
-import * as _Int from ".";
-import * as _IntProduct from "./product";
-import * as _IntSum from "./sum";
+const { implement } = require("../../plumbing");
+const { Num } = require("../../classes");
 
-export const Int = _Int |> implement(Num);
-export const IntProduct = _IntProduct;
-export const IntSum = _IntSum;
+const Fn = require("../fn");
+const Arr = require("../arr");
+
+const Int = require(".");
+const IntSum = require("./sum");
+const IntProduct = require("./product");
+
+const classes = [Num];
+const derive = _(Fn)(classes)
+  ["|>"](Arr.map(implement))
+  ["|>"](Fn.pipe)._;
+
+module.exports = { Int: derive(Int), IntSum, IntProduct };

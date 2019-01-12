@@ -1,10 +1,12 @@
 // Identity
-export const is = x => typeof x === "number" && Number.isInteger(x);
+const is = x => typeof x === "number" && Number.isInteger(x);
 
 // Arithmetic
-export const add = x => y => x + y;
-export const mul = x => y => x * y;
-export const div = x => y => x / y;
-export const sub = x => y => x - y;
-export const neg = x => -x;
-export const inv = x => 1 / x;
+const add = x => y => x + y;
+const mul = x => y => x * y;
+const div = x => y => x / y;
+const sub = x => y => x - y;
+const neg = x => -x;
+const inv = x => 1 / x;
+
+module.exports = { is, add, mul, div, sub, neg, inv };
