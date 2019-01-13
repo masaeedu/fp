@@ -1,11 +1,15 @@
-import { implement } from "../../plumbing";
-import { Functor, Apply, Foldable, Traversable } from "../../classes";
+const { _ } = require("@masaeedu/infix");
 
-import * as _Obj from ".";
+const { implement } = require("../../plumbing");
+const { Functor, Apply, Foldable, Traversable } = require("../../classes");
 
-export const Obj =
-  _Obj
-  |> implement(Functor)
-  |> implement(Apply)
-  |> implement(Foldable)
-  |> implement(Traversable);
+const Fn = require("../fn");
+const Arr = require("../arr");
+const Obj = require(".");
+
+const classes = [Functor, Apply, Foldable, Traversable];
+const derive = _(Fn)(classes)
+  ["|>"](Arr.map(implement))
+  ["|>"](Fn.pipe)._;
+
+module.exports = { Obj: derive(Obj) };

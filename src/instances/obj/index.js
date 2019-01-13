@@ -1,47 +1,110 @@
-import * as Fn from "../fn";
-import * as Arr from "../arr";
-import { typeid } from "../../plumbing/typeid";
+const { _ } = require("@masaeedu/infix");
 
-// Misc
-export const keys = o => Object.keys(o);
-export const values = o => keys(o) |> Arr.map(k => o[k]);
-export const pairs = o => keys(o) |> Arr.map(k => [k, o[k]]);
-export const fromPairs = pairs =>
-  pairs |> Arr.map(([k, v]) => embed(k)(v)) |> Arr.foldl(append)(empty);
-export const embed = k => v => ({ [k]: v });
-export const hasKey = k => o => o.hasOwnProperty(k);
-export const get = k => o => o[k];
-export const over = k => f => v => ({ ...v, [k]: f(v[k]) });
-export const zipWith = f => o1 => o2 =>
-  keys(o1)
-  |> Arr.foldl(o => k => {
-    const isKeyShared = hasKey(k)(o2);
-    if (!isKeyShared) return o;
+const Fn = require("../fn");
+const Arr = require("../arr");
+const { typeid } = require("../../plumbing/typeid");
 
-    const v1 = o1[k];
-    const v2 = o2[k];
-    return f(v1)(v2) |> embed(k) |> append(o);
-  })(empty);
+const Obj = (() => {
+  // Constructors
+  const Empty = {};
+  const With = k => v => o => ({ [k]: v, ...o });
+  const match = ({ Empty, With }) => o => {
+    const f = Arr.match({
+      Nil: Empty,
+      Cons: k => _ => {
+        const { [k]: v, ...o_ } = o;
+        return With(k)(v)(o_);
+      }
+    });
+    return f(keys(o));
+  };
 
-// Identity
-export const is = x => typeid(x) === "Object";
+  // Misc
+  const keys = o => Object.keys(o);
 
-// Functor
-export const map = f => o =>
-  pairs(o) |> Arr.foldl(b => ([k, v]) => embed(k)(f(v)) |> append(b))(empty);
+  const values = o =>
+    _(Fn)(o)
+      ["|>"](keys)
+      ["|>"](Arr.map(k => o[k]))._;
 
-// Apply
-export const lift2 = zipWith;
+  const pairs = o =>
+    _(Fn)(o)
+      ["|>"](keys)
+      ["|>"](Arr.map(k => [k, o[k]]))._;
 
-// Monoid
-export const empty = {};
-export const append = o1 => o2 => ({ ...o1, ...o2 });
+  const fromPairs = pairs => Arr.foldMap(Obj)(Fn.uncurry(embed))(pairs);
 
-// Traversable
-export const sequence = A => o =>
-  pairs(o)
-  |> Arr.map(([k, v]) => v |> A.map(embed(k)))
-  |> (A.of(empty) |> Arr.foldl(A.lift2(append)));
+  const mapWithKey = f =>
+    Fn.pipe([pairs, Arr.map(([k, v]) => [k, f(k)(v)]), fromPairs]);
 
-// Foldable
-export const foldl = f => z => o => values(o) |> Arr.foldl(f)(z);
+  const embed = k => v => ({ [k]: v });
+
+  const hasKey = k => o => o.hasOwnProperty(k);
+
+  const get = k => o => o[k];
+
+  const over = k => f => v => ({ ...v, [k]: f(v[k]) });
+
+  const zipWith = f => o1 => o2 => {
+    const k1 = keys(o1);
+    const k2 = keys(o2);
+
+    const ks = Arr.intersect(k1)(k2);
+
+    return Arr.foldMap(Obj)(k => embed(k)(f(o1[k])(o2[k])))(ks);
+  };
+
+  // Identifiable
+  const is = x => typeid(x) === "Object";
+
+  // Functor
+  const map = f => mapWithKey(_ => f);
+
+  // Apply
+  const lift2 = zipWith;
+
+  // Monoid
+  const empty = {};
+  const append = o1 => o2 => ({ ...o1, ...o2 });
+
+  // Traversable
+  const sequence = A => {
+    const rec = match({
+      Empty: A.of(Empty),
+      With: k => v => o => A.lift2(With(k))(v)(rec(o))
+    });
+
+    return rec;
+  };
+
+  // Foldable
+  const foldl = f => z => Fn.pipe([values, Arr.foldl(f)(z)]);
+
+  return {
+    // Misc
+    keys,
+    values,
+    pairs,
+    fromPairs,
+    embed,
+    hasKey,
+    get,
+    over,
+    zipWith,
+    // Identifiable
+    is,
+    // Functor
+    map,
+    // Apply
+    lift2,
+    // Monoid
+    empty,
+    append,
+    // Traversable
+    sequence,
+    // Foldable
+    foldl
+  };
+})();
+
+module.exports = Obj;
