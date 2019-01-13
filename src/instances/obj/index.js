@@ -81,6 +81,10 @@ const Obj = (() => {
   const foldl = f => z => Fn.pipe([values, Arr.foldl(f)(z)]);
 
   return {
+    // Constructors
+    Empty,
+    With,
+    match,
     // Misc
     keys,
     values,
