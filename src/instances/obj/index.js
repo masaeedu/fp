@@ -7,7 +7,9 @@ const { typeid } = require("../../plumbing/typeid");
 const Obj = (() => {
   // Constructors
   const Empty = {};
+
   const With = k => v => o => ({ [k]: v, ...o });
+
   const match = ({ Empty, With }) => o => {
     const f = Arr.match({
       Nil: Empty,
