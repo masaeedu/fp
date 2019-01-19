@@ -1,6 +1,6 @@
-import test from "ava";
+const test = require("ava");
 
-import { Prm } from "..";
+const { Prm } = require("..");
 
 test("identity", t => {
   t.true(Prm.is(Promise.resolve("foo")));
