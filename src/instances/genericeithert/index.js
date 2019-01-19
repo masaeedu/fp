@@ -1,5 +1,5 @@
 // :: type GenericEitherT g e m a = m (g e a)
-// :: type EitherLike ge = {
+// :: type EitherLike g = {
 // ::   Left: e -> g e a,
 // ::   Right: a -> g e a,
 // ::   match: ({ Left: e -> x, Right: a -> x }) -> g e a -> x
