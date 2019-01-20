@@ -1,6 +1,4 @@
-import { Fn } from "..";
-import { implement } from "../../plumbing";
-import { Functor, Apply, Chain } from "../../classes";
+const Fn = require("../fn");
 
 // :: type ReaderT r m a = r -> m a
 
@@ -10,15 +8,9 @@ const ReaderT = M => {
   const of = x => Fn.const(M.of(x));
 
   // :: (a -> ReaderT r m b) -> ReaderT r m a -> ReaderT r m b
-  const chain = armb => rma => r => rma(r) |> M.chain(a => armb(a)(r));
+  const chain = armb => rma => r => M.chain(a => armb(a)(r))(rma(r));
 
-  return (
-    { of, chain }
-    |> implement(Chain)
-    |> implement(Apply)
-    |> implement(Functor)
-    |> implement(Apply)
-  );
+  return { of, chain };
 };
 
-export default ReaderT;
+module.exports = ReaderT;
