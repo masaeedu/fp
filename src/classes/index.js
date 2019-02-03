@@ -5,6 +5,7 @@ const Chain = require("./chain");
 const Traversable = require("./traversable");
 const Bifunctor = require("./bifunctor");
 const Num = require("./num");
+const Category = require("./category");
 
 module.exports = {
   Foldable,
@@ -13,5 +14,6 @@ module.exports = {
   Chain,
   Traversable,
   Bifunctor,
-  Num
+  Num,
+  Category
 };
