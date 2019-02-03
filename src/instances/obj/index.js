@@ -92,6 +92,7 @@ const Obj = (() => {
     values,
     pairs,
     fromPairs,
+    mapWithKey,
     embed,
     hasKey,
     get,
