@@ -1,12 +1,23 @@
 const State = (() => {
+  // :: type State s a = s -> [a, s]
+
   // Monad
+  // :: a -> State x a
   const of = a => x => [a, x];
-  const chain = f => s => x0 => {
-    const [v, x1] = s(x0);
-    return f(v)(x1);
+  // :: (a -> State b) -> State a -> State b
+  const chain = amb => ma => x0 => {
+    const [a, x1] = ma(x0);
+    return amb(a)(x1);
   };
 
-  return { of, chain };
+  // :: State s s
+  const get = s => [s, s];
+  // :: s -> State s ()
+  const put = s => _ => [undefined, s];
+  // :: (s -> s) -> State s ()
+  const modify = f => chain(s => put(f(s)))(get);
+
+  return { of, chain, get, put, modify };
 })();
 
 module.exports = State;
