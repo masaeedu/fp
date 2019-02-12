@@ -18,3 +18,5 @@ export { Str };
 import * as Unit from "./unit";
 export { Unit };
 export * from "./misc";
+import * as Lens from "./lens";
+export { Lens };
