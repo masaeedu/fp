@@ -39,6 +39,23 @@ const Obj = (() => {
   const mapWithKey = f =>
     Fn.pipe([pairs, Arr.map(([k, v]) => [k, f(k)(v)]), fromPairs]);
 
+  const traverseWithKey = A => f => {
+    const rec = match({
+      Empty: A.of(Empty),
+      With: k => v => o => A.lift2(With(k))(f(k)(v))(rec(o))
+    });
+
+    return rec;
+  };
+
+  const foldMapWithKey = M => f => {
+    const rec = match({
+      Empty: M.empty,
+      With: k => v => o => M.append(f(k)(v))(rec(o))
+    });
+    return rec;
+  };
+
   const embed = k => v => ({ [k]: v });
 
   const hasKey = k => o => o.hasOwnProperty(k);
@@ -93,6 +110,8 @@ const Obj = (() => {
     pairs,
     fromPairs,
     mapWithKey,
+    traverseWithKey,
+    foldMapWithKey,
     embed,
     hasKey,
     get,
