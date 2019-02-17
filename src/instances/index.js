@@ -12,7 +12,7 @@ export { Maybe };
 export * from "./obj/augmented";
 export * from "./prm/augmented";
 export * from "./readert/augmented";
-export * from "./state/augmented";
+export * from "./statet/augmented";
 import * as Str from "./str";
 export { Str };
 import * as Unit from "./unit";
