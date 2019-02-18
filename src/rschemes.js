@@ -14,7 +14,13 @@ const RSchemes = (() => {
     return rec;
   };
 
-  return { cata, ana };
+  // :: Functor f -> (Algebra f b) -> (Coalgebra f a) -> a -> b
+  const hylo = F => alg => coalg => {
+    const rec = x => alg(F.map(rec)(coalg(x)));
+    return rec;
+  };
+
+  return { cata, ana, hylo };
 })();
 
 module.exports = RSchemes;
