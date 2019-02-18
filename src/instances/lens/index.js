@@ -1,10 +1,10 @@
-// :: type Lens a b s t = { view: s -> a, update: s -> b -> t }
+// :: type Lens s t a b = { view: s -> a, update: s -> b -> t }
 const Lens = (() => {
-  // :: Lens a b s t -> s -> a
+  // :: Lens s t a b -> s -> a
   const view = l => l.view;
-  // :: Lens a b s t -> s -> b -> t
+  // :: Lens s t a b -> s -> b -> t
   const update = l => l.update;
-  // :: Lens a b s t -> (a -> b) -> s -> t
+  // :: Lens s t a b -> (a -> b) -> s -> t
   const modify = l => f => s => l.update(s)(f(l.view(s)));
 
   // :: k -> Lens v v' { [k]: v } { [k]: v' }
