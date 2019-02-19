@@ -29,10 +29,12 @@ const methods = C => {
   // :: type LPipe p xs = Foldl (Compose p) (p a a) xs
   // :: xs -> LPipe p xs
   _[":[...]>"] = Arr.foldl(_[":>"])(id);
+  _["pipe"] = _[":[...]>"];
 
   // :: type RPipe p xs = Foldl (Flip Compose p) (p a a) xs
   // :: xs -> RPipe p xs
   _["<[...]:"] = Arr.foldl(_["<:"])(id);
+  _["rpipe"] = _["<[...]:"];
 
   return _;
 };
