@@ -99,6 +99,9 @@ const Obj = (() => {
   // Foldable
   const foldl = f => z => Fn.pipe([values, Arr.foldl(f)(z)]);
 
+  // :: [k] -> Object k k
+  const mirror = Arr.foldMap({ empty, append })(k => embed(k)(k));
+
   return {
     // Constructors
     Empty,
@@ -129,7 +132,8 @@ const Obj = (() => {
     // Traversable
     sequence,
     // Foldable
-    foldl
+    foldl,
+    mirror
   };
 })();
 
