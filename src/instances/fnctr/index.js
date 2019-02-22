@@ -52,15 +52,27 @@ const Recurse = Ts => {
   return { is, map, foldMap, traverse };
 };
 
+// Monoid
+const empty = Identity;
+const append = F => G =>
+  Fn.passthru(["of", "map", "lift2"])([
+    Obj.mirror,
+    Obj.zipWith(Fn.const)(G),
+    Obj.zipWith(Fn.compose)(F)
+  ]);
+
 // Category
-const id = Identity;
-const compose = Obj.zipWith(Fn.compose);
+// TODO: Deprecate and remove
+const id = empty;
+const compose = append;
 
 module.exports = {
   Identity,
   Const,
   MonoidConst,
   Recurse,
+  empty,
+  append,
   id,
   compose
 };
