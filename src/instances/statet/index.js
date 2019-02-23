@@ -12,7 +12,7 @@ const StateT = M => {
   const lift = ma => s => M.map(a => [a, s])(ma);
 
   // MFunctor
-  // :: (m :~> n) -> StateT s m :~> StateT s n
+  // :: (m :~> n) -> (StateT s m :~> StateT s n)
   const mmap = n => sma => s => n(sma(s));
 
   // MonadState
