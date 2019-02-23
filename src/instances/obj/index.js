@@ -7,9 +7,7 @@ const { typeid } = require("../../plumbing/typeid");
 const Obj = (() => {
   // Constructors
   const Empty = {};
-
   const With = k => v => o => ({ [k]: v, ...o });
-
   const match = ({ Empty, With }) => o => {
     const f = Arr.match({
       Nil: Empty,
@@ -33,25 +31,11 @@ const Obj = (() => {
 
   const fromPairs = pairs => Arr.foldMap(Obj)(Fn.uncurry(embed))(pairs);
 
-  const mapWithKey = f =>
-    Fn.pipe([pairs, Arr.map(([k, v]) => [k, f(k)(v)]), fromPairs]);
-
-  const traverseWithKey = A => f => {
-    const rec = match({
-      Empty: A.of(Empty),
-      With: k => v => o => A.lift2(With(k))(f(k)(v))(rec(o))
-    });
-
-    return rec;
-  };
-
-  const foldMapWithKey = M => f => {
-    const rec = match({
-      Empty: M.empty,
-      With: k => v => o => M.append(f(k)(v))(rec(o))
-    });
-    return rec;
-  };
+  // :: Object k v -> Object k (k, v)
+  const withKey = match({
+    Empty,
+    With: k => v => o => With(k)([k, v])(withKey(o))
+  });
 
   const embed = k => v => ({ [k]: v });
 
@@ -74,7 +58,10 @@ const Obj = (() => {
   const is = x => typeid(x) === "Object";
 
   // Functor
-  const map = f => mapWithKey(_ => f);
+  const map = f => {
+    const rec = match({ Empty, With: k => v => o => With(k)(f(v))(rec(o)) });
+    return rec;
+  };
 
   // Apply
   const lift2 = zipWith;
@@ -96,6 +83,17 @@ const Obj = (() => {
   // Foldable
   const foldl = f => z => Fn.pipe([values, Arr.foldl(f)(z)]);
 
+  // :: (k -> a -> b) -> Object k a -> Object k b
+  const mapWithKey = f => Fn.pipe([withKey, map(Fn.uncurry(f))]);
+
+  // :: Applicative f -> (k -> a -> f b) -> Object k a -> f (Object k b)
+  const traverseWithKey = A => f =>
+    Fn.pipe([withKey, traverse(A)(Fn.uncurry(f))]);
+
+  // :: Monoid m -> (k -> a -> m) -> Object k a -> Object k m
+  const foldMapWithKey = M => f =>
+    Fn.pipe([withKey, foldMap(M)(Fn.uncurry(f))]);
+
   // :: [k] -> Object k k
   const mirror = Arr.foldMap({ empty, append })(k => embed(k)(k));
 
@@ -109,9 +107,6 @@ const Obj = (() => {
     values,
     pairs,
     fromPairs,
-    mapWithKey,
-    traverseWithKey,
-    foldMapWithKey,
     embed,
     hasKey,
     get,
@@ -130,7 +125,12 @@ const Obj = (() => {
     sequence,
     // Foldable
     foldl,
-    mirror
+    // Misc
+    mirror,
+    withKey,
+    mapWithKey,
+    traverseWithKey,
+    foldMapWithKey
   };
 })();
 
