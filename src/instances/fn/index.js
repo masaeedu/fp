@@ -17,7 +17,10 @@ const Fn = (() => {
 
   // Misc
   // :: x -> _ -> x
-  _["const"] = x => _ => x;
+  const first = x => _ => x;
+  const second = _ => x => x;
+  _["const"] = first;
+
   // :: (a -> b -> c) -> (b -> a -> c)
   const flip = f => x => y => f(y)(x);
 
@@ -80,7 +83,7 @@ const Fn = (() => {
     // Category
     id, compose,
     // Misc
-    flip, pipe, passthru, uncurry, curryN, feed,
+    first, second, flip, pipe, passthru, uncurry, curryN, feed,
     // Functor
     map,
     // Contravariant
