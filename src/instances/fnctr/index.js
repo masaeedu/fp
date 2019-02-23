@@ -7,6 +7,9 @@ const Arr = require("../arr");
 const { type } = require("../../plumbing");
 
 // Misc
+
+// :: type Identity a = a
+// :: Monad (Identity a)
 const Identity = {
   of: Fn.id,
   map: Fn.id,
@@ -14,10 +17,13 @@ const Identity = {
   chain: Fn.id
 };
 
+// :: type Const a b = a
+// :: Functor (Const a)
 const Const = {
   map: Fn.const(Fn.id)
 };
 
+// :: Monoid m -> Applicative (Const m)
 const MonoidConst = M => ({
   map: Const.map,
   of: Fn.const(M.empty),
