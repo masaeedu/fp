@@ -20,3 +20,4 @@ export { Unit };
 export * from "./misc";
 import * as Lens from "./lens";
 export { Lens };
+export * from "./kleisli/augmented";
