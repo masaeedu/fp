@@ -7,7 +7,7 @@ const Lens = (() => {
   // :: Lens s t a b -> (a -> b) -> s -> t
   const modify = l => f => s => l.update(s)(f(l.view(s)));
 
-  // :: k -> Lens v v' { [k]: v } { [k]: v' }
+  // :: k -> Lens { [k]: v } { [k]: v' } v v'
   const prop = k => {
     const view = ({ [k]: v }) => v;
     const update = s => v_ => ({ ...s, [k]: v_ });
