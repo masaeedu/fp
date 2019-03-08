@@ -7,6 +7,8 @@ const Arr = (() => {
   const replicate = n => v => range(n).map(_ => v);
   const includes = x => xs => xs.includes(x);
   const intersect = xs => filter(y => includes(y)(xs));
+  const zipWith = f => xs => ys =>
+    range(Math.min(xs.length, ys.length)).map(i => f(xs[i])(ys[i]));
 
   // Constructors
   const Nil = [];
@@ -39,7 +41,7 @@ const Arr = (() => {
   // prettier-ignore
   const _ = {
     // Misc
-    last, lastN, range, filter, replicate, includes, intersect,
+    last, lastN, range, filter, replicate, includes, intersect, zipWith,
     // Constructors
     Nil, Cons, match,
     // Identifiable
