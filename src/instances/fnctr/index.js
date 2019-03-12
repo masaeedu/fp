@@ -14,7 +14,8 @@ const Identity = {
   of: Fn.id,
   map: Fn.id,
   lift2: Fn.id,
-  chain: Fn.id
+  chain: Fn.id,
+  traverse: _ => Fn.id
 };
 
 // :: type Const a b = a
