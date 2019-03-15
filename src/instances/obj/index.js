@@ -71,10 +71,10 @@ const Obj = (() => {
   const append = o1 => o2 => ({ ...o1, ...o2 });
 
   // Traversable
-  const sequence = A => {
+  const traverse = A => f => {
     const rec = match({
       Empty: A.of(Empty),
-      With: k => v => o => A.lift2(With(k))(v)(rec(o))
+      With: k => v => o => A.lift2(With(k))(f(v))(rec(o))
     });
 
     return rec;
@@ -122,7 +122,7 @@ const Obj = (() => {
     empty,
     append,
     // Traversable
-    sequence,
+    traverse,
     // Foldable
     foldl,
     // Misc
