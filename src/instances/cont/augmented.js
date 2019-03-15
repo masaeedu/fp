@@ -12,4 +12,7 @@ const derive = _(Fn)(classes)
   ["|>"](Arr.map(implement))
   ["|>"](Fn.pipe)._;
 
-module.exports = { Cont: derive(Cont) };
+const Par_ = implement(Apply)(Cont.Par);
+const Cont_ = { ...derive(Cont), Par: Par_ };
+
+module.exports = { Cont: Cont_ };
