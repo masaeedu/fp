@@ -1,3 +1,5 @@
-const Either = require(".");
+const EitherT = require(".");
+const { Identity } = require("../fnctr");
 
-module.exports = { Either };
+const Either = EitherT(Identity);
+module.exports = { EitherT, Either };
