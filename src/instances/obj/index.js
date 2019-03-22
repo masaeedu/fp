@@ -27,7 +27,7 @@ const Obj = (() => {
       ["|>"](keys)
       ["|>"](Arr.map(k => o[k]))._;
 
-  const pairs = o => Fn.pipe([keys, Arr.map(k => [k, o[k]])]);
+  const pairs = o => Arr.map(k => [k, o[k]])(keys(o));
 
   const fromPairs = pairs => Arr.foldMap(Obj)(Fn.uncurry(embed))(pairs);
 
