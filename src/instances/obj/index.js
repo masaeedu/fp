@@ -81,7 +81,9 @@ const Obj = (() => {
   };
 
   // Foldable
+  const foldr = f => z => Fn.pipe([values, Arr.foldr(f)(z)]);
   const foldl = f => z => Fn.pipe([values, Arr.foldl(f)(z)]);
+  const foldMap = M => f => Fn.pipe([values, Arr.foldMap(M)(f)]);
 
   // :: (k -> a -> b) -> Object k a -> Object k b
   const mapWithKey = f => Fn.pipe([withKey, map(Fn.uncurry(f))]);
@@ -124,7 +126,9 @@ const Obj = (() => {
     // Traversable
     traverse,
     // Foldable
+    foldr,
     foldl,
+    foldMap,
     // Misc
     mirror,
     withKey,
