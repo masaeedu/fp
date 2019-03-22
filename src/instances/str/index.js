@@ -12,7 +12,11 @@ const Str = (() => {
   const empty = "";
   const append = a => b => a + b;
 
-  return { is, Nil, Cons, match, empty, append };
+  // Misc
+  const escapeRegex = string => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const replace = x => y => s => s.replace(new RegExp(escapeRegex(x), "g"), y);
+
+  return { is, Nil, Cons, match, empty, append, escapeRegex, replace };
 })();
 
 module.exports = Str;
