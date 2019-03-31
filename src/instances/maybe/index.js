@@ -12,4 +12,26 @@ const ADT_ = {
 };
 const generic = GenericEitherT(ADT_)(Identity);
 
-module.exports = { ...ADT, ...generic };
+const monoid = M => {
+  const empty = Just(M.empty);
+  const append = match({
+    Nothing: _ => Nothing,
+    Just: x =>
+      match({
+        Nothing,
+        Just: y => Just(M.append(x)(y))
+      })
+  });
+  return { empty, append };
+};
+
+// Alternative
+// :: Maybe a
+const zero = Nothing;
+// :: Maybe a -> Maybe a -> Maybe a
+const alt = match({
+  Nothing: my => my,
+  Just: x => _ => Just(x)
+});
+
+module.exports = { ...ADT, ...generic, monoid, zero, alt };
