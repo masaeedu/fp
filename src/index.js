@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+import "@babel/polyfill/noConflict";
 export * from "./instances";
 export * from "./rschemes";
 export * from "./classes";
