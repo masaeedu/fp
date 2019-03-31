@@ -48,8 +48,9 @@ const mdefs = (() => {
 const methods = ({ foldl, foldMap }) => {
   const length = foldMap(IntSum)(Fn.const(1));
   const fold = M => foldMap(M)(Fn.id);
+  const asum = A => fold({ empty: A.zero, append: A.alt });
 
-  return { length, fold };
+  return { length, fold, asum };
 };
 
 module.exports = { mdefs, methods };
