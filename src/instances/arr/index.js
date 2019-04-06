@@ -12,6 +12,16 @@ const Arr = (() => {
   const dedupe = xs => [...new Set(xs)];
   const mapWithKey = f => xs => xs.map((v, i) => f(i)(v));
 
+  const groupBy = f => xs => {
+    // :: [k]
+    const domain = Arr.map(f)(xs);
+
+    // :: k -> StrMap k [x]
+    const proj = k => ({ [k]: xs.filter(x => f(x) === k) });
+
+    return Arr.foldMap(Obj)(proj)(domain);
+  };
+
   // Constructors
   const Nil = [];
   const Cons = x => xs => [x, ...xs];
@@ -43,7 +53,7 @@ const Arr = (() => {
   // prettier-ignore
   const _ = {
     // Misc
-    last, lastN, range, filter, replicate, includes, intersect, zipWith, dedupe, mapWithKey,
+    last, lastN, range, filter, replicate, includes, intersect, zipWith, dedupe, mapWithKey, groupBy,
     // Constructors
     Nil, Cons, match,
     // Identifiable
