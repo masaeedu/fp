@@ -97,24 +97,39 @@ const Arr = (() => {
   // :: (a -> [b]) -> [a] -> [b]
   const chain = f => foldMap(Arr)(f);
 
-  // prettier-ignore
   const _ = {
     // Misc
-    last, lastN, range, filter, replicate, includes, intersect, zipWith, dedupe, mapWithKey, groupBy,
+    last,
+    lastN,
+    range,
+    filter,
+    replicate,
+    includes,
+    intersect,
+    zipWith,
+    dedupe,
+    mapWithKey,
+    groupBy,
     // Constructors
-    Nil, Cons, match,
+    Nil,
+    Cons,
+    match,
     // Identifiable
     is,
     // Monoid
-    empty, append,
+    empty,
+    append,
     // Foldable
-    foldr, foldl, foldMap,
+    foldr,
+    foldl,
+    foldMap,
     // Traversable
     sequence,
     // Functor
     map,
     // Monad
-    of, chain
+    of,
+    chain
   };
 
   return _;
