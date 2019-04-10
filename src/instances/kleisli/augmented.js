@@ -12,4 +12,4 @@ const derive = _(Fn)(classes)
   ["|>"](Arr.map(implement))
   ["|>"](Fn.pipe)._;
 
-module.exports = { Kleisli: derive(Kleisli) };
+module.exports = { Kleisli: M => derive(Kleisli(M)) };

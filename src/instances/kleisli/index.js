@@ -1,5 +1,3 @@
-const { implement, Category } = require(".");
-
 // :: type Kleisli m a b = a -> m b
 // :: Monad m -> Category (Kleisli m)
 const Kleisli = M => {
@@ -8,7 +6,7 @@ const Kleisli = M => {
   // :: Kleisli m b c -> Kleisli m a b -> Kleisli m a c
   const compose = kbc => kab => a => M.chain(kbc)(kab(a));
 
-  return implement(Category)({ id, compose });
+  return { id, compose };
 };
 
 module.exports = Kleisli;
