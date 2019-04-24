@@ -61,12 +61,16 @@ const Recurse = Ts => {
 
 // Monoid
 const empty = Identity;
-const append = F => G =>
-  Fn.passthru(["of", "map", "lift2"])([
-    Obj.mirror,
-    Obj.zipWith(Fn.const)(G),
-    Obj.zipWith(Fn.compose)(F)
-  ]);
+const append = F => G => {
+  const drv = {
+    of: Fn.compose,
+    map: Fn.compose,
+    lift2: Fn.compose,
+    traverse: t1 => t2 => A => Fn.compose(t1(A))(t2(A))
+  };
+
+  return Fn.passthru(drv)([Obj.zipWith(Fn["$"])(F), Obj.zipWith(Fn["$"])(G)]);
+};
 
 // Category
 // TODO: Deprecate and remove
