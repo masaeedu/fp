@@ -1,15 +1,21 @@
 const Fn = require("../fn");
 
+// :: type Cont p r a = p (p a r) r
+// :: type Cont! = Cont (-!->) ()
+
 const Cont = (() => {
   // Misc
   const run = cont => cont(Fn.id);
   const delay = d => v => cb => setTimeout(() => cb(v), d);
 
   // Monad
+  // :: a -> Cont! a
   const of = x => cb => cb(x);
+  // :: (a -> Cont! b) -> Cont! a -> Cont! b
   const chain = f => ma => cb => ma(a => f(a)(cb));
 
   // Parallel applicative
+  // :: Applicative (Cont!)
   const Par = (() => {
     const lift2 = f => c1 => c2 => cb => {
       let state = 0;
