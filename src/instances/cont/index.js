@@ -1,4 +1,5 @@
 const Fn = require("../fn");
+const { Arr } = require("..");
 
 // :: type Cont p r a = p (p a r) r
 // :: type Cont! = Cont (-!->) ()
@@ -7,6 +8,7 @@ const Cont = (() => {
   // Misc
   const run = cont => cont(Fn.id);
   const delay = d => v => cb => setTimeout(() => cb(v), d);
+  const immediately = v => cb => setImmediate(() => cb(v));
 
   // Monad
   // :: a -> Cont! a
@@ -27,14 +29,31 @@ const Cont = (() => {
     return { of, lift2 };
   })();
 
-  // prettier-ignore
+  // :: Cont! a
+  const never = cb => {};
+
+  // :: Cont! a -> Cont! a -> Cont! a
+  const race = c1 => c2 => cb => {
+    c1(cb);
+    c2(cb);
+  };
+
+  // :: [Cont! a] -> Cont! a
+  const parallelize = Arr.fold({ empty: never, append: race });
+
   return {
     // Misc
-    run, delay,
+    run,
+    delay,
     // Monad
-    of, chain,
+    of,
+    chain,
     // Parallel applicative
-    Par
+    Par,
+    // Monoid
+    never,
+    race,
+    parallelize
   };
 })();
 
