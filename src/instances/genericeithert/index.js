@@ -37,6 +37,18 @@ const GenericEitherT = E => M => {
       })
     );
 
+  // :: e -> GenericEitherT g e m a
+  const fail = e => M.of(Left(e));
+
+  // :: (e -> GenericEitherT g e' m a) -> GenericEitherT g e m a -> GenericEitherT g e' m a
+  const recover = f =>
+    M.chain(
+      match({
+        Left: f,
+        Right: a => M.of(Right(a))
+      })
+    );
+
   // MonadTrans
   // :: m :~> GenericEitherT g e m
   const lift = M.map(Right);
@@ -45,7 +57,7 @@ const GenericEitherT = E => M => {
   // :: (m :~> n) -> (GenericEitherT g e m :~> GenericEitherT g e n)
   const mmap = n => n;
 
-  return { of, chain, bimap, traverse, lift, mmap };
+  return { of, chain, bimap, traverse, fail, recover, lift, mmap };
 };
 
 module.exports = GenericEitherT;
