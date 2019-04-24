@@ -22,8 +22,12 @@ const StateT = M => {
   const put = s => _ => M.of([undefined, s]);
   // :: (s -> s) -> StateT s m ()
   const modify = f => chain(s => put(f(s)))(get);
+  // :: s -> StateT s m a -> m a
+  const evaluate = s => sma => M.map(([a, s]) => a)(sma(s));
+  // :: s -> StateT s m a -> m s
+  const execute = s => sma => M.map(([a, s]) => s)(sma(s));
 
-  return { of, chain, lift, mmap, get, put, modify };
+  return { of, chain, lift, mmap, get, put, modify, evaluate, execute };
 };
 
 module.exports = StateT;
