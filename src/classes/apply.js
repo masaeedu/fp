@@ -1,4 +1,5 @@
 const Fn = require("../instances/fn");
+const Arr = require("../instances/arr");
 
 // Equivalent minimal definitions
 const mdefs = (() => {
@@ -37,6 +38,9 @@ const methods = F => {
     // :: f a -> f b -> f b
     _["*>"] = lift2(Fn.flip(Fn.const));
   }
+
+  // :: Curried as r -> Map f as -> f r
+  _.liftN = f => xs => F.map(Fn.uncurry(f))(Arr.sequence(F)(xs));
 
   return _;
 };
