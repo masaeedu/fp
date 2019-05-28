@@ -27,8 +27,8 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
     "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
     "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-stage-0": "^7.0.0-beta.42",
     "ava": "^0.25.0",
     "nyc": "^11.7.1",
     "shx": "^0.3.2",
