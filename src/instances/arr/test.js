@@ -9,6 +9,30 @@ test("identity", t => {
   t.true(Arr.is([]));
 });
 
+test("scanl", t => {
+  _(Fn)([1, 2, 3])
+    ["|>"](Arr.scanl(a => b => a + b)(0))
+    ["|>"](snap(t))._;
+});
+
+test("scanl1", t => {
+  _(Fn)([1, 2, 3])
+    ["|>"](Arr.scanl1(a => b => a + b))
+    ["|>"](snap(t))._;
+});
+
+test("scanr", t => {
+  _(Fn)([1, 2, 3])
+    ["|>"](Arr.scanr(a => b => a + b)(0))
+    ["|>"](snap(t))._;
+});
+
+test("scanr1", t => {
+  _(Fn)([1, 2, 3])
+    ["|>"](Arr.scanr1(a => b => a + b))
+    ["|>"](snap(t))._;
+});
+
 test("functor", t => {
   _(Fn)([1, 2, 3])
     ["|>"](Arr.map(x => x + 1))
