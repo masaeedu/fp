@@ -93,3 +93,23 @@ test("transpose", t => {
     snap(t)(Iter.transpose(i));
   }
 });
+
+test("scanl", t => {
+  _(Fn)([1, 2, 3, 4])
+    ["|>"](Iter.scanl(x => y => x + y)(0))
+    ["|>"](snap(t))._;
+
+  _(Fn)([])
+    ["|>"](Iter.scanl(x => y => x + y)(0))
+    ["|>"](snap(t))._;
+});
+
+test("scanl1", t => {
+  _(Fn)([1, 2, 3, 4])
+    ["|>"](Iter.scanl1(x => y => x + y))
+    ["|>"](snap(t))._;
+
+  _(Fn)([])
+    ["|>"](Iter.scanl1(x => y => x + y))
+    ["|>"](snap(t))._;
+});

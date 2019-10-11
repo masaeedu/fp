@@ -115,9 +115,38 @@ const Iter = (() => {
   // Misc
   const transpose = sequence({ of: repeat, lift2: zipWith });
 
+  // :: (b -> a -> b) -> b -> Iter a -> Iter b
+  const scanl = f => z => it =>
+    fromGen(function*() {
+      let result = z;
+      yield result;
+      for (const x of it) {
+        result = f(result)(x);
+        yield result;
+      }
+    });
+
+  const scanl1 = f => it =>
+    fromGen(function*() {
+      let result;
+      let oneLoop = false;
+      for (const x of it) {
+        if (!oneLoop) {
+          result = x;
+          oneLoop = true;
+          yield x;
+        } else {
+          result = f(result)(x);
+          yield result;
+        }
+      }
+    });
+
   return {
     // Misc
     transpose,
+    scanl,
+    scanl1,
     // Idenity
     is,
     // Conversions

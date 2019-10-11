@@ -50,6 +50,41 @@ const Arr = (() => {
     return Arr.foldMap(Obj)(proj)(domain);
   };
 
+  // :: (b -> a -> b) -> b -> [a] -> [b]
+  const scanl = f => a => match({
+    Nil: [a],
+    Cons: x => xs => Cons(a)(scanl(f)(f(a)(x))(xs))
+  });
+
+  // :: (a -> a -> a) -> [a] -> [a]
+  const scanl1 = f => match({
+    Nil,
+    Cons: x => scanl(f)(x)
+  });
+
+  // :: (a -> b -> b) -> b -> [a] -> [b]
+  const scanr = f => a => match({
+    Nil: [a],
+    Cons: x => xs => {
+      const acc = scanr(f)(a)(xs);
+      return Cons(f(x)(acc[0]))(acc);
+    }
+  });
+
+  // :: (a -> a -> a) -> [a] -> [a]
+  const scanr1 = f => match({
+    Nil,
+    Cons: x => xs => {
+      if (xs.length === 0) {
+        return [x];
+      } else {
+        const acc = scanr1(f)(xs);
+        return Cons(f(x)(acc[0]))(acc);
+      }
+    }
+  });
+
+  
   // Constructors
   // :: [a]
   const Nil = [];
@@ -110,6 +145,10 @@ const Arr = (() => {
     dedupe,
     mapWithKey,
     groupBy,
+    scanl,
+    scanl1,
+    scanr,
+    scanr1,
     // Constructors
     Nil,
     Cons,
