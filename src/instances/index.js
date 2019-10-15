@@ -22,3 +22,4 @@ import * as Lens from "./lens";
 export { Lens };
 export * from "./kleisli/augmented";
 export * from "./vec/augmented";
+export * from "./identity/augmented";
