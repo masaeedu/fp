@@ -24,6 +24,9 @@ const methods = F => {
   // :: a -> f b -> f a
   _["<$"] = a => F.map(Fn.const(a));
 
+  // :: f b -> a -> f a
+  _["$>"] = fb => a => F.map(Fn.const(a))(fb);
+
   // :: f a -> (a -> b) -> f b
   _["pam"] = Fn.flip(F.map);
   _["<&>"] = _["pam"];
