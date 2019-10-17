@@ -2,6 +2,22 @@ require("@babel/register");
 const { IntSum, Identity, Arr } = require("../src");
 const { adt } = require("@masaeedu/adt");
 
+// type Sized a =
+//   { name  :: String
+//   , title :: Int -> String
+//   , fn    :: a -> ()
+//   }
+
+// type Unsized =
+//   { name  :: String
+//   , title :: String
+//   , fn    :: () -> ()
+//   }
+
+// type Bench a
+//   = Sized a
+//   | Unsized
+
 const BenchType = adt({ Sized: ["a"], Unsized: ["b"] });
 const { Sized, Unsized } = BenchType;
 
@@ -10,6 +26,9 @@ const benchName = BenchType.match({
   Unsized: ({ name }) => name
 });
 
+// Creates a Sized benchmark given a generator, a name,
+// and a function to benchmark that accepts the output of the generator.
+// :: (Int -> a) -> (String, a -> ()) -> Bench a
 const mkSized = gen => ([name, func]) =>
   Sized({
     name,
@@ -20,13 +39,20 @@ const mkSized = gen => ([name, func]) =>
     }
   });
 
+// Creates an Unsized generator that runs the supplied function
+// with no input.
+// :: (String, () -> ()) -> Bench a
 const mkUnsized = ([name, func]) =>
   Unsized({
     name,
     title: name,
-    fn: () => func
+    fn: func
   });
 
+// Convenience function to create a list of sized benchmarks
+// from the class method templates below.
+// e.g. mkSizedClasses(Arr)([functorFns, foldableFns])
+// :: Instance a -> (Int -> a) -> [Instance a -> [(String, a -> ())]]
 const mkSizedClasses = m => gen => cs =>
   Arr.map(mkSized(gen))(Arr.foldMap(Arr)(c => c(m))(cs));
 
