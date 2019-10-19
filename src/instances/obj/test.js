@@ -35,3 +35,11 @@ test("traversable", t => {
     ["|>"](Obj.sequence(Arr))
     ["|>"](snap(t))._;
 });
+
+test("appendWith", t => {
+  const a = { x: 1, y: 1, z: 1 };
+  const b = { x: 1, y: 1 };
+  const c = { l: 1, m: 1, n: 1 };
+  t.deepEqual({ x: 2, y: 2, z: 1 }, Obj.appendWith(a => b => a + b)(a)(b));
+  t.deepEqual(Obj.append(a)(c), Obj.appendWith()(a)(c));
+});
