@@ -34,4 +34,13 @@ const alt = match({
   Just: x => _ => Just(x)
 });
 
-module.exports = { ...ADT, ...generic, monoid, zero, alt };
+// Misc
+
+// :: a -> Maybe a -> a
+const fromMaybe = a =>
+  match({
+    Just: x => x,
+    Nothing: a
+  });
+
+module.exports = { ...ADT, ...generic, monoid, zero, alt, fromMaybe };
