@@ -1,5 +1,5 @@
 require("@babel/register");
-const { Arr, IntSum, Identity } = require("../../src");
+const { Arr } = require("../../src");
 const util = require("../util");
 
 const makeArray = s => Array(s).fill(1);

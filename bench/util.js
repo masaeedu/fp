@@ -1,6 +1,16 @@
 require("@babel/register");
-const { IntSum, Identity, Arr } = require("../src");
+const {
+  IntSum,
+  Fnctr: { Identity },
+  Arr
+} = require("../src");
 const { adt } = require("@masaeedu/adt");
+const { promisify } = require("util");
+const exec = promisify(require("child_process").exec);
+const fs = require("fs");
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
+const Benchmark = require("benchmark");
 
 // type Sized a =
 //   { name  :: String
@@ -88,6 +98,105 @@ const monadFns = f => [["join", fa => f.join(f.of(fa))]];
 
 const semigroupFns = f => [["append", a => f.append(a)(a)]];
 
+// Running Suites
+
+// :: Suite -> BenchmarkJSSuite
+const mkBenchmarkSuite = ({ name, benchmarks, defaultSizes }) => {
+  const suite = new Benchmark.Suite(name);
+  benchmarks.forEach(addBench(suite)(name)(defaultSizes));
+  suite.on("cycle", ev => console.log(String(ev.target)));
+  return suite;
+};
+
+const findSuiteOrDie = suites => name =>
+  expect(suites.find(s => s.name === name))(suiteNotFound(name)(suites));
+
+const findBenchmarkOrDie = suite => name =>
+  expect(suite.benchmarks.find(b => benchName(b) === name))(
+    benchmarkNotFound(name)(suite)
+  );
+
+const saveResults = async (savePath, suites) => {
+  const commit = await exec("git rev-parse HEAD").then(x => x.stdout.trim());
+  const branch = await exec("git symbolic-ref --short HEAD").then(x =>
+    x.stdout.trim()
+  );
+  const version = await readFile("package.json").then(
+    f => JSON.parse(f).version
+  );
+  const out = JSON.stringify({
+    utctime: Date.now(),
+    version,
+    commit,
+    branch,
+    suites
+  });
+  await writeFile(savePath, out);
+};
+
+// Benchmark.js config for individual benchmarks
+// TODO: Allow config via CLI
+const benchOpts = {
+  maxTime: 1
+};
+
+// Adding benchmarks to benchmark.js suites
+const addBench = suite => name => sizes =>
+  BenchType.match({
+    Sized: addSized(suite)(name)(sizes),
+    Unsized: addUnsized(suite)(name)
+  });
+
+const addSized = suite => name => sizes => ({ title, fn }) => {
+  sizes.forEach(size => {
+    suite.add(mkName(name)(title(size)), fn(size), benchOpts);
+  });
+};
+
+const addUnsized = suite => name => ({ title, fn }) => {
+  suite.add(mkName(name)(title), fn, benchOpts);
+};
+
+const mkName = name => title => `${name}: ${title}`;
+
+// Error messages
+
+const suiteNotFound = name => suites =>
+  mkFail(
+    `
+Suite ${name} was not found.
+Available:
+${Arr.foldMap(Str)(x => " - " + x.name + "\n")(suites)}
+    `.trim()
+  );
+
+const benchmarkNotFound = name => suite =>
+  mkFail(
+    `
+Benchmark ${suite.name}.${name} was not found.
+Available:
+${Arr.foldMap(Str)(x => ` - ${suite.name}.${benchName(x)}\n`)(suite.benchmarks)}
+      `.trim()
+  );
+
+// Misc
+
+const Str = { append: a => b => a + b, empty: "" };
+
+const mkFail = s => () => {
+  console.log(s);
+  process.exit(1);
+};
+
+const expect = v => f => {
+  if (v === undefined) {
+    console.log("HERE");
+    f();
+  } else {
+    return v;
+  }
+};
+
 module.exports = {
   BenchType,
   benchName,
@@ -101,5 +210,10 @@ module.exports = {
   applicativeFns,
   chainFns,
   monadFns,
-  semigroupFns
+  semigroupFns,
+  findBenchmarkOrDie,
+  findSuiteOrDie,
+  mkBenchmarkSuite,
+  saveResults,
+  Str
 };

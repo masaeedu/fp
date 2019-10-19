@@ -1,5 +1,10 @@
 require("@babel/register");
-const { Obj, Arr, IntSum, Identity } = require("../../src");
+const {
+  Obj,
+  Arr,
+  IntSum,
+  Fnctr: { Identity }
+} = require("../../src");
 const util = require("../util");
 
 const makeObject = s => {
@@ -26,7 +31,8 @@ const other = Arr.map(util.mkSized(makeObject))([
   ["values", Obj.values],
   ["withKey", Obj.withKey],
   ["over", Obj.over(0)(x => x)],
-  ["zipWith", v => Obj.zipWith(a => b => a)(v)(v)]
+  ["zipWith", v => Obj.zipWith(a => _ => a)(v)(v)],
+  ["appendWith", v => Obj.appendWith(a => _ => a)(v)(v)]
 ]);
 
 const makeFromPairs = s =>
