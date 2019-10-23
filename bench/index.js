@@ -7,11 +7,11 @@ const { Just, Nothing } = Maybe;
 const { Left, Right } = Either;
 
 const Command = adt({
-  RunAll: ["p"],
-  RunSuite: ["n", "s", "p"],
-  RunSingle: ["n", "s", "p"],
-  List: ["_"],
-  Help: ["_"]
+  RunAll: ["Maybe Path"],
+  RunSuite: ["String", "Maybe [Int]", "Maybe Path"],
+  RunSingle: ["String", "Maybe [Int]", "Maybe Path"],
+  List: ["()"],
+  Help: ["()"]
 });
 
 const { RunAll, RunSuite, RunSingle, List, Help } = Command;

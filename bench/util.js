@@ -24,11 +24,7 @@ const Benchmark = require("benchmark");
 //   , fn    :: () -> ()
 //   }
 
-// type Bench a
-//   = Sized a
-//   | Unsized
-
-const BenchType = adt({ Sized: ["a"], Unsized: ["b"] });
+const BenchType = adt({ Sized: ["Sized a"], Unsized: ["Unsized"] });
 const { Sized, Unsized } = BenchType;
 
 const benchName = BenchType.match({
