@@ -2,7 +2,7 @@ const instances = require("./instances");
 const util = require("./util");
 const mini = require("minimist");
 const { adt } = require("@masaeedu/adt");
-const { Obj, Maybe, Either, Arr } = require("../src");
+const { Obj, Maybe, Either, Arr, Fnctr, Fn } = require("../src");
 const { Just, Nothing } = Maybe;
 const { Left, Right } = Either;
 
@@ -43,9 +43,9 @@ const parseCommand = args => {
     return a && b ? Right([a, b]) : Left(`invalid benchmark path ${x}`);
   })(parseName);
 
-  const parseSizes = Right(
-    Maybe.map(x => x.split(",").map(x => parseInt(x)))(parsedArgs.sizes)
-  );
+  const parseSizes = Maybe.traverse(Either)(
+    Fn.pipe([util.splitStr(","), Arr.traverse(Either)(util.parseIntE)])
+  )(parsedArgs.sizes);
 
   switch (args._[0]) {
     case "all:":

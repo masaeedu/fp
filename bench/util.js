@@ -2,7 +2,8 @@ require("@babel/register");
 const {
   IntSum,
   Fnctr: { Identity },
-  Arr
+  Arr,
+  Either
 } = require("../src");
 const { adt } = require("@masaeedu/adt");
 const { promisify } = require("util");
@@ -193,6 +194,18 @@ const expect = v => f => {
   }
 };
 
+// :: String -> Either String Int
+const parseIntE = s => {
+  const parsed = parseInt(s);
+  if (isNaN(parsed)) {
+    return Either.Left(`${s} is not a number`);
+  } else {
+    return Either.Right(parsed);
+  }
+};
+
+const splitStr = d => s => s.split(d);
+
 module.exports = {
   BenchType,
   benchName,
@@ -211,5 +224,7 @@ module.exports = {
   findSuiteOrDie,
   mkBenchmarkSuite,
   saveResults,
-  Str
+  Str,
+  parseIntE,
+  splitStr
 };
