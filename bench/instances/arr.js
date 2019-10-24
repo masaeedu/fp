@@ -24,7 +24,7 @@ const other = Arr.map(util.mkSized(makeArray))([
   ["filter", Arr.filter(x => true)],
   ["intersect", as => Arr.intersect(as)(as)],
   ["zipWith", as => Arr.zipWith(a => b => a)(as)(as)],
-  ["mapWithKey", Arr.mapWithKey(_ => a => a)],
+  ["mapWithKey", Arr.mapWithKey(a => b => a)],
   ["scanl", Arr.scanl(a => b => a + b)(0)],
   ["scanl1", Arr.scanl(a => b => a + b)],
   ["scanr", Arr.scanr(a => b => a + b)(0)],
