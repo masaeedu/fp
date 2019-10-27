@@ -54,6 +54,11 @@ const Obj = (() => {
     return Arr.foldMap(Obj)(k => embed(k)(f(o1[k])(o2[k])))(ks);
   };
 
+  const appendWith = f => o1 => o2 => {
+    const same = zipWith(f)(o1)(o2);
+    return foldMap({ append, empty })(x => x)([o1, o2, same]);
+  };
+
   // Identifiable
   const is = x => typeid(x) === "Object";
 
@@ -114,6 +119,7 @@ const Obj = (() => {
     get,
     over,
     zipWith,
+    appendWith,
     // Identifiable
     is,
     // Functor
