@@ -14,7 +14,7 @@
   "scripts": {
     "build": "shx rm -rf ./dist && babel src -d dist --source-maps",
     "prepare": "yarn build",
-    "test": "ava",
+    "test": "yarn build && ava",
     "bench": "node bench/index.js"
   },
   "ava": {
