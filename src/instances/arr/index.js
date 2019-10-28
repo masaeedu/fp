@@ -120,6 +120,7 @@ const Arr = (() => {
   // :: Monoid m -> (a -> m) -> [a] -> m
   const foldMap = M => f => foldr(a => M.append(f(a)))(M.empty);
 
+  // TODO: Find a way to avoid having to define this here
   const fold = M => foldMap(M)(x => x);
 
   // Traversable
