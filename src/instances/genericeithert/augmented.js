@@ -1,12 +1,11 @@
-const { _ } = require("@masaeedu/infix");
-
 const { implement } = require("../../plumbing");
+const ClassDef = require("../classdef");
 const {
   Chain,
   Apply,
   Functor,
-  Traversable,
   Foldable,
+  Traversable,
   Bifunctor
 } = require("../../classes");
 
@@ -14,9 +13,15 @@ const Fn = require("../fn");
 const Arr = require("../arr");
 const GenericEitherT = require(".");
 
-const classes = [Functor, Apply, Chain, Bifunctor, Traversable];
-const derive = _(Fn)(classes)
-  ["|>"](Arr.map(implement))
-  ["|>"](Fn.pipe)._;
+const classes = Arr.fold(ClassDef)([
+  Functor,
+  Apply,
+  Chain,
+  Bifunctor,
+  Foldable,
+  Traversable
+]);
 
-module.exports = { GenericEitherT: E => M => derive(GenericEitherT(E)(M)) };
+module.exports = {
+  GenericEitherT: E => M => implement(classes)(GenericEitherT(E)(M))
+};

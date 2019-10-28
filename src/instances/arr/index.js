@@ -120,6 +120,8 @@ const Arr = (() => {
   // :: Monoid m -> (a -> m) -> [a] -> m
   const foldMap = M => f => foldr(a => M.append(f(a)))(M.empty);
 
+  const fold = M => foldMap(M)(x => x);
+
   // Traversable
   // :: Applicative f -> (a -> f b) -> [a] -> f [b]
   const sequence = A => foldr(A.lift2(Cons))(A.of(empty));
@@ -165,6 +167,7 @@ const Arr = (() => {
     foldr,
     foldl,
     foldMap,
+    fold,
     // Traversable
     sequence,
     // Functor

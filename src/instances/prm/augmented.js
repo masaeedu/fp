@@ -1,15 +1,11 @@
-const { _ } = require("@masaeedu/infix");
-
 const { implement } = require("../../plumbing");
+const ClassDef = require("../classdef");
 const { Chain, Apply, Functor } = require("../../classes");
 
 const Fn = require("../fn");
 const Arr = require("../arr");
 const Prm = require(".");
 
-const classes = [Functor, Apply, Chain];
-const derive = _(Fn)(classes)
-  ["|>"](Arr.map(implement))
-  ["|>"](Fn.pipe)._;
+const classes = Arr.fold(ClassDef)([Functor, Apply, Chain]);
 
-module.exports = { Prm: derive(Prm) };
+module.exports = { Prm: implement(classes)(Prm) };

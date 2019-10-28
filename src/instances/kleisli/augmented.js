@@ -1,15 +1,10 @@
-const { _ } = require("@masaeedu/infix");
-
 const { implement } = require("../../plumbing");
+const ClassDef = require("../classdef");
 const { Category } = require("../../classes");
 
-const Fn = require("../fn");
 const Arr = require("../arr");
 const Kleisli = require(".");
 
-const classes = [Category];
-const derive = _(Fn)(classes)
-  ["|>"](Arr.map(implement))
-  ["|>"](Fn.pipe)._;
+const classes = Arr.fold(ClassDef)([Category]);
 
-module.exports = { Kleisli: M => derive(Kleisli(M)) };
+module.exports = { Kleisli: M => implement(classes)(Kleisli(M)) };

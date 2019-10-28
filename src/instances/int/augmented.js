@@ -1,18 +1,13 @@
-const { _ } = require("@masaeedu/infix");
-
 const { implement } = require("../../plumbing");
+const ClassDef = require("../classdef");
 const { Num } = require("../../classes");
 
-const Fn = require("../fn");
 const Arr = require("../arr");
 
 const Int = require(".");
 const IntSum = require("./sum");
 const IntProduct = require("./product");
 
-const classes = [Num];
-const derive = _(Fn)(classes)
-  ["|>"](Arr.map(implement))
-  ["|>"](Fn.pipe)._;
+const classes = Arr.fold(ClassDef)([Num]);
 
-module.exports = { Int: derive(Int), IntSum, IntProduct };
+module.exports = { Int: implement(classes)(Int), IntSum, IntProduct };
