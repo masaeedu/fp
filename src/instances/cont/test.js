@@ -15,6 +15,12 @@ test("functor", t => {
     ["|>"](snap(t))._;
 });
 
+test("apply", t => {
+  const f = a => b => a + b;
+  t.is(42, Cont.lift2(f)(Cont.of(21))(Cont.of(21))(Fn.id));
+  t.is(42, Cont.ap(Cont.map(f)(Cont.of(21)))(Cont.of(21))(Fn.id));
+});
+
 test("monad", t => {
   // Continue with 10 if the input is greater than 10
   const cap = max => Cont.chain(x => cont => (x <= max ? cont(x) : cont(max)));
