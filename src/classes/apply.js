@@ -11,11 +11,13 @@ const mdefs = (() => {
   const apFromOfAndChain = ({ of, chain }) => af => av =>
     af |> chain(f => av |> chain(v => f(v) |> of));
 
-  return [
-    { impl: { ap: apFromOfAndChain }, deps: ["of", "chain"] },
-    { impl: { ap: apFromLift2 }, deps: ["lift2"] },
-    { impl: { lift2: lift2FromMapAndAp }, deps: ["map", "ap"] }
-  ];
+  return {
+    ap: [
+      { deps: ["of", "chain"], fn: apFromOfAndChain },
+      { deps: ["lift2"], fn: apFromOfAndChain }
+    ],
+    lift2: [{ deps: ["map", "ap"], fn: lift2FromMapAndAp }]
+  };
 })();
 
 // Class methods

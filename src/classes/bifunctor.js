@@ -6,10 +6,11 @@ const mdefs = (() => {
   const rmap = ({ bimap }) => f => bimap(Fn.id)(f);
   const bimap = ({ lmap, rmap }) => l => r => x => x |> lmap(l) |> rmap(r);
 
-  return [
-    { impl: { lmap, rmap }, deps: ["bimap"] },
-    { impl: { bimap }, deps: ["lmap", "rmap"] }
-  ];
+  return {
+    lmap: [{ deps: ["bimap"], fn: lmap }],
+    rmap: [{ deps: ["bimap"], fn: rmap }],
+    bimap: [{ deps: ["rmap", "lmap"], fn: bimap }]
+  };
 })();
 
 // Class methods

@@ -5,10 +5,10 @@ const mdefs = (() => {
   const chain = ({ map, join }) => f => x => map(f)(x) |> join;
   const join = ({ chain }) => chain(Fn.id);
 
-  return [
-    { impl: { chain }, deps: ["map", "join"] },
-    { impl: { join }, deps: ["chain"] }
-  ];
+  return {
+    chain: [{ deps: ["join", "map"], fn: chain }],
+    join: [{ deps: ["chain"], fn: join }]
+  };
 })();
 
 // Class methods

@@ -1,7 +1,7 @@
 const Fn = require("../instances/fn");
 
 // Equivalent minimal definitions
-const mdefs = [];
+const mdefs = {};
 
 // Class methods
 const methods = N => {
