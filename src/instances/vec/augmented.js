@@ -1,15 +1,10 @@
-const { _ } = require("@masaeedu/infix");
-
 const { implement } = require("../../plumbing");
+const ClassDef = require("../classdef");
 const { Functor, Apply } = require("../../classes");
 
-const Fn = require("../fn");
 const Arr = require("../arr");
 const Vec = require(".");
 
-const classes = [Functor, Apply];
-const derive = _(Fn)(classes)
-  ["|>"](Arr.map(implement))
-  ["|>"](Fn.pipe)._;
+const classes = Arr.fold(ClassDef)([Functor, Apply]);
 
-module.exports = { Vec: n => derive(Vec(n)) };
+module.exports = { Vec: n => implement(classes)(Vec(n)) };

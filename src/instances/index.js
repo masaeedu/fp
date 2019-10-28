@@ -1,5 +1,6 @@
 export * from "./arr/augmented";
 export * from "./cont/augmented";
+export * from "./classdef/augmented";
 export * from "./genericeithert/augmented";
 export * from "./either/augmented";
 export * from "./fn/augmented";
