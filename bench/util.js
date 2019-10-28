@@ -3,7 +3,8 @@ const {
   IntSum,
   Fnctr: { Identity },
   Arr,
-  Either
+  Either,
+  Str
 } = require("../src");
 const { adt } = require("@masaeedu/adt");
 const { promisify } = require("util");
@@ -178,8 +179,6 @@ ${Arr.foldMap(Str)(x => ` - ${suite.name}.${benchName(x)}\n`)(suite.benchmarks)}
 
 // Misc
 
-const Str = { append: a => b => a + b, empty: "" };
-
 const mkFail = s => () => {
   console.log(s);
   process.exit(1);
@@ -224,7 +223,6 @@ module.exports = {
   findSuiteOrDie,
   mkBenchmarkSuite,
   saveResults,
-  Str,
   parseIntE,
   splitStr
 };
