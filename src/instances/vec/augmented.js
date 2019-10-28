@@ -7,7 +7,7 @@ const Fn = require("../fn");
 const Arr = require("../arr");
 const Vec = require(".");
 
-const classes = [Apply, Functor, Apply];
+const classes = [Functor, Apply];
 const derive = _(Fn)(classes)
   ["|>"](Arr.map(implement))
   ["|>"](Fn.pipe)._;

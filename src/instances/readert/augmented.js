@@ -8,7 +8,7 @@ const Arr = require("../arr");
 const { Identity } = require("../fnctr");
 const ReaderT_ = require(".");
 
-const classes = [Chain, Apply, Functor, Apply];
+const classes = [Functor, Apply, Chain];
 const derive = _(Fn)(classes)
   ["|>"](Arr.map(implement))
   ["|>"](Fn.pipe)._;

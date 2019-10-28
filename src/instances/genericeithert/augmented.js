@@ -14,7 +14,7 @@ const Fn = require("../fn");
 const Arr = require("../arr");
 const GenericEitherT = require(".");
 
-const classes = [Chain, Apply, Functor, Apply, Bifunctor, Traversable];
+const classes = [Functor, Apply, Chain, Bifunctor, Traversable];
 const derive = _(Fn)(classes)
   ["|>"](Arr.map(implement))
   ["|>"](Fn.pipe)._;
