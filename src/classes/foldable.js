@@ -37,11 +37,13 @@ const mdefs = (() => {
   const foldMapFromTraverse = ({ traverse }) => M =>
     traverse(Fnctr.MonoidConst(M));
 
-  return [
-    { impl: { foldMap: foldMapFromTraverse }, deps: ["traverse"] },
-    { impl: { foldMap }, deps: ["foldl"] },
-    { impl: { foldl }, deps: ["foldMap"] }
-  ];
+  return {
+    foldMap: [
+      { deps: ["traverse"], fn: foldMapFromTraverse },
+      { deps: ["foldl"], fn: foldMap }
+    ],
+    foldl: [{ deps: ["foldMap"], fn: foldl }]
+  };
 })();
 
 // Class methods

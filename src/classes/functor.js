@@ -7,11 +7,13 @@ const mdefs = (() => {
   const mapFromOfAndAp = ({ of, ap }) => f => ap(of(f));
   const mapFromTraverse = ({ traverse }) => traverse(Identity);
 
-  return [
-    { impl: { map: mapFromOfAndChain }, deps: ["of", "chain"] },
-    { impl: { map: mapFromOfAndAp }, deps: ["of", "ap"] },
-    { impl: { map: mapFromTraverse }, deps: ["traverse"] }
-  ];
+  return {
+    map: [
+      { deps: ["of", "chain"], fn: mapFromOfAndChain },
+      { deps: ["of", "ap"], fn: mapFromOfAndAp },
+      { deps: ["traverse"], fn: mapFromTraverse }
+    ]
+  };
 })();
 
 // Class methods

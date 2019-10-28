@@ -6,10 +6,10 @@ const mdefs = (() => {
     x |> map(f) |> sequence(A);
   const sequence = ({ traverse }) => A => traverse(A)(Fn.id);
 
-  return [
-    { impl: { traverse }, deps: ["sequence", "map"] },
-    { impl: { sequence }, deps: ["traverse"] }
-  ];
+  return {
+    traverse: [{ deps: ["sequence", "map"], fn: traverse }],
+    sequence: [{ deps: ["traverse"], fn: sequence }]
+  };
 })();
 
 // Class methods

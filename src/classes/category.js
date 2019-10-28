@@ -4,7 +4,7 @@ const Arr = require("../instances/arr");
 // :: type Category p = { id: p a a, compose: p b c -> p a b -> p a c }
 
 // Equivalent minimal definitions
-const mdefs = [];
+const mdefs = {};
 
 // Class methods
 const methods = C => {
