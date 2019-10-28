@@ -26,7 +26,7 @@ const other = Arr.map(util.mkSized(makeArray))([
   ["zipWith", as => Arr.zipWith(a => b => a)(as)(as)],
   ["mapWithKey", Arr.mapWithKey(a => b => a)],
   ["scanl", Arr.scanl(a => b => a + b)(0)],
-  ["scanl1", Arr.scanl(a => b => a + b)],
+  ["scanl1", Arr.scanl1(a => b => a + b)],
   ["scanr", Arr.scanr(a => b => a + b)(0)],
   ["scanr1", Arr.scanr1(a => b => a + b)],
   ["append", as => Arr.append(as)(as)]
