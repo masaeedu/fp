@@ -1,5 +1,7 @@
 const util = require("./util");
+const analysis = require("./analysis");
 const mini = require("minimist");
+const fs = require("fs");
 const { adt } = require("@masaeedu/adt");
 const { Obj, Maybe, Either, Arr, Fn } = require("../src");
 const { Just, Nothing } = Maybe;
@@ -10,10 +12,12 @@ const Command = adt({
   RunSuite: ["String", "Maybe [Int]", "Maybe Path"],
   RunSingle: ["String", "Maybe [Int]", "Maybe Path"],
   List: ["()"],
-  Help: ["()"]
+  Help: ["()"],
+  Summary: ["Path"],
+  Compare: ["Path", "Path"]
 });
 
-const { RunAll, RunSuite, RunSingle, List, Help } = Command;
+const { RunAll, RunSuite, RunSingle, List, Help, Summary, Compare } = Command;
 
 const parseCommand = pargv => {
   const args = mini(pargv.slice(2));
@@ -48,9 +52,14 @@ const parseCommand = pargv => {
     Fn.pipe([util.splitStr(","), Arr.traverse(Either)(util.parseIntE)])
   )(parsedArgs.sizes);
 
+  const parseStr = n =>
+    args._[n] ? Right(args._[n]) : Left(`Missing position argument at ${n}`);
+
+  const runAll = Either.map(RunAll)(parseSaveTo);
+
   switch (args._[0]) {
     case "all":
-      return Either.map(RunAll)(parseSaveTo);
+      return runAll;
     case "suite":
       return Either.liftN(RunSuite)([parseName, parseSizes, parseSaveTo]);
     case "single":
@@ -63,8 +72,12 @@ const parseCommand = pargv => {
       return Right(List());
     case "help":
       return Right(Help());
+    case "summary":
+      return Either.map(Summary)(parseStr(1));
+    case "compare":
+      return Either.lift2(Compare)(parseStr(1))(parseStr(2));
     case undefined:
-      return Right(RunAll(Nothing));
+      return runAll;
     default:
       return Left("Unknown mode " + args._[0]);
   }
@@ -107,6 +120,17 @@ const execRunSingle = instances => ([sname, bname]) => sizes => savePath => {
   maybeSaveResults([suite])(savePath);
 };
 
+const execSummary = path => {
+  const res = JSON.parse(fs.readFileSync(path));
+  console.dir(analysis.summary(res), { depth: Infinity });
+};
+
+const execCompare = p1 => p2 => {
+  const r1 = JSON.parse(fs.readFileSync(p1));
+  const r2 = JSON.parse(fs.readFileSync(p2));
+  console.dir(analysis.compare(r1)(r2), { depth: Infinity });
+};
+
 const helpMessage = `
 Usage: bench.js <COMMAND> <ARGS>
 Available commands:
@@ -132,11 +156,14 @@ const runCommand = instances =>
     RunAll: execRunAll(instances),
     RunSuite: execRunSuite(instances),
     RunSingle: execRunSingle(instances),
+    Summary: execSummary,
+    Compare: execCompare,
     List: () => console.log(JSON.stringify(instances)),
     Help: () => console.log(helpMessage)
   });
 
 module.exports = {
   parseCommand,
-  runCommand
+  runCommand,
+  helpMessage
 };
