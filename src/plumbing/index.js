@@ -9,8 +9,51 @@ import * as Arr from "../instances/arr";
 import * as Fn from "../instances/fn";
 import * as IntSum from "../instances/int/sum";
 
+// Given a ClassDef and a dict that implements a minimal
+// equivalent defintion of the class, find the shortest
+// path to each derivable method in the `mdefs` and add it
+// to the dict.
+
+// The algorithm works by assigning weight 0 to functions
+// in `canditate` and `1 + weight(deps)` to derived functions.
+// Since we might not find all possible derivations with one
+// pass over the `mdefs`, we keep attempting to derive
+// until it is no longer productive, feeding the results
+// of the previous step into the next.
+// For example,
+// Given:
+//  ```
+//  mdefs = {
+//    foo: [{ deps: [], fn: foo }],
+//    bar: [{ deps: ["foo"], fn: barFromFoo }],
+//    baz: [{ deps: ["bar"], fn: bazFromBar }, { deps: ["foo"], fn: bazFromFoo }]
+//  };
+//  candidate = { foo };
+//  ```
+// 1) Weight the provided candidate functions with 0
+//      `candidate1 = { foo: [0, foo] }`
+// 2) Attempt to derive from the mdefs, weighting each derived function
+//    with the sum of its dependencies:
+//      a) Derive `bar` from `foo`, `weight = 1 + weight(foo) = 1`
+//      b) Derive `baz` from `foo`, `weight = 1 + weight(foo) = 1`
+// 3) Take the derived functions from step 2) and add them to the weighted
+//    candidate dict if there are no key collisions:
+//      `candidate2 = { foo: [0, foo], bar: [1, barFromFoo], baz: [1, bazfromFoo] }`
+// 4) Since `canditate2 != candidate1`, Repeat step 2) with the new weighted dict:
+//      a) Derive `baz` from `bar`, `weight = 1 + weight(bar) = 2`
+// 5) We take the derived functions from step 4) and try to add them to
+//    the weighted dict, but there is a key collision, as the dict already
+//    contains `bar`:
+//       ```
+//          { foo: [0, foo], bar: [1, barFromFoo], baz: [1, bazFromFoo] }
+//       <> { baz: [2, bazFromBar]}
+//       ````
+//    To deal with the collision, choose the entry with the lowest weight:
+//      `candidate3 = { foo: [0, foo], bar: [1, barFromFoo], baz: [1, bazfromFoo] }`
+// 6) Since `candidate3 == candidate2`, we are done. Return `candidate3`.
+// :: ClassDef -> Dict -> Dict
 export const implement = ({ mdefs, methods }) => candidate => {
-  const weightedGiven = Obj.map(a => [1, a])(candidate);
+  const weightedGiven = Obj.map(a => [0, a])(candidate);
   const missing = Arr.filter(k => !Obj.hasKey(k)(weightedGiven))(
     Obj.keys(mdefs)
   );
@@ -24,7 +67,7 @@ export const implement = ({ mdefs, methods }) => candidate => {
   return Obj.append(derived)(methods(derived));
 };
 
-// :: ClassDef -> WeightedDict -> String -> WeightedDict
+// :: MDefs -> WeightedDict -> String -> WeightedDict
 const shortestPath = mdefs => dict => x => {
   const target = mdefs[x];
   const derived = Arr.foldMap(weightedInsert)(({ deps, fn }) => {
@@ -37,17 +80,8 @@ const shortestPath = mdefs => dict => x => {
 
 const sumDeps = d => ns => Arr.foldMap(IntSum)(n => first(d[n]))(ns);
 
-// A monoid on Compose Obj (Int,) that is biased to the lowest Int
-// e.g. { foo: [1, 'a'] } <> { foo: [2, 'b'] } === { foo: [1, 'a'] }
 const weightedInsert = {
-  append: o1 => o2 => {
-    const xs = Obj.zipWith(a => b => {
-      const [w1] = a;
-      const [w2] = b;
-      return w1 <= w2 ? a : b;
-    })(o1)(o2);
-    return Arr.foldMap(Obj)(Fn.id)([o1, o2, xs]);
-  },
+  append: Obj.appendWith(a => b => (first(a) <= first(b) ? a : b)),
   empty: {}
 };
 
