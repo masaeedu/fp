@@ -14,7 +14,7 @@ const mdefs = (() => {
   return {
     ap: [
       { deps: ["of", "chain"], fn: apFromOfAndChain },
-      { deps: ["lift2"], fn: apFromOfAndChain }
+      { deps: ["lift2"], fn: apFromLift2 }
     ],
     lift2: [{ deps: ["map", "ap"], fn: lift2FromMapAndAp }]
   };
