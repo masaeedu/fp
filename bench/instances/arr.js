@@ -24,14 +24,14 @@ const quadratics = util.mkSizedClasses(Arr)(makeArraySqrt)([
 ]);
 
 const other = Arr.map(util.mkSized(makeArray))([
-  ["filter", Arr.filter(x => true)],
+  ["filter", Arr.filter(util.fakeIntPred)],
   ["intersect", as => Arr.intersect(as)(as)],
-  ["zipWith", as => Arr.zipWith(a => b => a)(as)(as)],
-  ["mapWithKey", Arr.mapWithKey(a => b => a)],
-  ["scanl", Arr.scanl(a => b => a + b)(0)],
-  ["scanl1", Arr.scanl1(a => b => a + b)],
-  ["scanr", Arr.scanr(a => b => a + b)(0)],
-  ["scanr1", Arr.scanr1(a => b => a + b)],
+  ["zipWith", as => Arr.zipWith(util.fakeIntFn2)(as)(as)],
+  ["mapWithKey", Arr.mapWithKey(util.fakeIntFn2)],
+  ["scanl", Arr.scanl(util.fakeIntFn2)(0)],
+  ["scanl1", Arr.scanl1(util.fakeIntFn2)],
+  ["scanr", Arr.scanr(util.fakeIntFn2)(0)],
+  ["scanr1", Arr.scanr1(util.fakeIntFn2)],
   ["append", as => Arr.append(as)(as)]
 ]);
 

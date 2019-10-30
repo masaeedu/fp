@@ -7,10 +7,12 @@ const {
 } = require("../../src");
 const util = require("../util");
 
+const randomKey = s => String(Math.round(Math.random() * s)) + "key";
+
 const makeObject = s => {
   let r = {};
   for (let x = 0; x < s; x++) {
-    r[String(Math.random() * s) + "ab"] = Math.random();
+    r[randomKey(s)] = Math.random();
   }
   return r;
 };
@@ -24,21 +26,21 @@ const classes = util.mkSizedClasses(Obj)(makeObject)([
 ]);
 
 const other = Arr.map(util.mkSized(makeObject))([
-  ["mapWithKey", Obj.mapWithKey(_ => x => x + 1)],
-  ["foldMapWithKey", Obj.foldMapWithKey(IntSum)(_ => x => x)],
+  ["mapWithKey", Obj.mapWithKey(util.fakeIntFn2)],
+  ["foldMapWithKey", Obj.foldMapWithKey(IntSum)(util.fakeIntFn2)],
   ["pairs", Obj.pairs],
-  ["traverseWithKey", Obj.traverseWithKey(Identity)(_ => x => x + 1)],
+  ["traverseWithKey", Obj.traverseWithKey(Identity)(util.fakeIntFn2)],
   ["values", Obj.values],
   ["withKey", Obj.withKey],
-  ["over", Obj.over(0)(x => x)],
-  ["zipWith", v => Obj.zipWith(a => _ => a)(v)(v)],
-  ["appendWith", v => Obj.appendWith(a => _ => a)(v)(v)]
+  ["over", Obj.over(0)(util.fakeIntFn1)], // Fixme
+  ["zipWith", v => Obj.zipWith(util.fakeIntFn2)(v)(v)],
+  ["appendWith", v => Obj.appendWith(util.fakeIntFn2)(v)(v)]
 ]);
 
 const makeFromPairs = s =>
   Array(s)
     .fill(0)
-    .map((x, i) => [i, x]);
+    .map(_ => [randomKey(s), Math.random()]);
 
 const fromPairs = util.mkSized(makeFromPairs)(["fromPairs", Obj.fromPairs]);
 

@@ -71,30 +71,36 @@ const functorFns = f => [
 ];
 
 const foldableFns = f => [
-  ["foldl", f.foldl(a => b => a + b)(0)],
-  ["foldr", f.foldr(a => b => a + b)(0)],
-  ["foldMap", f.foldMap(IntSum)(x => x)],
+  ["foldl", f.foldl(fakeIntFn2)(0)],
+  ["foldr", f.foldr(fakeIntFn2)(0)],
+  ["foldMap", f.foldMap(IntSum)(fakeIntFn1)],
   ["fold", f.fold(IntSum)]
 ];
 
 const traversableFns = f => [
-  ["traverse", f.traverse(Identity)(x => x)],
+  ["traverse", f.traverse(Identity)(fakeIntFn1)],
   ["sequence", f.sequence(Identity)]
 ];
 
 const applyFns = f => [
-  ["lift2", fa => f.lift2(a => b => a)(fa)(fa)],
+  ["lift2", fa => f.lift2(fakeIntFn2)(fa)(fa)],
   ["*>", fa => f["*>"](fa)(fa)],
   ["<*", fa => f["<*"](fa)(fa)]
 ];
 
-const applicativeFns = f => [["ap", f.ap(f.of(x => x))]];
+const applicativeFns = f => [["ap", f.ap(f.of(fakeIntFn1))]];
 
+// TODO: This could be improved
 const chainFns = f => [["chain", fa => f.chain(_ => fa)(fa)]];
 
 const monadFns = f => [["join", fa => f.join(f.of(fa))]];
 
 const semigroupFns = f => [["append", a => f.append(a)(a)]];
+
+// Mock functions to prevent sharing and other JIT optimizations
+const fakeIntFn1 = a => a + Math.random();
+const fakeIntFn2 = a => b => a + b + Math.random();
+const fakeIntPred = a => a >= Math.random() * 2 * a;
 
 // Running Suites
 
@@ -219,6 +225,9 @@ module.exports = {
   chainFns,
   monadFns,
   semigroupFns,
+  fakeIntFn1,
+  fakeIntFn2,
+  fakeIntPred,
   findBenchmarkOrDie,
   findSuiteOrDie,
   mkBenchmarkSuite,
