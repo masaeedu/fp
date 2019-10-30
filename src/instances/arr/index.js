@@ -11,7 +11,10 @@ const Arr = (() => {
   // ::      Range (1 + n) = '[...(Range n), n]
 
   // :: n -> Range n
-  const range = n => [...Array(n).keys()];
+  const range = n =>
+    Array(n)
+      .fill(0)
+      .map((_, i) => i);
 
   // :: (x -> Boolean) -> [x] -> [x]
   const filter = f => xs => xs.filter(f);
@@ -51,11 +54,15 @@ const Arr = (() => {
   };
 
   // :: (b -> a -> b) -> b -> [a] -> [b]
-  const scanl = f => a =>
-    match({
-      Nil: [a],
-      Cons: x => xs => Cons(a)(scanl(f)(f(a)(x))(xs))
-    });
+  const scanl = f => a => as => {
+    let acc = a;
+    let result = [acc];
+    for (let i = 0; i < as.length; i++) {
+      acc = f(acc)(as[i]);
+      result.push(acc);
+    }
+    return result;
+  };
 
   // :: (a -> a -> a) -> [a] -> [a]
   const scanl1 = f =>
@@ -65,28 +72,20 @@ const Arr = (() => {
     });
 
   // :: (a -> b -> b) -> b -> [a] -> [b]
-  const scanr = f => a =>
-    match({
-      Nil: [a],
-      Cons: x => xs => {
-        const acc = scanr(f)(a)(xs);
-        return Cons(f(x)(acc[0]))(acc);
-      }
-    });
+  const scanr = f => a => as => {
+    let acc = a;
+    let result = [acc];
+    for (let i = as.length - 1; i >= 0; i--) {
+      acc = f(as[i])(acc);
+      result.push(acc);
+    }
+    // This is faster than using unshift
+    return result.reverse();
+  };
 
   // :: (a -> a -> a) -> [a] -> [a]
-  const scanr1 = f =>
-    match({
-      Nil,
-      Cons: x => xs => {
-        if (xs.length === 0) {
-          return [x];
-        } else {
-          const acc = scanr1(f)(xs);
-          return Cons(f(x)(acc[0]))(acc);
-        }
-      }
-    });
+  const scanr1 = f => xs =>
+    xs.length > 0 ? scanr(f)(xs[xs.length - 1])(xs.slice(0, -1)) : [];
 
   // Constructors
   // :: [a]
