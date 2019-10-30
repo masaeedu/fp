@@ -6,7 +6,7 @@ const main = () => {
   Either.match({
     Right: runCommand(instances),
     Left: e => {
-      console.log(`Error: ${e}`);
+      console.error(`Error: ${e}`);
       console.log(helpMessage);
       process.exit(1);
     }
