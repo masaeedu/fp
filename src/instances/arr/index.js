@@ -127,6 +127,11 @@ const Arr = (() => {
   // :: Applicative f -> (a -> f b) -> [a] -> f [b]
   const sequence = A => foldr(A.lift2(Cons))(A.of(empty));
 
+  const traverse = A => f => {
+    const go = x => xs => A.lift2(Cons)(f(x))(xs);
+    return foldr(go)(A.of(empty));
+  };
+
   // Functor
   // :: (a -> b) -> [a] -> [b]
   const map = f => xs => xs.map(f);
@@ -171,6 +176,7 @@ const Arr = (() => {
     fold,
     // Traversable
     sequence,
+    traverse,
     // Functor
     map,
     // Monad

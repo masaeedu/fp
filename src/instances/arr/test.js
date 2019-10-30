@@ -72,4 +72,11 @@ test("traversable", t => {
   for (const i of inputs) {
     snap(t)(Arr.sequence(Either)(i));
   }
+
+  snap(t)(
+    Arr.traverse(Either)(a => (a === 5 ? Either.Left(a) : Either.Right(a)))(
+      Arr.range(10)
+    )
+  );
+  snap(t)(Arr.traverse(Either)(a => Either.Right(a))(Arr.range(10)));
 });

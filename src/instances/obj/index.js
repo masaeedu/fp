@@ -22,20 +22,26 @@ const Obj = (() => {
   // Misc
   const keys = o => Object.keys(o);
 
-  const values = o =>
-    _(Fn)(o)
-      ["|>"](keys)
-      ["|>"](Arr.map(k => o[k]))._;
+  const values = o => Arr.map(k => o[k])(keys(o));
 
   const pairs = o => Arr.map(k => [k, o[k]])(keys(o));
 
-  const fromPairs = pairs => Arr.foldMap(Obj)(Fn.uncurry(embed))(pairs);
+  const fromPairs = pairs => {
+    let result = {};
+    for (let i = 0; i < pairs.length; i++) {
+      const [k, v] = pairs[i];
+      result[k] = v;
+    }
+    return result;
+  };
 
-  // :: Object k v -> Object k (k, v)
-  const withKey = match({
-    Empty,
-    With: k => v => o => With(k)([k, v])(withKey(o))
-  });
+  const withKey = o => {
+    let result = {};
+    for (const k in o) {
+      result[k] = [k, o[k]];
+    }
+    return result;
+  };
 
   const embed = k => v => ({ [k]: v });
 
@@ -45,27 +51,40 @@ const Obj = (() => {
 
   const over = k => f => v => ({ ...v, [k]: f(v[k]) });
 
-  const zipWith = f => o1 => o2 => {
-    const k1 = keys(o1);
-    const k2 = keys(o2);
-
-    const ks = Arr.intersect(k1)(k2);
-
-    return Arr.foldMap(Obj)(k => embed(k)(f(o1[k])(o2[k])))(ks);
+  const zipWith = f => a => b => {
+    let result = {};
+    for (const k in a) {
+      if (hasKey(k)(b)) {
+        result[k] = f(a[k])(b[k]);
+      }
+    }
+    return result;
   };
 
   const appendWith = f => o1 => o2 => {
-    const same = zipWith(f)(o1)(o2);
-    return foldMap({ append, empty })(x => x)([o1, o2, same]);
+    let result = {};
+    const ks = Arr.append(pairs(o1))(pairs(o2));
+    for (let i = 0; i < ks.length; i++) {
+      const [k, v] = ks[i];
+      if (hasKey(k)(result)) {
+        result[k] = f(result[k])(v);
+      } else {
+        result[k] = v;
+      }
+    }
+    return result;
   };
 
   // Identifiable
   const is = x => typeid(x) === "Object";
 
-  // Functor
-  const map = f => {
-    const rec = match({ Empty, With: k => v => o => With(k)(f(v))(rec(o)) });
-    return rec;
+  //Functor;
+  const map = f => a => {
+    let result = {};
+    for (const k in a) {
+      result[k] = f(a[k]);
+    }
+    return result;
   };
 
   // Apply
@@ -75,31 +94,27 @@ const Obj = (() => {
   const empty = {};
   const append = o1 => o2 => ({ ...o1, ...o2 });
 
-  // Traversable
-  const traverse = A => f => {
-    const rec = match({
-      Empty: A.of(Empty),
-      With: k => v => o => A.lift2(With(k))(f(v))(rec(o))
-    });
-
-    return rec;
+  const traverse = A => f => a => {
+    const ps = pairs(a);
+    const tv = Arr.traverse(A)(([k, v]) => A.map(x => [k, x])(f(v)))(ps);
+    return A.map(fromPairs)(tv);
   };
 
   // Foldable
-  const foldr = f => z => Fn.pipe([values, Arr.foldr(f)(z)]);
-  const foldl = f => z => Fn.pipe([values, Arr.foldl(f)(z)]);
-  const foldMap = M => f => Fn.pipe([values, Arr.foldMap(M)(f)]);
+  const foldr = f => z => o => Arr.foldr(f)(z)(values(o));
+  const foldl = f => z => o => Arr.foldl(f)(z)(values(o));
+  const foldMap = M => f => o => Arr.foldMap(M)(f)(values(o));
 
   // :: (k -> a -> b) -> Object k a -> Object k b
-  const mapWithKey = f => Fn.pipe([withKey, map(Fn.uncurry(f))]);
+  const mapWithKey = f => o => map(([k, v]) => f(k)(v))(withKey(o));
 
   // :: Applicative f -> (k -> a -> f b) -> Object k a -> f (Object k b)
-  const traverseWithKey = A => f =>
-    Fn.pipe([withKey, traverse(A)(Fn.uncurry(f))]);
+  const traverseWithKey = A => f => o =>
+    traverse(A)(([k, v]) => f(k)(v))(withKey(o));
 
   // :: Monoid m -> (k -> a -> m) -> Object k a -> Object k m
-  const foldMapWithKey = M => f =>
-    Fn.pipe([withKey, foldMap(M)(Fn.uncurry(f))]);
+  const foldMapWithKey = M => f => o =>
+    foldMap(M)(([k, v]) => f(k)(v))(withKey(o));
 
   // :: [k] -> Object k k
   const mirror = Arr.foldMap({ empty, append })(k => embed(k)(k));
