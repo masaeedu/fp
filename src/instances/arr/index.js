@@ -56,10 +56,11 @@ const Arr = (() => {
   // :: (b -> a -> b) -> b -> [a] -> [b]
   const scanl = f => a => as => {
     let acc = a;
-    let result = [acc];
+    let result = Array(as.length + 1);
+    result[0] = acc;
     for (let i = 0; i < as.length; i++) {
       acc = f(acc)(as[i]);
-      result.push(acc);
+      result[i + 1] = acc;
     }
     return result;
   };
@@ -74,13 +75,13 @@ const Arr = (() => {
   // :: (a -> b -> b) -> b -> [a] -> [b]
   const scanr = f => a => as => {
     let acc = a;
-    let result = [acc];
+    let result = Array(as.length + 1);
+    result[as.length] = acc;
     for (let i = as.length - 1; i >= 0; i--) {
       acc = f(as[i])(acc);
-      result.push(acc);
+      result[i] = acc;
     }
-    // This is faster than using unshift
-    return result.reverse();
+    return result;
   };
 
   // :: (a -> a -> a) -> [a] -> [a]
@@ -154,10 +155,14 @@ const Arr = (() => {
 
   // Apply
   const ap = fs => as => {
-    let result = [];
-    for (let i = 0; i < fs.length; i++) {
-      for (let j = 0; j < as.length; j++) {
-        result.push(fs[i](as[j]));
+    const fl = fs.length;
+    const al = as.length;
+    let result = Array(fl * al);
+    let idx = 0;
+    for (let i = 0; i < fl; i++) {
+      for (let j = 0; j < al; j++) {
+        result[idx] = fs[i](as[j]);
+        idx += 1;
       }
     }
     return result;
