@@ -39,7 +39,7 @@ const Arr = (() => {
   const dedupe = xs => [...new Set(xs)];
 
   // :: (Natural -> a -> b) -> [a] -> [b]
-  const mapWithKey = f => xs => xs.map((v, i) => f(i)(v));
+  const mapWithKey = f => xs => xs.map((x, i) => f(i)(x));
 
   // :: (x -> k) -> [x] -> StrMap k [x]
   // :: where k :: PrimEq
@@ -147,8 +147,15 @@ const Arr = (() => {
   const fns = {};
 
   // Functor
+
   // :: (a -> b) -> [a] -> [b]
-  const map = f => xs => xs.map(f);
+  const map = f => xs => {
+    let result = Array(xs.length);
+    for (let i = 0; i < xs.length; i++) {
+      result[i] = f(xs[i]);
+    }
+    return result;
+  };
 
   fns["$>"] = xs => a => Array(xs.length).fill(a);
   fns["<$"] = a => xs => fns["$>"](xs)(a);

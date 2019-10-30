@@ -64,6 +64,9 @@ test("foldable", t => {
   _(Fn)([1, 2, 3, 4])
     ["|>"](Arr.foldl(x => y => x + y)(0))
     ["|>"](snap(t))._;
+
+  t.is(2, Arr.foldr(a => b => a - b)(0)([1, 2, 3]));
+  t.is(-6, Arr.foldl(a => b => a - b)(0)([1, 2, 3]));
 });
 
 test("traversable", t => {
