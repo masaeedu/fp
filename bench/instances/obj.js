@@ -10,7 +10,7 @@ const util = require("../util");
 const makeObject = s => {
   let r = {};
   for (let x = 0; x < s; x++) {
-    r[x] = 1;
+    r[String(Math.random() * s) + "ab"] = Math.random();
   }
   return r;
 };
