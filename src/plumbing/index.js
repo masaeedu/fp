@@ -64,7 +64,7 @@ export const implement = ({ mdefs, methods }) => candidate => {
     refoldlUntil(finished)(shortestPath(mdefs))(weightedGiven)(missing)
   );
 
-  return Obj.append(derived)(methods(derived));
+  return Obj.append(methods(derived))(derived);
 };
 
 // :: MDefs -> WeightedDict -> String -> WeightedDict
