@@ -16,11 +16,21 @@ const summary = result => {
   }))(d);
 };
 
+const roundToPrecision = p => n => {
+  let y = +n + (p === undefined ? 0.5 : p / 2);
+  return y - (y % (p === undefined ? 1 : +p));
+};
+
+const pctChange = t1 => t2 => {
+  const p = roundToPrecision(0.1)(t2 / t1);
+  return p >= 1 ? p.toFixed(1) + "x faster" : p.toFixed(1) + "x slower";
+};
+
 const compare = r1 => r2 => {
   const compareRuns = t1 => t2 => ({
     first: t1,
     second: t2,
-    change: String((t2 / t1 - 1) * 100) + "%"
+    change: pctChange(t1)(t2)
   });
   const compareSuites = Obj.zipWith(compareRuns);
   return Obj.zipWith(compareSuites)(summary(r1))(summary(r2));
