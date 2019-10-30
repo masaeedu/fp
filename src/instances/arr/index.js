@@ -93,7 +93,14 @@ const Arr = (() => {
   const Nil = [];
 
   // :: a -> [a] -> [a]
-  const Cons = x => xs => [x, ...xs];
+  const Cons = x => xs => {
+    let result = Array(xs.length + 1);
+    result[0] = x;
+    for (let i = 1; i <= xs.length; i++) {
+      result[i] = xs[i - 1];
+    }
+    return result;
+  };
 
   // :: ({ Nil: x, Cons: a -> [a] -> x }) -> [a] -> x
   const match = ({ Nil, Cons }) => xs =>
@@ -138,10 +145,8 @@ const Arr = (() => {
   // :: Applicative f -> (a -> f b) -> [a] -> f [b]
   const sequence = A => foldr(A.lift2(Cons))(A.of(empty));
 
-  const traverse = A => f => {
-    const go = x => xs => A.lift2(Cons)(f(x))(xs);
-    return foldr(go)(A.of(empty));
-  };
+  const traverse = A => f => as =>
+    foldr(x => acc => A.lift2(Cons)(f(x))(acc))(A.of(empty))(as);
 
   // String names
   const fns = {};

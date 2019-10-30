@@ -32,7 +32,8 @@ const other = Arr.map(util.mkSized(makeArray))([
   ["scanl1", Arr.scanl1(util.fakeIntFn2)],
   ["scanr", Arr.scanr(util.fakeIntFn2)(0)],
   ["scanr1", Arr.scanr1(util.fakeIntFn2)],
-  ["append", as => Arr.append(as)(as)]
+  ["append", as => Arr.append(as)(as)],
+  ["cons", as => Arr.Cons(Math.random())(as)]
 ]);
 
 // TODO: dedupe, replicate, groupBy
