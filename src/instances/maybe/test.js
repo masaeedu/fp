@@ -3,7 +3,7 @@ const test = require("ava");
 
 const { Maybe, Arr, Fn } = require("..");
 
-const { Nothing, Just, match, map, of, chain } = Maybe;
+const { Nothing, Just, map } = Maybe;
 
 const snap = t => x => t.snapshot(x);
 

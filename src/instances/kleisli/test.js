@@ -1,6 +1,6 @@
 const test = require("ava");
 
-const { Fn, Arr, Maybe, Kleisli, cata } = require("..");
+const { Fn, Arr, Maybe, Kleisli } = require("..");
 
 const { Just, Nothing } = Maybe;
 

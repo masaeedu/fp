@@ -1,6 +1,3 @@
-const { _ } = require("@masaeedu/infix");
-
-const Fn = require("../fn");
 const Arr = require("../arr");
 const { typeid } = require("../../plumbing/typeid");
 

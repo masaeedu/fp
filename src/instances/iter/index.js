@@ -1,7 +1,5 @@
 const { _ } = require("@masaeedu/infix");
 
-const { Fn } = require("../fn");
-
 const Iter = (() => {
   const Fn = require("../fn");
 
