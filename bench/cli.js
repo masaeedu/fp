@@ -49,7 +49,7 @@ const parseCommand = pargv => {
   )(parsedArgs.sizes);
 
   switch (args._[0]) {
-    case "all:":
+    case "all":
       return Either.map(RunAll)(parseSaveTo);
     case "suite":
       return Either.liftN(RunSuite)([parseName, parseSizes, parseSaveTo]);
