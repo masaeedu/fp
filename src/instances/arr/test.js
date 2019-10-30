@@ -44,6 +44,9 @@ test("applicative", t => {
   _(Fn)([[1, 2, 3], [1, 2, 3]])
     ["|>"](Fn.uncurry(Arr.lift2(x => y => x * y)))
     ["|>"](snap(t))._;
+
+  t.snapshot(Arr["*>"]([1, 1, 1])([1, 2, 3]));
+  t.snapshot(Arr["<*"]([1, 2, 3])([1, 1, 1]));
 });
 
 test("monoid", t => {
@@ -79,4 +82,10 @@ test("traversable", t => {
     )
   );
   snap(t)(Arr.traverse(Either)(a => Either.Right(a))(Arr.range(10)));
+});
+
+test("append", t => {
+  t.snapshot(Arr.append([1, 2, 3])([4, 5, 6]));
+  t.snapshot(Arr.append([])([1, 2, 3]), "empty first array");
+  t.snapshot(Arr.append([1, 2, 3])([]), "empty second array");
 });

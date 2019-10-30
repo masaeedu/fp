@@ -107,7 +107,18 @@ const Arr = (() => {
   const empty = [];
 
   // :: [a] -> [a] -> [a]
-  const append = xs => ys => [...xs, ...ys];
+  const append = xs => ys => {
+    const xl = xs.length;
+    const yl = ys.length;
+    let result = Array(xl + yl);
+    for (let i = 0; i < xl; i++) {
+      result[i] = xs[i];
+    }
+    for (let i = 0; i < yl; i++) {
+      result[i + xl] = ys[i];
+    }
+    return result;
+  };
 
   // Foldable
   // :: (a -> b -> b) -> b -> [a] -> b
@@ -131,16 +142,44 @@ const Arr = (() => {
     return foldr(go)(A.of(empty));
   };
 
+  // String names
+  const fns = {};
+
   // Functor
   // :: (a -> b) -> [a] -> [b]
   const map = f => xs => xs.map(f);
+
+  fns["$>"] = xs => a => Array(xs.length).fill(a);
+  fns["<$"] = a => xs => fns["$>"](xs)(a);
+
+  // Apply
+  const ap = fs => as => {
+    let result = [];
+    for (let i = 0; i < fs.length; i++) {
+      for (let j = 0; j < as.length; j++) {
+        result.push(fs[i](as[j]));
+      }
+    }
+    return result;
+  };
+
+  fns["*>"] = xs => ys => ap(fns["$>"](xs)(x => x))(ys);
+  fns["<*"] = ys => xs => fns["*>"](xs)(ys);
 
   // Monad
   // :: x -> [x]
   const of = x => [x];
 
-  // :: (a -> [b]) -> [a] -> [b]
-  const chain = f => foldMap(Arr)(f);
+  const chain = f => as => {
+    let result = [];
+    for (let i = 0; i < as.length; i++) {
+      const ir = f(as[i]);
+      for (let j = 0; j < ir.length; j++) {
+        result.push(ir[j]);
+      }
+    }
+    return result;
+  };
 
   const _ = {
     // Misc
@@ -178,9 +217,13 @@ const Arr = (() => {
     traverse,
     // Functor
     map,
+    // Apply
+    ap,
     // Monad
     of,
-    chain
+    chain,
+    // String names
+    ...fns
   };
 
   return _;
