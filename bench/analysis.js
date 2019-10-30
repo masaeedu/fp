@@ -1,6 +1,5 @@
 require("@babel/register");
-const fs = require("fs");
-const { Arr, Obj, Maybe, Fn } = require("../src");
+const { Arr, Obj, Maybe } = require("../src");
 
 const { Just, Nothing } = Maybe;
 
@@ -21,7 +20,7 @@ const compare = r1 => r2 => {
   const compareRuns = t1 => t2 => ({
     first: t1,
     second: t2,
-    change: t2 - t1
+    change: String((t2 / t1 - 1) * 100) + "%"
   });
   const compareSuites = Obj.zipWith(compareRuns);
   return Obj.zipWith(compareSuites)(summary(r1))(summary(r2));
