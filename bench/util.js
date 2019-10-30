@@ -109,6 +109,9 @@ const mkBenchmarkSuite = ({ name, benchmarks, defaultSizes }) => {
   const suite = new Benchmark.Suite(name);
   benchmarks.forEach(addBench(suite)(name)(defaultSizes));
   suite.on("cycle", ev => console.log(String(ev.target)));
+  suite.on("error", ev =>
+    console.log(`[${name}] Error: ${String(ev.target.error)}`)
+  );
   return suite;
 };
 
