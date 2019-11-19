@@ -115,18 +115,7 @@ const Arr = (() => {
   const empty = [];
 
   // :: [a] -> [a] -> [a]
-  const append = xs => ys => {
-    const xl = xs.length;
-    const yl = ys.length;
-    let result = Array(xl + yl);
-    for (let i = 0; i < xl; i++) {
-      result[i] = xs[i];
-    }
-    for (let i = 0; i < yl; i++) {
-      result[i + xl] = ys[i];
-    }
-    return result;
-  };
+  const append = xs => ys => [...xs, ...ys];
 
   // Foldable
   // :: (a -> b -> b) -> b -> [a] -> b
@@ -154,13 +143,7 @@ const Arr = (() => {
   // Functor
 
   // :: (a -> b) -> [a] -> [b]
-  const map = f => xs => {
-    let result = Array(xs.length);
-    for (let i = 0; i < xs.length; i++) {
-      result[i] = f(xs[i]);
-    }
-    return result;
-  };
+  const map = f => xs => xs.map(f);
 
   fns["$>"] = xs => a => Array(xs.length).fill(a);
   fns["<$"] = a => xs => fns["$>"](xs)(a);

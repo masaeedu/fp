@@ -90,16 +90,7 @@ const Obj = (() => {
   // Monoid
   const empty = {};
 
-  const append = o1 => o2 => {
-    let result = {};
-    for (const k in o1) {
-      result[k] = o1[k];
-    }
-    for (const k in o2) {
-      result[k] = o2[k];
-    }
-    return result;
-  };
+  const append = o1 => o2 => ({ ...o1, ...o2 });
 
   const traverse = A => f => a => {
     const ps = pairs(a);
