@@ -114,8 +114,18 @@ const Arr = (() => {
   // :: [a]
   const empty = [];
 
-  // :: [a] -> [a] -> [a]
-  const append = xs => ys => [...xs, ...ys];
+  const append = xs => ys => {
+    const xl = xs.length;
+    const yl = ys.length;
+    let result = Array(xl + yl);
+    for (let i = 0; i < xl; i++) {
+      result[i] = xs[i];
+    }
+    for (let i = 0; i < yl; i++) {
+      result[i + xl] = ys[i];
+    }
+    return result;
+  };
 
   // Foldable
   // :: (a -> b -> b) -> b -> [a] -> b
