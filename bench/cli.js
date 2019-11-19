@@ -138,6 +138,8 @@ Available commands:
   single   Run a single benchmark from a suite, e.g. single Arr.foldr
   all      (default) Run all available specs with their default sizes
   list     List available benchmarks
+  summary  Summarize serialized results
+  compare  Compare two serialized result files
   help     Display this help text
 Args (can be specified as <name> <sizes> without the flags):
   --sizes   Comma separated list of sizes to run each sizeable benchmark with, 
