@@ -9,7 +9,6 @@ const {
   Bifunctor
 } = require("../../classes");
 
-const Fn = require("../fn");
 const Arr = require("../arr");
 const GenericEitherT = require(".");
 

@@ -11,7 +11,10 @@ const Arr = (() => {
   // ::      Range (1 + n) = '[...(Range n), n]
 
   // :: n -> Range n
-  const range = n => [...Array(n).keys()];
+  const range = n =>
+    Array(n)
+      .fill(0)
+      .map((_, i) => i);
 
   // :: (x -> Boolean) -> [x] -> [x]
   const filter = f => xs => xs.filter(f);
@@ -36,7 +39,7 @@ const Arr = (() => {
   const dedupe = xs => [...new Set(xs)];
 
   // :: (Natural -> a -> b) -> [a] -> [b]
-  const mapWithKey = f => xs => xs.map((v, i) => f(i)(v));
+  const mapWithKey = f => xs => xs.map((x, i) => f(i)(x));
 
   // :: (x -> k) -> [x] -> StrMap k [x]
   // :: where k :: PrimEq
@@ -51,11 +54,16 @@ const Arr = (() => {
   };
 
   // :: (b -> a -> b) -> b -> [a] -> [b]
-  const scanl = f => a =>
-    match({
-      Nil: [a],
-      Cons: x => xs => Cons(a)(scanl(f)(f(a)(x))(xs))
-    });
+  const scanl = f => a => as => {
+    let acc = a;
+    let result = Array(as.length + 1);
+    result[0] = acc;
+    for (let i = 0; i < as.length; i++) {
+      acc = f(acc)(as[i]);
+      result[i + 1] = acc;
+    }
+    return result;
+  };
 
   // :: (a -> a -> a) -> [a] -> [a]
   const scanl1 = f =>
@@ -65,35 +73,34 @@ const Arr = (() => {
     });
 
   // :: (a -> b -> b) -> b -> [a] -> [b]
-  const scanr = f => a =>
-    match({
-      Nil: [a],
-      Cons: x => xs => {
-        const acc = scanr(f)(a)(xs);
-        return Cons(f(x)(acc[0]))(acc);
-      }
-    });
+  const scanr = f => a => as => {
+    let acc = a;
+    let result = Array(as.length + 1);
+    result[as.length] = acc;
+    for (let i = as.length - 1; i >= 0; i--) {
+      acc = f(as[i])(acc);
+      result[i] = acc;
+    }
+    return result;
+  };
 
   // :: (a -> a -> a) -> [a] -> [a]
-  const scanr1 = f =>
-    match({
-      Nil,
-      Cons: x => xs => {
-        if (xs.length === 0) {
-          return [x];
-        } else {
-          const acc = scanr1(f)(xs);
-          return Cons(f(x)(acc[0]))(acc);
-        }
-      }
-    });
+  const scanr1 = f => xs =>
+    xs.length > 0 ? scanr(f)(xs[xs.length - 1])(xs.slice(0, -1)) : [];
 
   // Constructors
   // :: [a]
   const Nil = [];
 
   // :: a -> [a] -> [a]
-  const Cons = x => xs => [x, ...xs];
+  const Cons = x => xs => {
+    let result = Array(xs.length + 1);
+    result[0] = x;
+    for (let i = 1; i <= xs.length; i++) {
+      result[i] = xs[i - 1];
+    }
+    return result;
+  };
 
   // :: ({ Nil: x, Cons: a -> [a] -> x }) -> [a] -> x
   const match = ({ Nil, Cons }) => xs =>
@@ -107,8 +114,18 @@ const Arr = (() => {
   // :: [a]
   const empty = [];
 
-  // :: [a] -> [a] -> [a]
-  const append = xs => ys => [...xs, ...ys];
+  const append = xs => ys => {
+    const xl = xs.length;
+    const yl = ys.length;
+    let result = Array(xl + yl);
+    for (let i = 0; i < xl; i++) {
+      result[i] = xs[i];
+    }
+    for (let i = 0; i < yl; i++) {
+      result[i + xl] = ys[i];
+    }
+    return result;
+  };
 
   // Foldable
   // :: (a -> b -> b) -> b -> [a] -> b
@@ -127,16 +144,52 @@ const Arr = (() => {
   // :: Applicative f -> (a -> f b) -> [a] -> f [b]
   const sequence = A => foldr(A.lift2(Cons))(A.of(empty));
 
+  const traverse = A => f => as =>
+    foldr(x => acc => A.lift2(Cons)(f(x))(acc))(A.of(empty))(as);
+
+  // String names
+  const fns = {};
+
   // Functor
+
   // :: (a -> b) -> [a] -> [b]
   const map = f => xs => xs.map(f);
+
+  fns["$>"] = xs => a => Array(xs.length).fill(a);
+  fns["<$"] = a => xs => fns["$>"](xs)(a);
+
+  // Apply
+  const ap = fs => as => {
+    const fl = fs.length;
+    const al = as.length;
+    let result = Array(fl * al);
+    let idx = 0;
+    for (let i = 0; i < fl; i++) {
+      for (let j = 0; j < al; j++) {
+        result[idx] = fs[i](as[j]);
+        idx += 1;
+      }
+    }
+    return result;
+  };
+
+  fns["*>"] = xs => ys => ap(fns["$>"](xs)(x => x))(ys);
+  fns["<*"] = ys => xs => fns["*>"](xs)(ys);
 
   // Monad
   // :: x -> [x]
   const of = x => [x];
 
-  // :: (a -> [b]) -> [a] -> [b]
-  const chain = f => foldMap(Arr)(f);
+  const chain = f => as => {
+    let result = [];
+    for (let i = 0; i < as.length; i++) {
+      const ir = f(as[i]);
+      for (let j = 0; j < ir.length; j++) {
+        result.push(ir[j]);
+      }
+    }
+    return result;
+  };
 
   const _ = {
     // Misc
@@ -171,11 +224,16 @@ const Arr = (() => {
     fold,
     // Traversable
     sequence,
+    traverse,
     // Functor
     map,
+    // Apply
+    ap,
     // Monad
     of,
-    chain
+    chain,
+    // String names
+    ...fns
   };
 
   return _;

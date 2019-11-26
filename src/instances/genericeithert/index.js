@@ -1,5 +1,3 @@
-const { Identity } = require("../fnctr");
-
 // :: type GenericEitherT g e m a = m (g e a)
 // :: type EitherLike g = {
 // ::   Left: e -> g e a,

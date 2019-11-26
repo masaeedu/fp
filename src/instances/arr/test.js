@@ -44,6 +44,9 @@ test("applicative", t => {
   _(Fn)([[1, 2, 3], [1, 2, 3]])
     ["|>"](Fn.uncurry(Arr.lift2(x => y => x * y)))
     ["|>"](snap(t))._;
+
+  t.snapshot(Arr["*>"]([1, 1, 1])([1, 2, 3]));
+  t.snapshot(Arr["<*"]([1, 2, 3])([1, 1, 1]));
 });
 
 test("monoid", t => {
@@ -61,6 +64,9 @@ test("foldable", t => {
   _(Fn)([1, 2, 3, 4])
     ["|>"](Arr.foldl(x => y => x + y)(0))
     ["|>"](snap(t))._;
+
+  t.is(2, Arr.foldr(a => b => a - b)(0)([1, 2, 3]));
+  t.is(-6, Arr.foldl(a => b => a - b)(0)([1, 2, 3]));
 });
 
 test("traversable", t => {
@@ -72,4 +78,17 @@ test("traversable", t => {
   for (const i of inputs) {
     snap(t)(Arr.sequence(Either)(i));
   }
+
+  snap(t)(
+    Arr.traverse(Either)(a => (a === 5 ? Either.Left(a) : Either.Right(a)))(
+      Arr.range(10)
+    )
+  );
+  snap(t)(Arr.traverse(Either)(a => Either.Right(a))(Arr.range(10)));
+});
+
+test("append", t => {
+  t.snapshot(Arr.append([1, 2, 3])([4, 5, 6]));
+  t.snapshot(Arr.append([])([1, 2, 3]), "empty first array");
+  t.snapshot(Arr.append([1, 2, 3])([]), "empty second array");
 });

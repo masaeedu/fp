@@ -1,12 +1,3 @@
-const { implement } = require("../../plumbing");
-const {
-  Chain,
-  Apply,
-  Functor,
-  Traversable,
-  Foldable
-} = require("../../classes");
-
 const GenericList = ({ Cons, Nil, match }) => {
   // Misc
   const length = match({ Nil: 0, Cons: _ => tail => 1 + length(tail) });

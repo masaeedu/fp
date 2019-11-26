@@ -1,9 +1,8 @@
 const { adt, match } = require("@masaeedu/adt");
-const { _ } = require("@masaeedu/infix");
 const test = require("ava");
 
 const { Fn, Arr, Fnctr, implement, Functor, Apply, Chain } = require("..");
-const { cata, ana, hylo, cataM, anaM, hyloM } = require(".");
+const { cata, ana } = require(".");
 
 const snap = t => x => t.snapshot(x);
 
