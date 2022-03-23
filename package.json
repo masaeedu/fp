@@ -33,7 +33,7 @@
     "@babel/register": "^7.6.2",
     "ava": "^0.25.0",
     "benchmark": "^2.1.4",
-    "minimist": "^1.2.3",
+    "minimist": "^1.2.6",
     "nyc": "^11.7.1",
     "shx": "^0.3.2",
     "yarn": "^1.22.0"
